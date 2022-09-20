@@ -1,13 +1,11 @@
-<template lang="">
-    <div>
+<template>
+    <div  class="h-screen w-screen background">
         Hello from pages
     </div>
 </template>
-<script>
-export default {
-    
-}
-</script>
-<style lang="">
-    
+
+<style>
+    .background {
+        background-color: #000;
+      }
 </style>
