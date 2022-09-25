@@ -21,7 +21,8 @@ const setColorTheme = (newTheme: Theme) => {
         <div class="logo-container">
           <nuxt-link to="/">
             <span class="sr-only">Workflow</span>
-            <img class="logo" src="/img/dashy-white-horiz-356x200.png" />
+            <img v-if="$colorMode.value == 'dark'" class="logo" src="/img/dashy-white.png" />
+            <img v-if="$colorMode.value == 'light'" class="logo" src="/img/dashy-black.png" />
           </nuxt-link>
         </div>
 
@@ -35,7 +36,7 @@ const setColorTheme = (newTheme: Theme) => {
 
 
           <nuxt-link v-if="!user" to="/register"
-            class="ml-8 whitespace-nowrap inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-full shadow-sm font-small text-white hover:text-gray-500 dark:bg-neutral-900 bg-black hover:bg-grey-500">
+            class="ml-8 whitespace-nowrap inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-full shadow-sm font-small text-gray-300 hover:text-gray-500 dark:bg-neutral-900 bg-black hover:bg-grey-500">
             Sign up
           </nuxt-link>
 
@@ -64,7 +65,7 @@ const setColorTheme = (newTheme: Theme) => {
 
 .logo {
   margin-left: -38px;
-  width: 180px;
+  width: 200px;
 }
 
 .dark-icon {
