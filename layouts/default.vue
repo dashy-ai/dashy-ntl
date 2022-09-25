@@ -1,10 +1,14 @@
+ <template>
+  <div class="h-screen dark:bg-black">
+    <Navbar />
+    <slot />
+  </div>
+</template>
 <script setup lang="ts">
-    import Navbar from "~/components/layout/navbar.vue";
-    </script>
-    
-    <template>
-      <div class="h-screen">
-        <Navbar/>
-          <slot/>
-      </div >
-    </template>
+import Navbar from "~/components/layout/navbar.vue";
+</script>
+<style>
+.test {
+  background-color: red;
+}
+</style>
