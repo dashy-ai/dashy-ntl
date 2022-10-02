@@ -203,7 +203,7 @@
 
 @font-face {
   font-family: HalvarBreit;
-  src: url(~/onts/HalvarBreit-Th.ttf);
+  src: url(~fonts/HalvarBreit-Th.ttf);
 }
 
 @font-face {
