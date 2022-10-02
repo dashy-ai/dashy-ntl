@@ -6,6 +6,38 @@ const setColorTheme = (newTheme: Theme) => {
   useColorMode().preference = newTheme
 }
 
+console.log('------ APP ------')
+
+const signIn = async () => {
+  const email = 'dberlin@bannerflow.com'
+  const password = '12345678'
+  const credentials = await signInUser(email, password)
+  console.log('Credentials:', credentials)
+}
+
+const signOut = async () => {
+  const result = await signOutUser()
+  console.log('Result:', result)
+}
+
+
+onMounted(async () => {
+  // Register
+
+  // const email = 'dberlin@bannerflow.com'
+  // const password = '12345678'
+  // const credentials = await createUser(email, password)
+  // console.log('Credentials:', credentials)
+
+  // Sign In
+
+
+
+  // Sign Out
+
+
+
+});
 
 </script>
     
@@ -21,18 +53,18 @@ const setColorTheme = (newTheme: Theme) => {
         </div>
 
         <div class="hidden md:flex items-center justify-end md:flex-1 lg:w-0">
-          <nuxt-link v-if="!user" to="/login"
+          <button v-if="!user" @click="signIn"
             class="whitespace-nowrap text-base font-medium text-gray-700 hover:text-gray-500">
             Sign in
-          </nuxt-link>
+          </button>
 
           <!-- <User v-if="user" :user="user" /> -->
 
 
-          <nuxt-link v-if="!user" to="/register"
+          <button v-if="!user" @click="signOut"
             class="ml-8 whitespace-nowrap inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-full shadow-sm font-small text-gray-300 hover:text-gray-500 dark:bg-neutral-900 bg-black hover:bg-grey-500">
-            Sign up
-          </nuxt-link>
+            Sign Out
+          </button>
 
         </div>
         <button class="hidden md:block" @click="setColorTheme($colorMode.preference == 'dark' ? 'light' : 'dark')">

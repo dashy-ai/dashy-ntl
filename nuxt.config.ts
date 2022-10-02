@@ -14,4 +14,12 @@ export default defineNuxtConfig({
     classSuffix: '',
     preference: 'dark'
   },
+  runtimeConfig: {
+    // The private keys which are only available within server-side
+    firebaseKey: 'fallback-private',
+    // Keys within public, will be also exposed to the client-side
+    public: {
+      firebaseKey: 'fallback-public'
+    }
+  }
 })
