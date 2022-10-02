@@ -53,10 +53,10 @@ onMounted(async () => {
           </nuxt-link>
         </div>
 
-        <div class="hidden md:flex items-center justify-end md:flex-1 lg:w-0">
+        <div class="md:flex items-center justify-end md:flex-1 lg:w-0">
           <pre>
           {{ credentials }}
-        </pre>
+          </pre>
 
           <button v-if="!user" @click="signIn"
             class="whitespace-nowrap text-base font-medium text-gray-700 hover:text-gray-500">
