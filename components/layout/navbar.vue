@@ -8,16 +8,17 @@ const setColorTheme = (newTheme: Theme) => {
 
 console.log('------ APP ------')
 
+const credentials = ref()
+
 const signIn = async () => {
   const email = 'dberlin@bannerflow.com'
   const password = '12345678'
-  const credentials = await signInUser(email, password)
-  console.log('Credentials:', credentials)
+  credentials.value = await signInUser(email, password)
+  // console.log('Credentials:', credentials)
 }
 
 const signOut = async () => {
-  const result = await signOutUser()
-  console.log('Result:', result)
+  credentials.value = await signOutUser()
 }
 
 
@@ -53,6 +54,10 @@ onMounted(async () => {
         </div>
 
         <div class="hidden md:flex items-center justify-end md:flex-1 lg:w-0">
+          <pre>
+          {{ credentials }}
+        </pre>
+
           <button v-if="!user" @click="signIn"
             class="whitespace-nowrap text-base font-medium text-gray-700 hover:text-gray-500">
             Sign in
