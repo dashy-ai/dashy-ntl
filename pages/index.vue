@@ -171,7 +171,7 @@
   transform: rotate(9deg);
   left: -20px;
   bottom: -50px;
-  background-image: url(~img/waves-pink.svg);
+  background-image: url('/img/waves-pink.svg');
   background-repeat: no-repeat;
 }
 
@@ -182,37 +182,37 @@
   transform: rotate(9deg);
   left: -20px;
   bottom: -50px;
-  background-image: url(~img/waves-green.svg);
+  background-image: url('/img/waves-green.svg');
   background-repeat: no-repeat;
 }
 
 @font-face {
   font-family: Trap-Medium;
-  src: url(~fonts/Trap-Medium.ttf);
+  src: url('/fonts/Trap-Medium.ttf');
 }
 
 @font-face {
   font-family: Casta-Thin;
-  src: url(~fonts/casta-Thin.ttf);
+  src: url('/fonts/casta-Thin.ttf');
 }
 
 @font-face {
   font-family: Grand-Slang;
-  src: url(~fonts/GrandSlang-Roman.ttf);
+  src: url('/fonts/GrandSlang-Roman.ttf');
 }
 
 @font-face {
   font-family: HalvarBreit;
-  src: url(~fonts/HalvarBreit-Th.ttf);
+  src: url('/fonts/HalvarBreit-Th.ttf');
 }
 
 @font-face {
   font-family: Scandia-Line;
-  src: url(~fonts/ScandiaLine-Light.ttf);
+  src: url('/fonts/ScandiaLine-Light.ttf');
 }
 
 @font-face {
   font-family: Ampersand;
-  src: url(~fonts/Ampersand.ttf);
+  src: url('/fonts/Ampersand.ttf');
 }
 </style>
