@@ -181,7 +181,7 @@
   transform: rotate(9deg);
   left: -20px;
   bottom: -50px;
-  background-image: url(~/img/waves-green.svg);
+  /* background-image: url(~/img/waves-green.svg); */
   background-repeat: no-repeat;
 }
 
