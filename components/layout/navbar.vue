@@ -27,14 +27,16 @@ function toggleSignUp() {
 
 const signUp = async () => {
   credentials.value = await createUser(email.value, password.value)
+  toggleSignUp()
   console.log('SignUp : Credentials:', credentials)
-  console.log(`SignUp: passed ${email.value},${password.value}  `)
+  console.log(`SignUp: passed ${email.value},${password.value}`)
 }
 
 const signIn = async () => {
   // const email = 'dberlin@bannerflow.com'
   // const password = '12345678'
   credentials.value = await signInUser(email.value, password.value)
+  toggleSignIn()
   console.log('SignIn : Credentials:', credentials)
   console.log(`SignIn: passed ${email.value},${password.value}  `)
 }
@@ -126,7 +128,7 @@ onMounted(async () => {
               <input v-model="password" type="password"
                 class="mt-8 h-36 border-b-white border-b-2 bg-transparent px-0 text-7xl text-white placeholder-white"
                 placeholder="Password">
-              <button v-if="!user" @click="signIn"
+              <button @click="signIn"
                 class="mt-14 w-48 mt-ml-8 text-4xl whitespace-nowrap inline-flex items-center justify-center px-4 pt-6 pb-7 border-2 border-white rounded-full shadow-sm font-small text-white hover:text-gray-500 dark:bg-transparent bg-transparent hover:bg-grey-500">
                 Sign In
               </button>
@@ -142,7 +144,7 @@ onMounted(async () => {
         <div class="flex justify-end w-screen h-32 bg-transparent items-center pr-10">
           <button class="pr-20 mt-2" @click="toggleSignUp()">
             <svg class="rotate-90" width="92" height="111" viewBox="0 0 92 159" fill="none"
-              xmlns="http://www.w3.org/2000/svg">c
+              xmlns="http://www.w3.org/2000/svg">
               <path
                 d="M40.7216 0L43.7377 140.969C43.7377 140.969 37.2022 108.732 2.81487e-05 108.732C5.42783e-05 112.557 -4.19512e-05 114.742 4.39703e-05 118.627C46.2514 118.627 44.7431 159 44.7431 159H46.2514C46.2514 159 46.2514 118.567 92 118.567C92 114.742 92 112.557 92 108.732C55.3006 108.732 47.7595 140.969 47.7595 140.969L50.2735 0H40.7216Z"
                 fill="white" />
@@ -158,7 +160,7 @@ onMounted(async () => {
               <input v-model="password" type="password"
                 class="mt-8 h-36 border-b-white border-b-2 bg-transparent px-0 text-7xl text-white placeholder-white"
                 placeholder="Password">
-              <button v-if="!user" @click="signUp"
+              <button @click="signUp"
                 class="mt-14 w-48 mt-ml-8 text-4xl whitespace-nowrap inline-flex items-center justify-center px-4 pt-6 pb-7 border-2 border-white rounded-full shadow-sm font-small text-white hover:text-gray-500 dark:bg-transparent bg-transparent hover:bg-grey-500">
                 Sign up
               </button>
@@ -168,9 +170,6 @@ onMounted(async () => {
             {{ email }}, {{ password }}, {{ firebaseUser }}
           </div>
         </div>
-      </div>
-      <div v-else class="bg-blue-600 absolute top-0 right-0">
-        Signed out
       </div>
     </div>
   </div>
