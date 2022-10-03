@@ -19,7 +19,9 @@ export const createUser = async (email, password) => {
       const errorMessage = error.message;
       // ..
     });
+  console.log(`useFirebase.ts (createUser) : email is: ${email}, password is: ${password}, return credentials is ${credentials}`)
   return credentials;
+
 };
 
 export const signInUser = async (email, password) => {
@@ -32,21 +34,29 @@ export const signInUser = async (email, password) => {
     const errorCode = error.code;
     const errorMessage = error.message;
   });
+  console.log(`useFirebase.ts (signInUser) : email is: ${email} password is: ${password}, return credentials is ${credentials}`)
   return credentials;
 };
 
 export const initUser = async () => {
   const auth = getAuth();
+  const firebaseUser = useFirebaseUser();
+  firebaseUser.value = auth.currentUser;
+  console.log('useFirebase.ts (initUser) const firebaseUser = useFirebaseUser() has :', firebaseUser)
 
   onAuthStateChanged(auth, (user) => {
     if (user) {
       // User is signed in, see docs for a list of available properties
       // https://firebase.google.com/docs/reference/js/firebase.User
       const uid = user.uid;
-      console.log(user)
+      console.log(`useFirebase.ts (initUser - onAuthStateChanged) Auth changed: User is signed in. uid = ${user}`)
+
     } else {
-      //if signed out
+      // If signed out
+      console.log(`useFirebase.ts (initUser - onAuthStateChanged) Auth changed: User is signed out. uid = ${user}`)
     }
+    firebaseUser.value = user;
+    console.log(`useFirebase.ts (initUser - onAuthStateChanged) Auth changed: User is either signed out or in. sets firebaseUser.value user, and is now : ${firebaseUser.value}`)
   });
 };
 
