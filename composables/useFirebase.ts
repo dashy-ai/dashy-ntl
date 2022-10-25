@@ -7,19 +7,19 @@ import {
   onAuthStateChanged,
 } from "firebase/auth";
 
-export const createUser = async (email, password) => {
+export const createUser = async (email, password, uid) => {
   const auth = getAuth();
   const credentials = await createUserWithEmailAndPassword(
     auth,
     email,
-    password
+    password,
   )
     .catch((error) => {
       const errorCode = error.code;
       const errorMessage = error.message;
       // ..
     });
-  console.log(`useFirebase.ts (createUser) : email is: ${email}, password is: ${password}, return credentials is ${credentials}`)
+  console.log(`useFirebase.ts (createUser) createUserWithEmailAndPassword recieved "credentials" : ${credentials.user.uid}`)
   return credentials;
 
 };
@@ -38,7 +38,7 @@ export const signInUser = async (email, password) => {
   return credentials;
 };
 
-// TODO: Invalid email, not found etc at signin.
+// TODO: Invalid email
 // .catch(error => {
 //   switch (error.code) {
 //     case 'auth/invalid-email':
@@ -67,7 +67,7 @@ export const initUser = async () => {
       // User is signed in, see docs for a list of available properties
       // https://firebase.google.com/docs/reference/js/firebase.User
       const uid = user.uid;
-      console.log(`useFirebase.ts (initUser - onAuthStateChanged) Auth changed: User is signed in. uid = ${user}`)
+      console.log(`useFirebase.ts (initUser - onAuthStateChanged) Auth changed: User is signed in. uid = ${user.uid}`)
 
     } else {
       // If signed out

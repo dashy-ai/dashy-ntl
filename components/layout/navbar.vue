@@ -42,10 +42,10 @@ function toggleUserMenu() {
 const signUp = async () => {
   credentials.value = await createUser(email.value, password.value)
   toggleSignUp()
-  console.log('SignUp : Credentials:', credentials)
-  console.log(`SignUp: passed ${email.value},${password.value}`)
+  console.log('Navbar SignUp : Credentials:', credentials)
+  console.log(`Navbar SignUp: passed ${email.value}, ${password.value} to createUser`)
   const router = useRouter()
-  console.log(`credentials.value is = ${credentials.value}`)
+  console.log(`Navbar SignUp : recieved credentials.value.user.uid = ${JSON.stringify(credentials.value.user.uid, null, 4)}`)
   if (credentials.value) {
     await router.push({ path: "/setup" });
   } 

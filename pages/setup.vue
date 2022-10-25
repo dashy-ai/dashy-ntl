@@ -13,7 +13,7 @@
         Let's get to know you!
       </div>
 
-      <button class="z-10 absolute top-[202px] left-[680px] w-44 pr-7 flex justify-end" @click="goToStep2">
+      <button class="z-10 absolute top-[202px] left-[680px] w-44 flex justify-end" @click="goToStep2">
           <svg class="-rotate-90" width="92" height="111" viewBox="0 0 92 159" fill="none"
             xmlns="http://www.w3.org/2000/svg">
             <path
@@ -27,20 +27,20 @@
           <div class="h-72 w-full text-white flex flex-col">
             <div>
               <span class="mr-8">My name is</span>
-              <input v-model="name" type="text"
+              <input v-model="userInfo.name" type="text"
                     class="text-center w-96 mr-8 outline-[0px] bg-transparent h-24 border-b-white border-b-2 px-0 text-white placeholder-white"
                     placeholder="" />
             </div>
             <div>
             <span class="work1 mr-8">and I work at</span>
             
-            <input v-model="company" type="text"
+            <input v-model="userInfo.company" type="text"
                     class="text-center work2 w-96 outline-[0px] bg-transparent h-24 border-b-white border-b-2 px-0 text-white placeholder-white"
                     placeholder="" />
             </div> 
             <div>
               <span class="team1 mr-8">in the</span>
-              <input v-model="team" type="text"
+              <input v-model="userInfo.team" type="text"
                     class="text-center team2 w-96 outline-[0px] bg-transparent h-24 border-b-white border-b-2 px-0 text-white placeholder-white"
                     placeholder="" />
               <span class="team1 mx-8">team.</span>
@@ -83,7 +83,7 @@
           <div class="h-72 w-full text-white flex flex-col">
             <div>
               <span class="mr-8">Project Name</span>
-              <input v-model="name" type="text"
+              <input v-model="projectInfo.name" type="text"
                     class="text-center w-[365px] mr-8 outline-[0px] bg-transparent h-24 border-b-white border-b-2 px-0 text-white placeholder-white"
                     placeholder="" />
             </div>
@@ -121,7 +121,7 @@
           <div class="h-72 w-full text-white flex flex-col">
             <div>
               <span class="mr-8">Project Name</span>
-              <input v-model="name" type="text"
+              <input type="text"
                     class="text-center w-96 mr-8 outline-[0px] bg-transparent h-24 border-b-white border-b-2 px-0 text-white placeholder-white"
                     placeholder="" />
             </div>
@@ -137,6 +137,10 @@
 
       <div class="bgright z-0">
         <img src="/img/bg-right.svg" />
+        {{ userInfo.name }} , {{ userInfo.company }} , {{ userInfo.team }}
+        <p> {{ userInfo }}</p>
+        {{ projectInfo.name }}
+        <p> {{ projectInfo }}</p>
       </div>
 
   </div>
@@ -145,14 +149,51 @@
 
 <script setup>
 
-const name = ref('')
-const company = ref('')
-const team = ref('')
+// const name = ref('')
+// const company = ref('')
+// const team = ref('')
+
 const step1 = ref(true)
 const step2 = ref()
 const step3 = ref()
 
+const userInfo = reactive({
+    user_id: "",
+    name: "",
+    company: "",
+    team: "",
+    email: "",
+    displayName: "",
+    emailVerified: "",
+    isAnonymous: "",
+    createdAt: "",
+    lastLoginAt: "",
+    phoneNumber: "",
+    photoURL: "",
+    providerId: "",
+    tenantId: "",
+  });
+
+const projectInfo = ref({
+  name: "",
+  company: userInfo.company,
+  team: userInfo.team,
+});
+
+ 
+
+const submitStep1 = async (uInfo) => {
+  const result = await addFirestoreUser("users", uInfo);
+  console.log(`submitStep1: result is :${JSON.stringify(result, null, 4)}`)
+  // document.getElementById("form").reset();
+  console.log(`submitStep1: uInfo is :${JSON.stringify(uInfo, null, 4)}`)
+  // const response = await getFirestoreData("users");
+  // console.log(`response is :${JSON.stringify(response, null, 4)}`)
+};
+
 const goToStep2 = () => {
+  console.log(`goToStep2 clicked :submitStep1() fired`)
+  submitStep1(userInfo)
   step1.value = false
   step2.value = true
   step3.value = false
@@ -170,6 +211,50 @@ const goToStep1 = () => {
   step3.value = false
 }
 
+onMounted(async () => {
+  const firebaseUser = await useFirebaseUser();
+  const uid = firebaseUser.value.uid
+  const email = firebaseUser.value.email
+  const displayName = firebaseUser.value.displayName
+  const emailVerified = firebaseUser.value.emailVerified
+  const isAnonymous = firebaseUser.value.isAnonymous
+  const createdAt = firebaseUser.value.metadata.createdAt
+  const lastLoginAt = firebaseUser.value.metadata.lastLoginAt
+  const phoneNumber = firebaseUser.value.phoneNumber
+  const photoURL = firebaseUser.value.photoURL
+  const providerId = firebaseUser.value.providerId
+  const tenantId = firebaseUser.value.tenantId
+
+
+
+  console.log(`setup.vue - uid = ${uid}`)
+  console.log(`setup.vue - email = ${email}`)
+  console.log(`setup.vue - displayName = ${displayName}`)
+  console.log(`setup.vue - emailVerified = ${emailVerified}`)
+  console.log(`setup.vue - isAnonymous = ${isAnonymous}`)
+  console.log(`setup.vue - createdAt = ${createdAt}`)
+  console.log(`setup.vue - phoneNumber = ${phoneNumber}`)
+  console.log(`setup.vue - photoURL = ${photoURL}`)
+  console.log(`setup.vue - providerId = ${providerId}`)
+  console.log(`setup.vue - tenantId = ${tenantId}`)
+
+
+  userInfo.user_id = uid
+  userInfo.email = email
+  userInfo.displayName = displayName
+  userInfo.emailVerified = emailVerified
+  userInfo.isAnonymous = isAnonymous
+  userInfo.createdAt = createdAt
+  userInfo.lastLoginAt = lastLoginAt
+  userInfo.phoneNumber = phoneNumber
+  userInfo.photoURL = photoURL
+  userInfo.providerId = providerId
+  userInfo.tenantId = tenantId
+
+
+  console.log(firebaseUser.value)
+
+})
 
 </script>
 
