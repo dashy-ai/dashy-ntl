@@ -34,7 +34,7 @@ export const signInUser = async (email, password) => {
     const errorCode = error.code;
     const errorMessage = error.message;
   });
-  console.log(`useFirebase.ts (signInUser) : email is: ${email} password is: ${password}, return credentials is ${credentials}`)
+  console.log(`useFirebase.ts (signInUser) : email is: ${email} password is: ${password}, return credentials is ${JSON.stringify(credentials, null, 2)}`)
   return credentials;
 };
 
