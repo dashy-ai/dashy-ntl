@@ -95,24 +95,34 @@ onMounted(async () => {
 <template>
   <!-- <div class="dark:transparent z-10 absolute top-0 w-screen"> -->
   <div class="bg-transparent z-20 absolute w-screen" :class="firebaseUser ? 'nav-cont' : 'nav-cont'"> <!-- TODO: 'h-full' : 'nav-cont' -->
-    <div class="bg-transparent w-screen px-20">
-      <div class="flex justify-between items-center py-6 md:justify-start md:space-x-10">
-        <div class="logo-container z-10">
+    <div class="bg-transparent w-screen xl:px-20 md:px-16">
+      <div class="flex justify-between items-center py-5 md:py-6 px-6 md:justify-start md:space-x-10">
+        <div class="logo-container z-10 w-52">
           <nuxt-link to="/" tag="div">
-            <img v-if="$colorMode.value == 'dark'" class="logo" src="/img/dashy-white.png" />
-            <img v-if="$colorMode.value == 'light'" class="logo" src="/img/dashy-black.png" />
+            <img v-if="$colorMode.value == 'dark'" class="w-[170px] md:w-[128px]" src="/img/dashy-white.png" />
+            <img v-if="$colorMode.value == 'light'" class="md:logo" src="/img/dashy-black.png" />
           </nuxt-link>
         </div>
 
-        <div class="md:flex items-center justify-end md:flex-1 lg:w-0">
+        <!-- Signin buttins : Larger screens -->
+
+        <div class="flex flex-1 pt-2 items-center justify-end lg:w-0">
 
           <button v-if="!firebaseUser" @click="toggleSignIn()"
-            class="h-14 hover:bg-neutral-500 whitespace-nowrap inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-full font-medium text-gray-700 hover:text-gray-500 hover:bg-opacity-10">
+            class="pr-4">
+            <svg width="30" height="41" viewBox="0 0 39 41" fill="none" xmlns="http://www.w3.org/2000/svg">
+               <path fill="#222" d="M20.9453 0.331116C22.4578 0.331116 23.8272 1.17112 24.5835 2.41112C24.9514 3.01112 25.1967 3.75112 25.1353 4.53112C25.0945 5.13112 25.2784 5.73112 25.6054 6.29112C26.6478 7.99112 28.9575 8.63112 30.7561 7.67112C32.7796 6.51112 35.3345 7.21112 36.4995 9.19112L37.8689 11.5511C39.0544 13.5311 38.4003 16.0711 36.3564 17.2111C34.6191 18.2311 34.0059 20.4911 35.0483 22.2111C35.3754 22.7511 35.7433 23.2111 36.3156 23.4911C37.0309 23.8711 37.5828 24.4711 37.9711 25.0711C38.7274 26.3111 38.6661 27.8311 37.9302 29.1711L36.4995 31.5711C35.7433 32.8511 34.333 33.6511 32.8818 33.6511C32.1664 33.6511 31.3693 33.4511 30.7152 33.0511C30.1838 32.7111 29.5706 32.5911 28.9166 32.5911C26.8931 32.5911 25.1967 34.2511 25.1353 36.2311C25.1353 38.5311 23.2549 40.3311 20.9044 40.3311H18.1247C15.7538 40.3311 13.8734 38.5311 13.8734 36.2311C13.8325 34.2511 12.136 32.5911 10.1126 32.5911C9.43808 32.5911 8.8249 32.7111 8.31392 33.0511C7.65987 33.4511 6.8423 33.6511 6.14737 33.6511C4.67575 33.6511 3.26545 32.8511 2.50921 31.5711L1.0989 29.1711C0.342655 27.8711 0.301777 26.3111 1.05803 25.0711C1.38505 24.4711 1.99823 23.8711 2.69316 23.4911C3.26545 23.2111 3.63336 22.7511 3.98082 22.2111C5.00278 20.4911 4.38961 18.2311 2.65228 17.2111C0.628803 16.0711 -0.0252492 13.5311 1.13978 11.5511L2.50921 9.19112C3.69468 7.21112 6.22913 6.51112 8.27304 7.67112C10.0513 8.63112 12.3609 7.99112 13.4033 6.29112C13.7303 5.73112 13.9142 5.13112 13.8734 4.53112C13.8325 3.75112 14.0573 3.01112 14.4457 2.41112C15.2019 1.17112 16.5713 0.371116 18.0634 0.331116H20.9453ZM19.535 14.6911C16.3261 14.6911 13.7303 17.2111 13.7303 20.3511C13.7303 23.4911 16.3261 25.9911 19.535 25.9911C22.744 25.9911 25.2784 23.4911 25.2784 20.3511C25.2784 17.2111 22.744 14.6911 19.535 14.6911Z" />
+            </svg>
+            <!-- <img src="/img/menu.svg" class="w-[75px] opacity-50" /> -->
+          </button>
+
+          <button v-if="!firebaseUser" @click="toggleSignIn()"
+            class="hidden font-['Grand-Slang'] md:font-['Ampersand'] pr-5 italic text-[25px] translate-x-[4px] md:translate-x-[0px] h-14 hover:bg-neutral-500 whitespace-nowrap md:inline-flex items-center justify-center md:px-4 py-2 border border-transparent rounded-full md:font-medium text-neutral-700 hover:text-gray-500 hover:bg-opacity-10">
             Sign in
           </button>
 
           <button v-if="!firebaseUser" @click="toggleSignUp()"
-            class="h-14 ml-6 whitespace-nowrap inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-full shadow-sm font-small text-gray-300 hover:text-gray-500 dark:bg-neutral-900 bg-black hover:bg-grey-500">
+            class="hidden h-14 ml-6 whitespace-nowrap md:inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-full shadow-sm font-small text-gray-300 hover:text-gray-500 dark:bg-neutral-900 bg-black hover:bg-grey-500">
             Sign up
           </button>
  
@@ -128,6 +138,25 @@ onMounted(async () => {
 
           
         </div>
+
+          <!-- Mobile Menu icon -->
+        <!-- <div class="flex h-max items-center justify-end">
+          <div class="absolute right-[24px] border-t border-r border-gray-700 w-[27px] h-[27px]"></div>
+          <div class="absolute top-[65px] right-[20px] border-gray-700 w-[35px] h-[1px] border-t -rotate-45"></div>
+        </div> -->
+
+        <!-- <svg width="35" height="35" viewBox="0 0 82 82" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M40.9379 25C40.9379 25 40.9379 67 50.8972 81.25C40.9379 79 40.9379 79 30.9786 81.25C40.9379 67 40.9379 25 40.9379 25Z" fill="rgba(25,25,255,0.7)"/> 1
+          <path d="M40.9379 56.25C40.9379 56.25 40.9379 14.25 30.9786 -1.74134e-06C40.9379 2.25 40.9379 2.25 50.8972 0C40.9379 14.25 40.9379 56.25 40.9379 56.25Z" fill="rgba(25,25,255,0.43)"/> 5
+          <path d="M56.563 40.625C56.563 40.625 14.563 40.625 0.312987 50.5843C2.56299 40.625 2.56299 40.625 0.312988 30.6657C14.563 40.625 56.563 40.625 56.563 40.625Z" fill="rgba(25,25,255,0.57)"/> 3
+          <path d="M25.313 40.625C25.313 40.625 67.313 40.625 81.563 30.6657C79.313 40.625 79.313 40.625 81.563 50.5843C67.313 40.625 25.313 40.625 25.313 40.625Z" fill="rgba(25,25,255,0.34)"/> 7
+          <path d="M51.9866 51.6736C51.9866 51.6736 22.2882 21.9751 5.16961 18.9411C13.8029 13.4898 13.8029 13.4898 19.2542 4.85653C22.2882 21.9751 51.9866 51.6736 51.9866 51.6736Z" fill="rgba(25,25,255,0.5)"/> 4
+          <path d="M29.8895 29.5765C29.8895 29.5765 59.5879 59.275 76.7065 62.309C68.0732 67.7603 68.0732 67.7603 62.6219 76.3935C59.5879 59.275 29.8895 29.5765 29.8895 29.5765Z" fill="rgba(25,25,255,0.29)"/> 8
+          <path d="M29.8895 51.6736C29.8895 51.6736 59.588 21.9751 62.6219 4.85656C68.0732 13.4898 68.0732 13.4898 76.7065 18.9411C59.588 21.9751 29.8895 51.6736 29.8895 51.6736Z" fill="rgba(25,25,255,0.38)"/> 6
+          <path d="M51.9866 29.5765C51.9866 29.5765 22.2881 59.275 19.2541 76.3936C13.8029 67.7603 13.8029 67.7603 5.16958 62.309C22.2881 59.275 51.9866 29.5765 51.9866 29.5765Z" fill="rgba(25,25,255,0.63)"/> 2
+        </svg> -->
+
+
         <button v-if="!firebaseUser" class="hidden md:block" @click="setColorTheme($colorMode.preference == 'dark' ? 'light' : 'dark')">
           <svg v-if="$colorMode.value == 'light'" xmlns="http://www.w3.org/2000/svg"
             class="light-icon h-7 w-7 text-gray-50" viewBox="0 0 20 20">
@@ -220,7 +249,6 @@ onMounted(async () => {
         </div>
           User Menu
       </div>
-
     </div>
   </div>
 </template>
