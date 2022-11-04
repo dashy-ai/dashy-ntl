@@ -148,13 +148,13 @@ onMounted(() => {
           <div class="z-10 section bg-['#000'] pt-[50vh] pl-[40px] h-screen md:px-20 md:py-20 flex flex-row md:flex-row justify-start">
                 
                 <div  class="myimg bg-cover bg-center bg-[url('https://images.unsplash.com/photo-1523049673857-eb18f1d7b578?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2168&q=80sAD')]" data-color="#000">
-                  <div class="flex relative bottom-24 text-zinc-100">
+                  <div class="flex relative bottom-12 text-zinc-100">
                     <div class="text-zinc h-12 mr-8">LOGO</div>
                     <div class="text-zinc h-12 truncate">Do veniam deserunt anim irure minim veniam officia velit proident cupidatat nulla.</div>
                   </div>
                 </div>
                 <div  class="myimg bg-cover bg-center bg-[url('https://images.unsplash.com/photo-1516085216930-c93a002a8b01?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2250&q=80')]" data-color="#000">
-                  <div class="relative bottom-12 text-zinc-100">Waddup ard text</div>
+                  <div class="relative bottom-12 text-zinc-100">Waddup some text</div>
                 </div>
                 
                 <div  class="myimg bg-cover bg-center bg-[url('https://images.unsplash.com/photo-1458819714733-e5ab3d536722?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=933&q=80')]" data-color="#cfdfde"></div>
