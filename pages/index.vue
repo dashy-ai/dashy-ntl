@@ -144,7 +144,7 @@ onMounted(() => {
           <div class="absolute pl-10 mb-[40vh] z-20 bg-transparent font-['Inktrap-light'] text-5xl text-white flex justify-start w-screen">
             Community<br>templates
           </div>
-          <div class="z-10 section bg-['#000'] pt-[50vh] pl-[40px] h-screen md:px-20 md:py-20 flex flex-row md:flex-row justify-start">
+          <div class="z-10 section pt-[50vh] pl-[40px] h-screen md:px-20 md:py-20 flex flex-row md:flex-row justify-start">
                 
                 <div  class="myimg bg-cover bg-center bg-[url('https://images.unsplash.com/photo-1523049673857-eb18f1d7b578?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2168&q=80sAD')]" data-color="#000">
                   <div class="flex relative bottom-12 text-zinc-100">
@@ -174,7 +174,7 @@ onMounted(() => {
 </template>
 
 
-<style scoped>
+<style>
 
 .arrow-dark {
   fill: #0011AE;
@@ -315,6 +315,12 @@ onMounted(() => {
 /* .myimg:nth-child(2){
   margin-left: 10px;
 } */
+
+@supports (-webkit-touch-callout: none) {
+	.h-screen {
+		height: -webkit-fill-available;
+	}
+}
 
 
 @font-face {
