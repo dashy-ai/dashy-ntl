@@ -117,7 +117,7 @@ onMounted(() => {
 
     <!-- PAGE 1 -->  
 
-        <div class="z-10 snap-start h-screen w-screen pb-10 md:h-screen sm:px-8 sm:py-8 md:px-20 md:py-20 flex flex-col-reverse md:flex-row">
+        <div class="bg-blue-300 z-10 snap-start h-screen w-screen pb-10 md:h-screen sm:px-8 sm:py-8 md:px-20 md:py-20 flex flex-col-reverse md:flex-row">
 
           <div class="h-full lg:w-6/12 flex items-end w-screen">
             <div class="text-black dark:text-neutral-200 pl-8 md:-mb-8 text-[19vw] leading-[19vw] font-['Trap-Medium'] xl:text-[13em] xl:leading-[12rem] md:h-min">
@@ -140,7 +140,7 @@ onMounted(() => {
 
         <!-- PAGE 2 -->
 
-        <div class="page snap-start z-10 h-screen flex flex-col w-screen">
+        <div class="bg-red-300 page snap-start z-10 h-screen flex flex-col w-screen">
           <div class="absolute pl-10 mb-[40vh] z-20 bg-transparent font-['Inktrap-light'] text-5xl text-white flex justify-start w-screen">
             Community<br>templates
           </div>
