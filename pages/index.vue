@@ -38,7 +38,6 @@ onMounted(() => {
    <!-- Circle text -->
 
     <div class="z-0 absolute w-[400px] h-[400px] bottom-[25%] -right-[112px] md:circletext">
-        <!-- <img src="/img/beta-circle-cobolt.svg" width="165" height="165" /> -->
         <svg class="absolute"  width="100%" height="100%" viewBox="0 0 190 190" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path :class="$colorMode.value == 'dark' ? 'circletext-dark' : 'circletext-light'"
             d="M168.995 44.2613L161.994 49.4727L160.173 47.0253C159.809 46.5377 159.594 46.0727 159.527 45.6304C159.458 45.1898 159.507 44.7869 159.674 44.4215C159.839 44.0579 160.092 43.7489 160.434 43.4944C160.735 43.2705 161.023 43.1391 161.299 43.1003C161.573 43.0593 161.831 43.0829 162.074 43.1713C162.315 43.2574 162.538 43.3803 162.742 43.5401L162.81 43.4892C162.664 43.2649 162.579 42.9935 162.555 42.6753C162.53 42.357 162.591 42.0299 162.738 41.6941C162.885 41.3582 163.143 41.0529 163.512 40.7781C163.863 40.5168 164.238 40.3616 164.637 40.3125C165.036 40.2633 165.445 40.3497 165.866 40.5717C166.286 40.7937 166.701 41.1804 167.112 41.7318L168.995 44.2613ZM167.612 43.9734L166.36 42.2917C165.948 41.7379 165.548 41.4245 165.161 41.3516C164.769 41.278 164.42 41.3558 164.112 41.5848C163.875 41.7612 163.702 41.9845 163.591 42.2545C163.478 42.5263 163.444 42.8188 163.49 43.132C163.533 43.4469 163.668 43.7571 163.896 44.0624L165.178 45.7852L167.612 43.9734ZM164.44 46.3348L163.269 44.7625C163.079 44.5073 162.858 44.3144 162.605 44.184C162.35 44.0512 162.087 43.9923 161.815 44.0073C161.541 44.0199 161.281 44.1179 161.035 44.3011C160.727 44.5301 160.546 44.8315 160.491 45.2051C160.434 45.5805 160.578 46.0006 160.925 46.4655L162.115 48.0652L164.44 46.3348Z" />
@@ -118,15 +117,15 @@ onMounted(() => {
 
     <!-- PAGE 1 -->  
 
-        <div class="z-10 snap-start h-screen pb-10 md:h-screen w-screen sm:px-8 sm:py-8 md:px-20 md:py-20 flex flex-col-reverse md:flex-row">
+        <div class="z-10 snap-start h-screen w-screen pb-10 md:h-screen sm:px-8 sm:py-8 md:px-20 md:py-20 flex flex-col-reverse md:flex-row">
 
-          <div class="h-full lg:w-6/12 flex items-end">
+          <div class="h-full lg:w-6/12 flex items-end w-screen">
             <div class="text-black dark:text-neutral-200 pl-8 md:-mb-8 text-[19vw] leading-[19vw] font-['Trap-Medium'] xl:text-[13em] xl:leading-[12rem] md:h-min">
               Plan. Build. Visualize.
             </div>
           </div>
 
-          <div class="hidden md:flex h-full lg:w-6/12 items-start justify-end pt-44 lg:pt-20 xs:pt-44">
+          <!-- <div class="hidden md:flex h-full lg:w-6/12 items-start justify-end pt-44 lg:pt-20 xs:pt-44">
             <div class="text-black italic text-[40px] font-['Ampersand'] dark:text-neutral-300 lg:pt-20 pr-10 lg:absolute lg:subline">
               Where<span :class="$colorMode.value == 'dark' ? 'button-word1-dark' : 'button-word1-light'"
                 class="pt-1 mx-3 pl-2 pr-3 italic">teams</span>
@@ -134,7 +133,7 @@ onMounted(() => {
               insights
               <div :class="$colorMode.value == 'dark' ? 'waves-dark' : 'waves-light'" class="absolute"></div>
             </div>
-          </div>
+          </div> -->
 
         </div>
 
@@ -142,7 +141,7 @@ onMounted(() => {
         <!-- PAGE 2 -->
 
         <div class="page snap-start z-10 h-screen flex flex-col w-screen">
-          <div class="absolute ml-20 mb-[40vh] z-20 bg-transparent font-['Inktrap-light'] text-5xl text-white flex justify-start w-screen">
+          <div class="absolute pl-10 mb-[40vh] z-20 bg-transparent font-['Inktrap-light'] text-5xl text-white flex justify-start w-screen">
             Community<br>templates
           </div>
           <div class="z-10 section bg-['#000'] pt-[50vh] pl-[40px] h-screen md:px-20 md:py-20 flex flex-row md:flex-row justify-start">
@@ -154,7 +153,7 @@ onMounted(() => {
                   </div>
                 </div>
                 <div  class="myimg bg-cover bg-center bg-[url('https://images.unsplash.com/photo-1516085216930-c93a002a8b01?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2250&q=80')]" data-color="#000">
-                  <div class="relative bottom-12 text-zinc-100">Waddup some text</div>
+                  <div class="relative bottom-12 text-zinc-100">Waddupå some text</div>
                 </div>
                 
                 <div  class="myimg bg-cover bg-center bg-[url('https://images.unsplash.com/photo-1458819714733-e5ab3d536722?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=933&q=80')]" data-color="#cfdfde"></div>
