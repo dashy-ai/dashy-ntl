@@ -94,7 +94,7 @@ onMounted(async () => {
     
 <template>
   <!-- <div class="dark:transparent z-10 absolute top-0 w-screen"> -->
-  <div class="bg-transparent z-20 absolute w-screen" :class="firebaseUser ? 'nav-cont' : 'nav-cont'"> <!-- TODO: 'h-full' : 'nav-cont' -->
+  <div class="bg-red-300 z-20 absolute w-screen" :class="firebaseUser ? 'nav-cont' : 'nav-cont'"> <!-- TODO: 'h-full' : 'nav-cont' -->
     <div class="bg-transparent w-screen xl:px-20 md:px-16">
       <div class="flex justify-between items-center py-5 md:py-6 px-6 md:justify-start md:space-x-10">
         <div class="logo-container z-10 w-52">
