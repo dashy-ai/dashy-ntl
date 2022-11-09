@@ -80,7 +80,7 @@ const mydata = [
 
 
 <template>
-<div class="100vhfix">
+<div class="h-screen w-screen">
    <!-- Circle text -->
 
     <!-- <div class="z-0 fixed w-[400px] h-[400px] bottom-[25%] -right-[112px] md:circletext">
@@ -159,11 +159,11 @@ const mydata = [
     <!-- PAGE CONTAINER -->  
   
   
-    <div class="z-10 100vhfix absolute snap snap-y snap-mandatory h-screen w-screen overflow-scroll">
+    <div class="z-10 absolute snap snap-y snap-mandatory h-screen w-screen overflow-scroll">
 
         <!-- PAGE 1 -->  
 
-          <div class="z-10 100vhfix snap-start h-screen w-screen md:h-screen sm:px-8 sm:py-8 md:px-20 md:py-20 flex items-end md:flex-row">
+          <div class="z-10 snap-start h-screen w-screen md:h-screen sm:px-8 sm:py-8 md:px-20 md:py-20 flex items-end md:flex-row">
 
             <div class="lg:w-6/12 flex items-end w-screen">
               <div class="text-black dark:text-neutral-200 pl-8 md:-mb-8 text-[19vw] leading-[19vw] font-['Trap-Medium'] xl:text-[13em] xl:leading-[12rem] md:h-min">
@@ -186,7 +186,7 @@ const mydata = [
 
         <!-- PAGE 2 -->
 
-          <div class="relative page 100vhfix snap-start text-white z-10 h-screen flex w-screen">
+          <div class="relative page snap-start text-white z-10 h-screen flex w-screen">
             
             <div class="absolute top-[25vh] h-[min-content] pl-10 z-20 bg-transparent font-['Inktrap-light'] text-[5vh] leading-[5.5vh]">
               Community<br>templates
@@ -197,7 +197,7 @@ const mydata = [
             
 
 
-            <div class="z-10 100vhfix section pl-[40px] pb-20 h-screen md:px-20 md:py-20 flex flex-row md:flex-row justify-start items-end">
+            <div class="z-10 section pl-[40px] h-screen md:px-20 md:py-20 flex flex-row md:flex-row justify-start items-end">
                   <div v-if="pending"> Loading ... </div>
                     <CardOne v-else v-for="card in pdata.value.result" :key="card.id"
                       :title="card.title"
@@ -218,6 +218,13 @@ const mydata = [
 
 
 <style>
+
+.h-screen {
+  height: 100vh !important;;
+  min-height: 100vh !important;
+  /* mobile viewport bug fix */
+  min-height: -webkit-fill-available !important;
+}
 .arrow-dark {
   fill: #0011AE;
 }
