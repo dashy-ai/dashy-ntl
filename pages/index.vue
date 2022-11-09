@@ -163,9 +163,9 @@ const mydata = [
 
         <!-- PAGE 1 -->  
 
-          <div class="z-10 100vhfix snap-start h-screen w-screen pb-10 md:h-screen sm:px-8 sm:py-8 md:px-20 md:py-20 flex flex-col-reverse md:flex-row">
+          <div class="z-10 100vhfix snap-start h-screen w-screen md:h-screen sm:px-8 sm:py-8 md:px-20 md:py-20 flex items-end md:flex-row">
 
-            <div class="h-full lg:w-6/12 flex items-end w-screen">
+            <div class="lg:w-6/12 flex items-end w-screen">
               <div class="text-black dark:text-neutral-200 pl-8 md:-mb-8 text-[19vw] leading-[19vw] font-['Trap-Medium'] xl:text-[13em] xl:leading-[12rem] md:h-min">
                 Plan. Build. Visualize.
               </div>
@@ -186,9 +186,9 @@ const mydata = [
 
         <!-- PAGE 2 -->
 
-          <div class="page 100vhfix snap-start text-white z-10 h-screen flex flex-col w-screen">
+          <div class="relative page 100vhfix snap-start text-white z-10 h-screen flex w-screen">
             
-            <div class="absolute top-[128vh] pl-10 z-20 bg-transparent font-['Inktrap-light'] text-[5vh] leading-[5.5vh] flex justify-start w-screen">
+            <div class="absolute top-[25vh] h-[min-content] pl-10 z-20 bg-transparent font-['Inktrap-light'] text-[5vh] leading-[5.5vh]">
               Community<br>templates
             </div>
 
@@ -197,7 +197,7 @@ const mydata = [
             
 
 
-            <div class="z-10 100vhfix section pl-[40px] h-screen md:px-20 md:py-20 flex flex-row md:flex-row justify-start">
+            <div class="z-10 100vhfix section pl-[40px] pb-20 h-screen md:px-20 md:py-20 flex flex-row md:flex-row justify-start items-end">
                   <div v-if="pending"> Loading ... </div>
                     <CardOne v-else v-for="card in pdata.value.result" :key="card.id"
                       :title="card.title"
@@ -218,14 +218,6 @@ const mydata = [
 
 
 <style>
-.100vhfix {
-  box-sizing: border-box;
-  overflow-x: hidden;
-  min-height: 100vh;
-  /* mobile viewport bug fix */
-  min-height: -webkit-fill-available;
-}
-
 .arrow-dark {
   fill: #0011AE;
 }
@@ -335,10 +327,7 @@ const mydata = [
 .page {
   overscroll-behavior-x: none;
   scroll-behavior: smooth;
-  display: flex;
-  height: 100vh;
   overflow: hidden;
-  justify-content: center;
 }
 
 .section {
