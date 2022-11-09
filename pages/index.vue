@@ -197,16 +197,16 @@ const mydata = [
             
 
 
-            <div class="z-10 100vhfix section pt-[45vh] pl-[40px] h-screen md:px-20 md:py-20 flex flex-row md:flex-row justify-start">
+            <div class="z-10 100vhfix section pl-[40px] h-screen md:px-20 md:py-20 flex flex-row md:flex-row justify-start">
                   <div v-if="pending"> Loading ... </div>
                     <CardOne v-else v-for="card in pdata.value.result" :key="card.id"
-                      :title=card.title
-                      :description=card.description
-                      :imgPath=card.imgPath
-                      :logoPath=card.logoPath
-                      :username=card.username
-                      :company=card.company
-                      :tags=card.tags
+                      :title="card.title"
+                      :description="card.description"
+                      :imgPath="card.imgPath"
+                      :logoPath="card.logoPath"
+                      :username="card.username"
+                      :company="card.company"
+                      :tags="card.tags"
                   ></CardOne>
                   
             </div>
