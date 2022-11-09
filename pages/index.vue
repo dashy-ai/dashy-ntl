@@ -163,64 +163,54 @@ const mydata = [
 
         <!-- PAGE 1 -->  
 
-        <div class="z-10 snap-start h-screen w-screen pb-10 md:h-screen sm:px-8 sm:py-8 md:px-20 md:py-20 flex flex-col-reverse md:flex-row">
+          <div class="z-10 100vhfix snap-start h-screen w-screen pb-10 md:h-screen sm:px-8 sm:py-8 md:px-20 md:py-20 flex flex-col-reverse md:flex-row">
 
-          <div class="h-full lg:w-6/12 flex items-end w-screen">
-            <div class="text-black dark:text-neutral-200 pl-8 md:-mb-8 text-[19vw] leading-[19vw] font-['Trap-Medium'] xl:text-[13em] xl:leading-[12rem] md:h-min">
-              Plan. Build. Visualize.
+            <div class="h-full lg:w-6/12 flex items-end w-screen">
+              <div class="text-black dark:text-neutral-200 pl-8 md:-mb-8 text-[19vw] leading-[19vw] font-['Trap-Medium'] xl:text-[13em] xl:leading-[12rem] md:h-min">
+                Plan. Build. Visualize.
+              </div>
             </div>
+
+            <!-- <div class="hidden md:flex h-full lg:w-6/12 items-start justify-end pt-44 lg:pt-20 xs:pt-44">
+              <div class="text-black italic text-[40px] font-['Ampersand'] dark:text-neutral-300 lg:pt-20 pr-10 lg:absolute lg:subline">
+                Where<span :class="$colorMode.value == 'dark' ? 'button-word1-dark' : 'button-word1-light'"
+                  class="pt-1 mx-3 pl-2 pr-3 italic">teams</span>
+                <br /><span :class="$colorMode.value == 'dark' ? 'button-word2-dark' : 'button-word2-light'">share</span>
+                insights
+                <div :class="$colorMode.value == 'dark' ? 'waves-dark' : 'waves-light'" class="absolute"></div>
+              </div>
+            </div> -->
+
           </div>
-
-          <!-- <div class="hidden md:flex h-full lg:w-6/12 items-start justify-end pt-44 lg:pt-20 xs:pt-44">
-            <div class="text-black italic text-[40px] font-['Ampersand'] dark:text-neutral-300 lg:pt-20 pr-10 lg:absolute lg:subline">
-              Where<span :class="$colorMode.value == 'dark' ? 'button-word1-dark' : 'button-word1-light'"
-                class="pt-1 mx-3 pl-2 pr-3 italic">teams</span>
-              <br /><span :class="$colorMode.value == 'dark' ? 'button-word2-dark' : 'button-word2-light'">share</span>
-              insights
-              <div :class="$colorMode.value == 'dark' ? 'waves-dark' : 'waves-light'" class="absolute"></div>
-            </div>
-          </div> -->
-
-        </div>
 
 
         <!-- PAGE 2 -->
 
-        <div class="page snap-start text-white z-10 h-screen flex flex-col w-screen">
-          
-          <div class="absolute top-[128vh] pl-10 z-20 bg-transparent font-['Inktrap-light'] text-[5vh] leading-[5.5vh] flex justify-start w-screen">
-            Community<br>templates
-          </div>
+          <div class="page 100vhfix snap-start text-white z-10 h-screen flex flex-col w-screen">
+            
+            <div class="absolute top-[128vh] pl-10 z-20 bg-transparent font-['Inktrap-light'] text-[5vh] leading-[5.5vh] flex justify-start w-screen">
+              Community<br>templates
+            </div>
 
 
 
-          
+            
 
 
-          <div class="z-10 section pt-[45vh] pl-[40px] h-screen md:px-20 md:py-20 flex flex-row md:flex-row justify-start">
-                <div v-if="pending"> Loading ... </div>
-                  <CardOne v-else v-for="card in pdata.value.result" :key="card.id"
-                    :title=card.title
-                    :description=card.description
-                    :imgPath=card.imgPath
-                    :logoPath=card.logoPath
-                    :username=card.username
-                    :company=card.company
-                    :tags=card.tags
-                ></CardOne>
-                
-             <!--   <div  class="myimg bg-cover bg-center bg-[url('https://images.unsplash.com/photo-1458819714733-e5ab3d536722?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=933&q=80')]" data-color="#cfdfde"></div>
-                <div  class="myimg bg-cover bg-center bg-[url('https://images.unsplash.com/photo-1520013817300-1f4c1cb245ef?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2287&q=80')]" data-color="#3c94c5"></div>
-                <div  class="myimg bg-cover bg-center bg-[url('https://images.unsplash.com/photo-1494438639946-1ebd1d20bf85?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2247&q=80')]" data-color="#99aba0"></div>
-                <div  class="myimg bg-cover bg-center bg-[url('https://images.unsplash.com/photo-1559181567-c3190ca9959b?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1300&q=80')]" data-color="#b0e6db"></div>
-                <div  class="myimg bg-cover bg-center bg-[url('https://images.unsplash.com/photo-1560393464-5c69a73c5770?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1301&q=80')]" data-color="#fe6f62"></div>
-                <div  class="myimg bg-cover bg-center bg-[url('https://images.unsplash.com/photo-1506619216599-9d16d0903dfd?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2249&q=80')]" data-color="#eed2b7"></div>
-                <div  class="myimg bg-cover bg-center bg-[url('https://images.unsplash.com/photo-1481349518771-20055b2a7b24?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2309&q=80')]" data-color="#f8bbc6"></div>
-                <div  class="myimg bg-cover bg-center bg-[url('https://images.unsplash.com/photo-1579613832111-ac7dfcc7723f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2250&q=80')]" data-color="#08bac3"></div>
-                <div  class="myimg bg-cover bg-center bg-[url('https://images.unsplash.com/photo-1523275335684-37898b6baf30?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2189&q=80')]" data-color="#dcdcdc"></div>
-          -->
-          </div>
-        </div> 
+            <div class="z-10 section pt-[45vh] pl-[40px] h-screen md:px-20 md:py-20 flex flex-row md:flex-row justify-start">
+                  <div v-if="pending"> Loading ... </div>
+                    <CardOne v-else v-for="card in pdata.value.result" :key="card.id"
+                      :title=card.title
+                      :description=card.description
+                      :imgPath=card.imgPath
+                      :logoPath=card.logoPath
+                      :username=card.username
+                      :company=card.company
+                      :tags=card.tags
+                  ></CardOne>
+                  
+            </div>
+          </div> 
     </div>
 
 </div>
