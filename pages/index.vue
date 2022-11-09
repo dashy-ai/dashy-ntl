@@ -1,34 +1,80 @@
-<script setup>
+<script lang="ts" setup>
+
 console.log("from index.vue");
 const firebaseUser = useFirebaseUser();
 
+// const pdata = ref()
+// const { data, pending, error } = useFetch('/api/firestore/query?col=projects')
+// pdata.value = data
+// console.log(`index.vue - data: ${JSON.stringify(data.value, null, 3)}`)
 
-onMounted(() => {
-    const section = document.querySelector(".section");
-    const images = document.querySelectorAll(".myimg");
+const pdata = ref()
+const { data, pending, error } = await useLazyAsyncData("projects", () =>
+  $fetch('/api/firestore/query?col=projects')
+);
+pdata.value = data
+console.log(`index.vue - data: ${JSON.stringify(data.value, null, 3)}`)
 
-    const observer = new IntersectionObserver(
-    entries => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.style.opacity = 1;
-          entry.target.style.transform = "scale(1)";
-          section.style.backgroundColor = entry.target.getAttribute("data-color");
-        } else {
-          entry.target.style.opacity = 0;
-          entry.target.style.transform = "scale(.65)";
-        }
-      });
+
+onMounted( () => {
+
+})
+
+// onMounted( async () => {
+//   const cards = ref()
+//   const collection = 'projects'
+//   const { result } = await $fetch(`/api/firestore/query?col=${collection}`);
+//   console.log(`cards is: ${JSON.stringify(cards.value, null, 3)}`)
+// })
+
+
+// onMounted(() => {
+//     const section = document.querySelector(".section");
+//     const images = document.querySelectorAll(".myimg");
+
+//     const observer = new IntersectionObserver(
+//     entries => {
+//       entries.forEach(entry => {
+//         if (entry.isIntersecting) {
+//           entry.target.style.opacity = 1;
+//           entry.target.style.transform = "scale(1)";
+//           section.style.backgroundColor = entry.target.getAttribute("data-color");
+//         } else {
+//           entry.target.style.opacity = 0;
+//           entry.target.style.transform = "scale(.65)";
+//         }
+//       });
+//     },
+//     {
+//       threshold: 0 });
+
+
+
+//     images.forEach((el, i) => {
+//       observer.observe(el);
+//     });
+// })
+
+const mydata = [
+    {
+    title: 'Sales opportunities funnel',
+    description: 'Do veniam deserunt anim irure minim veniam officia velit proident cupidatat nulla.',
+    imgPath: '/img/viz_funnel-dash.jpg',
+    logoPath: 'https://logo.clearbit.com/segment.com?size=90',
+    username: 'Eric Wright',
+    company: 'Segment',
     },
     {
-      threshold: 0 });
+    title: 'A simple funnel graph',
+    description: 'This is Card Description that is a bit longer, maybe 2 lines.',
+    imgPath: 'https://images.unsplash.com/photo-1520013817300-1f4c1cb245ef?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2287&q=80',
+    logoPath: 'https://logo.clearbit.com/nike.com?size=90',
+    username: 'Garry',
+    company: 'nike',
+    },
+  ]
 
-
-
-    images.forEach((el, i) => {
-      observer.observe(el);
-    });
-})
+ 
 
 </script>
 
@@ -37,7 +83,7 @@ onMounted(() => {
 <div>
    <!-- Circle text -->
 
-    <div class="z-0 fixed w-[400px] h-[400px] bottom-[25%] -right-[112px] md:circletext">
+    <!-- <div class="z-0 fixed w-[400px] h-[400px] bottom-[25%] -right-[112px] md:circletext">
         <svg class="absolute"  width="100%" height="100%" viewBox="0 0 190 190" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path :class="$colorMode.value == 'dark' ? 'circletext-dark' : 'circletext-light'"
             d="M168.995 44.2613L161.994 49.4727L160.173 47.0253C159.809 46.5377 159.594 46.0727 159.527 45.6304C159.458 45.1898 159.507 44.7869 159.674 44.4215C159.839 44.0579 160.092 43.7489 160.434 43.4944C160.735 43.2705 161.023 43.1391 161.299 43.1003C161.573 43.0593 161.831 43.0829 162.074 43.1713C162.315 43.2574 162.538 43.3803 162.742 43.5401L162.81 43.4892C162.664 43.2649 162.579 42.9935 162.555 42.6753C162.53 42.357 162.591 42.0299 162.738 41.6941C162.885 41.3582 163.143 41.0529 163.512 40.7781C163.863 40.5168 164.238 40.3616 164.637 40.3125C165.036 40.2633 165.445 40.3497 165.866 40.5717C166.286 40.7937 166.701 41.1804 167.112 41.7318L168.995 44.2613ZM167.612 43.9734L166.36 42.2917C165.948 41.7379 165.548 41.4245 165.161 41.3516C164.769 41.278 164.42 41.3558 164.112 41.5848C163.875 41.7612 163.702 41.9845 163.591 42.2545C163.478 42.5263 163.444 42.8188 163.49 43.132C163.533 43.4469 163.668 43.7571 163.896 44.0624L165.178 45.7852L167.612 43.9734ZM164.44 46.3348L163.269 44.7625C163.079 44.5073 162.858 44.3144 162.605 44.184C162.35 44.0512 162.087 43.9923 161.815 44.0073C161.541 44.0199 161.281 44.1179 161.035 44.3011C160.727 44.5301 160.546 44.8315 160.491 45.2051C160.434 45.5805 160.578 46.0006 160.925 46.4655L162.115 48.0652L164.44 46.3348Z" />
@@ -107,7 +153,7 @@ onMounted(() => {
             d="M40.7216 0L43.7377 140.969C43.7377 140.969 37.2022 108.732 2.81487e-05 108.732C5.42783e-05 112.557 -4.19512e-05 114.742 4.39703e-05 118.627C46.2514 118.627 44.7431 159 44.7431 159H46.2514C46.2514 159 46.2514 118.567 92 118.567C92 114.742 92 112.557 92 108.732C55.3006 108.732 47.7595 140.969 47.7595 140.969L50.2735 0H40.7216Z" />
           </svg>
         </div>
-      </div>
+      </div> -->
 
   
     <!-- PAGE CONTAINER -->  
@@ -115,9 +161,9 @@ onMounted(() => {
   
     <div class="z-10 absolute snap snap-y snap-mandatory h-screen w-screen overflow-scroll">
 
-    <!-- PAGE 1 -->  
+        <!-- PAGE 1 -->  
 
-        <div class="bg-blue-300 z-10 snap-start h-screen w-screen pb-10 md:h-screen sm:px-8 sm:py-8 md:px-20 md:py-20 flex flex-col-reverse md:flex-row">
+        <div class="z-10 snap-start h-screen w-screen pb-10 md:h-screen sm:px-8 sm:py-8 md:px-20 md:py-20 flex flex-col-reverse md:flex-row">
 
           <div class="h-full lg:w-6/12 flex items-end w-screen">
             <div class="text-black dark:text-neutral-200 pl-8 md:-mb-8 text-[19vw] leading-[19vw] font-['Trap-Medium'] xl:text-[13em] xl:leading-[12rem] md:h-min">
@@ -140,23 +186,30 @@ onMounted(() => {
 
         <!-- PAGE 2 -->
 
-        <div class="bg-red-300 page snap-start z-10 h-screen flex flex-col w-screen">
-          <div class="absolute pl-10 mb-[40vh] z-20 bg-transparent font-['Inktrap-light'] text-5xl text-white flex justify-start w-screen">
+        <div class="page snap-start text-white z-10 h-screen flex flex-col w-screen">
+          
+          <div class="absolute top-[128vh] pl-10 z-20 bg-transparent font-['Inktrap-light'] text-[5vh] leading-[5.5vh] flex justify-start w-screen">
             Community<br>templates
           </div>
-          <div class="z-10 section pt-[50vh] pl-[40px] h-screen md:px-20 md:py-20 flex flex-row md:flex-row justify-start">
+
+
+
+          
+
+
+          <div class="z-10 section pt-[45vh] pl-[40px] h-screen md:px-20 md:py-20 flex flex-row md:flex-row justify-start">
+                <div v-if="pending"> Loading ... </div>
+                  <CardOne v-else v-for="card in pdata.value.result" :key="card.id"
+                    :title=card.title
+                    :description=card.description
+                    :imgPath=card.imgPath
+                    :logoPath=card.logoPath
+                    :username=card.username
+                    :company=card.company
+                    :tags=card.tags
+                ></CardOne>
                 
-                <div  class="myimg bg-cover bg-center bg-[url('https://images.unsplash.com/photo-1523049673857-eb18f1d7b578?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2168&q=80sAD')]" data-color="#000">
-                  <div class="flex relative bottom-12 text-zinc-100">
-                    <div class="text-zinc h-12 mr-8">LOGO</div>
-                    <div class="text-zinc h-12 truncate">Do veniam deserunt anim irure minim veniam officia velit proident cupidatat nulla.</div>
-                  </div>
-                </div>
-                <div  class="myimg bg-cover bg-center bg-[url('https://images.unsplash.com/photo-1516085216930-c93a002a8b01?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2250&q=80')]" data-color="#000">
-                  <div class="relative bottom-12 text-zinc-100">Waddupå some text</div>
-                </div>
-                
-                <div  class="myimg bg-cover bg-center bg-[url('https://images.unsplash.com/photo-1458819714733-e5ab3d536722?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=933&q=80')]" data-color="#cfdfde"></div>
+             <!--   <div  class="myimg bg-cover bg-center bg-[url('https://images.unsplash.com/photo-1458819714733-e5ab3d536722?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=933&q=80')]" data-color="#cfdfde"></div>
                 <div  class="myimg bg-cover bg-center bg-[url('https://images.unsplash.com/photo-1520013817300-1f4c1cb245ef?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2287&q=80')]" data-color="#3c94c5"></div>
                 <div  class="myimg bg-cover bg-center bg-[url('https://images.unsplash.com/photo-1494438639946-1ebd1d20bf85?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2247&q=80')]" data-color="#99aba0"></div>
                 <div  class="myimg bg-cover bg-center bg-[url('https://images.unsplash.com/photo-1559181567-c3190ca9959b?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1300&q=80')]" data-color="#b0e6db"></div>
@@ -165,11 +218,11 @@ onMounted(() => {
                 <div  class="myimg bg-cover bg-center bg-[url('https://images.unsplash.com/photo-1481349518771-20055b2a7b24?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2309&q=80')]" data-color="#f8bbc6"></div>
                 <div  class="myimg bg-cover bg-center bg-[url('https://images.unsplash.com/photo-1579613832111-ac7dfcc7723f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2250&q=80')]" data-color="#08bac3"></div>
                 <div  class="myimg bg-cover bg-center bg-[url('https://images.unsplash.com/photo-1523275335684-37898b6baf30?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2189&q=80')]" data-color="#dcdcdc"></div>
-        </div>
-      </div>
+          -->
+          </div>
+        </div> 
+    </div>
 
-
-  </div>
 </div>
 </template>
 
@@ -287,7 +340,6 @@ onMounted(() => {
   scroll-behavior: smooth;
   display: flex;
   height: 100vh;
-  align-items: center;
   overflow: hidden;
   justify-content: center;
 }
@@ -300,16 +352,6 @@ onMounted(() => {
   position: relative;
   height: 100%;
   overflow: auto;
-}
-
-.myimg {
-  transition: 0.3s;
-  width: 80%;
-  margin-right: 20px;
-  height: 30vh;
-  border-radius: 8px;
-  flex-shrink: 0;
-  box-shadow: 0 40px 100px rgba(0, 0, 0, 0.3);
 }
 
 /* .myimg:nth-child(2){

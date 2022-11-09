@@ -1,12 +1,22 @@
 // https://v3.nuxtjs.org/api/configuration/nuxt.config
+
+import tailwindLineclamp from '@tailwindcss/line-clamp'
+
 export default defineNuxtConfig({
 
   modules: ['@nuxtjs/tailwindcss', '@nuxtjs/color-mode'],
+  components: {
+    global: true,
+    dirs: ['~/components']
+  },
   tailwindcss: {
     cssPath: '~/assets/css/tailwind.css',
     configPath: 'tailwind.config.js',
     exposeConfig: false,
-    // config: {},
+    config: {
+      plugins: [tailwindLineclamp],
+      content: [],
+    },
     injectPosition: 0,
     viewer: true,
   },
