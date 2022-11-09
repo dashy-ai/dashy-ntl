@@ -317,7 +317,7 @@ const mydata = [
   transform: rotate(9deg);
   left: -20px;
   bottom: -50px;
-  background-image: url('/img/waves-pink.svg');
+  background-image: url(/img/waves-pink.svg);
   background-repeat: no-repeat;
 }
 
@@ -328,7 +328,7 @@ const mydata = [
   transform: rotate(9deg);
   left: -20px;
   bottom: -50px;
-  background-image: url('/img/waves-green.svg');
+  background-image: url(img/waves-green.svg);
   background-repeat: no-repeat;
 }
 
