@@ -26,6 +26,9 @@ useHead({
   padding: 0;
   box-sizing: border-box;
   overflow-x: hidden;
+  min-height: 100vh;
+  /* mobile viewport bug fix */
+  min-height: -webkit-fill-available;
 }
 
 .dark {
@@ -35,4 +38,8 @@ useHead({
 .light {
   background-color: #cbcbcb;
 }
+
+/* html {
+  height: -webkit-fill-available;
+} */
 </style>
