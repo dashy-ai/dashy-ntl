@@ -80,7 +80,7 @@ const mydata = [
 
 
 <template>
-<div>
+<div class="100vhfix">
    <!-- Circle text -->
 
     <!-- <div class="z-0 fixed w-[400px] h-[400px] bottom-[25%] -right-[112px] md:circletext">
@@ -228,6 +228,13 @@ const mydata = [
 
 
 <style>
+.100vhfix {
+  box-sizing: border-box;
+  overflow-x: hidden;
+  min-height: 100vh;
+  /* mobile viewport bug fix */
+  min-height: -webkit-fill-available;
+}
 
 .arrow-dark {
   fill: #0011AE;
