@@ -1,5 +1,5 @@
  <template>
-  <div class="h-screen dark:bg-black">
+  <div class="100vhfix  h-screen dark:bg-black">
     <Navbar />
     <slot />
   </div>
