@@ -159,7 +159,7 @@ const mydata = [
     <!-- PAGE CONTAINER -->  
   
   
-    <div class="z-10 absolute snap snap-y snap-mandatory h-screen w-screen overflow-scroll">
+    <div class="z-10 100vhfix absolute snap snap-y snap-mandatory h-screen w-screen overflow-scroll">
 
         <!-- PAGE 1 -->  
 
