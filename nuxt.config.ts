@@ -1,6 +1,7 @@
 // https://v3.nuxtjs.org/api/configuration/nuxt.config
 
 import tailwindLineclamp from '@tailwindcss/line-clamp'
+import plugin from 'tailwindcss/plugin'
 
 export default defineNuxtConfig({
 
@@ -14,7 +15,21 @@ export default defineNuxtConfig({
     configPath: 'tailwind.config.js',
     exposeConfig: false,
     config: {
-      plugins: [tailwindLineclamp],
+      plugins: [
+        tailwindLineclamp,
+        plugin(function ({ addUtilities }) {
+          addUtilities({
+            '.vh100fix': {
+              'height': '100sv',
+            },
+            '.content-hidden': {
+              'content-visibility': 'hidden',
+            },
+            '.content-visible': {
+              'content-visibility': 'visible',
+            },
+          })
+        })],
       content: [],
     },
     injectPosition: 0,

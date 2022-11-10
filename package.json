@@ -10,6 +10,7 @@
   "devDependencies": {
     "@nuxtjs/color-mode": "^3.1.5",
     "@nuxtjs/tailwindcss": "5.3.3",
+    "@rvxlab/tailwind-plugin-ios-full-height": "^1.1.0",
     "@tailwindcss/line-clamp": "^0.4.2",
     "@vueuse/core": "^9.4.0",
     "@vueuse/nuxt": "^9.4.0",

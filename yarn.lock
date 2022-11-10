@@ -1149,6 +1149,11 @@
     estree-walker "^2.0.2"
     picomatch "^2.3.1"
 
+"@rvxlab/tailwind-plugin-ios-full-height@^1.1.0":
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/@rvxlab/tailwind-plugin-ios-full-height/-/tailwind-plugin-ios-full-height-1.1.0.tgz#ef28929e7dd5a4ca9bdd45df155beb2b78bfef82"
+  integrity sha512-jPIxXn0raN/YTk8nXesqM+JbS2WWd5XaUk/MbaAgVDDPyYtsPfeN3B26xIhSa2oE2+JB66tegPUMSOmixzroXg==
+
 "@tailwindcss/line-clamp@^0.4.2":
   version "0.4.2"
   resolved "https://registry.yarnpkg.com/@tailwindcss/line-clamp/-/line-clamp-0.4.2.tgz#f353c5a8ab2c939c6267ac5b907f012e5ee130f9"

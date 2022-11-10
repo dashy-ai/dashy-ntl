@@ -14,7 +14,7 @@ useHead({
     { name: 'description', content: 'Data Visualizations made easy.' }
   ],
   bodyAttrs: {
-    class: 'mybody'
+    class: 'mybody 100vhfix'
   },
 })
 
@@ -26,9 +26,8 @@ useHead({
   padding: 0;
   box-sizing: border-box;
   overflow-x: hidden;
-  min-height: 100vh;
-  /* mobile viewport bug fix */
-  min-height: -webkit-fill-available;
+  /* min-height: 100vh;
+  min-height: -webkit-fill-available; */
 }
 
 .dark {
