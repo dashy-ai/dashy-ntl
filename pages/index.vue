@@ -186,10 +186,10 @@ const mydata = [
 
         <!-- PAGE 2 -->
 
-          <div class="relative page snap-start text-white z-10 h-screen flex w-screen">
+          <div class="relative z-30 page snap-start text-white h-screen flex w-screen">
             
-            <div class="absolute top-[25vh] h-[min-content] pl-10 z-20 bg-transparent font-['Inktrap-light'] text-[5vh] leading-[5.5vh]">
-              Community<br>templates
+            <div class="absolute top-[22vh] h-[11vh] pl-10 z-20 font-['Inktrap-light'] text-[5vh] leading-[5.5vh]">
+              <div class="bg-transparent h-full translate-y-[1vh]">Community<br>templates</div>
             </div>
 
 
