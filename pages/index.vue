@@ -163,10 +163,10 @@ const mydata = [
 
         <!-- PAGE 1 -->  
 
-          <div class="z-10 snap-start h-screen w-screen md:h-screen sm:px-8 sm:py-8 md:px-20 md:py-20 flex items-end md:flex-row">
+          <div class="z-10 snap-start pb-20 h-screen w-screen md:h-screen sm:px-8 sm:py-8 md:px-20 md:py-20 flex items-end md:flex-row">
 
             <div class="lg:w-6/12 flex items-end w-screen">
-              <div class="text-black dark:text-neutral-200  pb-8 pl-8 md:-mb-8 text-[19vw] leading-[19vw] font-['Trap-Medium'] xl:text-[13em] xl:leading-[12rem] md:h-min">
+              <div class="text-black h-[37vh] dark:text-neutral-200 align-text-bottom pl-8 md:-mb-8 text-[19vw] leading-[19vw] font-['Trap-Medium'] xl:text-[13em] xl:leading-[12rem] md:h-min">
                 Plan. Build. Visualize.
               </div>
             </div>
@@ -197,7 +197,7 @@ const mydata = [
             
 
 
-            <div class="z-10 section pl-[40px] pb-[12vh] h-screen md:px-20 md:py-20 flex flex-row md:flex-row justify-start items-end">
+            <div class="z-10 section pl-[40px] pb-20 h-screen md:px-20 md:py-20 flex flex-row md:flex-row justify-start items-end">
                   <div v-if="pending"> Loading ... </div>
                     <CardOne v-else v-for="card in pdata.value.result" :key="card.id"
                       :title="card.title"
