@@ -16,7 +16,7 @@
         </div>
       </div>
 
-      <button class="z-10 relative h-[10vh] pr-1 w-full top-[40vh] md:top-[202px] md:left-[680px] md:w-44 flex justify-end" @click="goToStep2">
+      <button class="z-20 relative h-[10vh] w-full pr-2 top-[40vh] md:top-[202px] md:left-[680px] md:w-44 flex justify-end items-center" @click="goToStep2">
           <svg class="-rotate-90 w-10 h-14 md:w-20 md:h-28" viewBox="0 0 92 159" fill="none"
             xmlns="http://www.w3.org/2000/svg">
             <path
