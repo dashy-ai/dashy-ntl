@@ -173,8 +173,8 @@ onMounted(async () => {
 
       <div v-if="signInForm" class="absolute top-0 left-0 w-screen h-screen backdrop-blur-xl">
         <div class="flex justify-end w-screen h-32 bg-transparent items-center pr-10">
-          <button class="pr-20 mt-2" @click="toggleSignIn()">
-            <svg class="rotate-90" width="92" height="111" viewBox="0 0 92 159" fill="none"
+          <button class="pr-2 md:pr-20 mt-2" @click="toggleSignIn()">
+            <svg class="rotate-90 w-10 h-14 md:w-20 md:h-28" viewBox="0 0 92 159" fill="none"
               xmlns="http://www.w3.org/2000/svg">c
               <path
                 d="M40.7216 0L43.7377 140.969C43.7377 140.969 37.2022 108.732 2.81487e-05 108.732C5.42783e-05 112.557 -4.19512e-05 114.742 4.39703e-05 118.627C46.2514 118.627 44.7431 159 44.7431 159H46.2514C46.2514 159 46.2514 118.567 92 118.567C92 114.742 92 112.557 92 108.732C55.3006 108.732 47.7595 140.969 47.7595 140.969L50.2735 0H40.7216Z"
@@ -183,18 +183,29 @@ onMounted(async () => {
           </button>
         </div>
         <div class="bg-transparent h-full w-screen flex flex-col">
-          <div class="pt-32 w-full h-3/5 flex justify-center">
-            <div class="h-full w-2/4 flex justify-end bg-transparent flex-col">
+          <div class="md:pt-32 h-full w-full flex justify-center items-center pb-32">
+            <div class="h-[45vh] md:h-full w-[65%] md:w-2/4 flex justify-end bg-transparent flex-col text-5xl md:text-7x text-white">
+
               <input v-model="email" type="email"
-                class="outline-[0px] bg-transparent h-36 border-b-white border-b-2 text-7xl px-0 text-white placeholder-white"
+                class="outline-[0px] bg-transparent h-28 md:h-36 border-b-white border-b-2 px-0 placeholder-white"
                 placeholder="Email">
               <input v-model="password" type="password"
-                class="outline-[0px] mt-8 h-36 border-b-white border-b-2 bg-transparent px-0 text-7xl text-white placeholder-white"
+                class="outline-[0px] mt-7 md:mt-8 h-28 md:h-36 border-b-white border-b-2 bg-transparent px-0 placeholder-white"
                 placeholder="Password">
-              <button @click="signIn"
-                class="mt-14 w-48 mt-ml-8 text-4xl whitespace-nowrap inline-flex items-center justify-center px-4 pt-6 pb-7 border-2 border-white rounded-full shadow-sm font-small text-white hover:text-gray-500 dark:bg-transparent bg-transparent hover:bg-grey-500">
-                Sign In
-              </button>
+
+              <div class="mt-14 w-full flex items-center text-3xl justify-between">
+
+                <button @click="signIn"
+                  class="w-36 md:w-48 md:text-4xl whitespace-nowrap inline-flex items-center justify-center px-3 md:px-4 pt-5 md:pt-6 pb-6 md:pb-7 border-2 border-white rounded-full shadow-sm font-small text-white hover:text-gray-500 dark:bg-transparent bg-transparent hover:bg-grey-500">
+                  Sign In
+                </button>
+                <button v-if="!firebaseUser" @click="signUp"
+                  class="w-36 md:hidden whitespace-nowrap inline-flex items-center justify-center px-3 md:px-4 pt-5 md:pt-6 pb-6 md:pb-7 rounded-full shadow-sm font-small text-[rgba(255,255,255,0.8)] hover:text-gray-500 backdrop-blur bg-[rgba(255,255,255,0.06)] hover:bg-grey-500">
+                    Sign up
+                </button>
+
+              </div>
+              
             </div>
           </div>
         </div>
