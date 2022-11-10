@@ -16,6 +16,9 @@ useHead({
   bodyAttrs: {
     class: 'mybody'
   },
+  htmlAttrs: {
+      class: 'myhead dark'
+    }
 })
 
 </script>
@@ -26,8 +29,13 @@ useHead({
   padding: 0;
   box-sizing: border-box;
   overflow-x: hidden;
-  min-height: 100vh;
-  min-height: -webkit-fill-available;
+  overflow-y: scroll;
+  height: 100vh;
+  height: -webkit-fill-available;
+}
+
+.myhead {
+  height: -webkit-fill-available;
 }
 
 .dark {
