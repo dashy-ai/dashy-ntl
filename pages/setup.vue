@@ -3,11 +3,11 @@
 
     <!-- STEP 1 -->
 
-    <div v-if="step1" class="sm:h-80 w-[80%] z-10 step1 flex flex-col justify-center mb-24">
+    <div v-if="step1" class="sm:h-80 w-[80%] h-screen z-10 step1 flex flex-col justify-start">
 
       <!-- left -->
 
-      <div class="mb-20 h-[10vh] w-full flex flex-col items-start">
+      <div class="h-[30vh] w-full flex flex-col items-start justify-end">
         <div class="md:mt-56 md:ml-24 md:absolute text-slate-600 text-lg">
           Account Setup: Step 1/3
         </div>
@@ -16,7 +16,7 @@
         </div>
       </div>
 
-      <button class="z-10 w-14 absolute bottom-[140px] right-12 md:top-[202px] md:left-[680px] md:w-44 flex justify-end" @click="goToStep2">
+      <button class="z-10 relative h-[10vh] pr-1 w-full top-[40vh] md:top-[202px] md:left-[680px] md:w-44 flex justify-end" @click="goToStep2">
           <svg class="-rotate-90 w-10 h-14 md:w-20 md:h-28" viewBox="0 0 92 159" fill="none"
             xmlns="http://www.w3.org/2000/svg">
             <path
@@ -25,30 +25,30 @@
           </svg>
       </button>
       
-      <div class="h-[23vh] md:h-full z-10 flex justify-center">
-        <div class="text-1xl md:mt-32 md:ml-24 md:text-6xl items-center flex flex-col justify-between">
+      <div class="h-[60vh] md:h-full z-10 flex justify-center">
+        <div class="text-1xl md:mt-32 md:ml-24 md:text-6xl items-center flex flex-col justify-start">
 
-            <div class="flex w-full justify-between items-center">
+            <div class="flex w-full justify-between items-center mb-[3vh]">
               <span class="w-4/12">My name is</span>
               <input v-model="userInfo.name" type="text"
-                    class="text-center text-2xl h-11 w-8/12 md:w-96 outline-[0px] bg-transparent md:h-24 border-b-[rgba(255,255,255,0.12)] border-b-2 px-0 text-white placeholder-[rgba(255,255,255,0.06)]"
+                    class="text-center text-2xl h-11 w-8/12 md:w-96 outline-[0px] bg-transparent md:h-24 border-b-[rgba(255,255,255,0.12)] border-b-2 px-0 text-white placeholder-[rgba(255,255,255,0.08)]"
                     placeholder="Cat McKitty" />
             </div>
 
-            <div class="flex w-full justify-between items-center">
+            <div class="flex w-full justify-between items-center mb-[3vh]">
               <span class="work1 w-4/12">I work at</span>
             
               <input v-model="userInfo.company" type="text"
-                    class="text-center work2 text-2xl h-11 w-8/12 md:w-96 outline-[0px] bg-transparent md:h-24 border-b-[rgba(255,255,255,0.12)] border-b-2 px-0 text-white placeholder-[rgba(255,255,255,0.06)]"
+                    class="text-center work2 text-2xl h-11 w-8/12 md:w-96 outline-[0px] bg-transparent md:h-24 border-b-[rgba(255,255,255,0.12)] border-b-2 px-0 text-white placeholder-[rgba(255,255,255,0.08)]"
                     placeholder="The Milk Bowl Inc." />
             </div> 
 
             <div class="flex w-full justify-between items-center">
-              <span class="team1 w-4/12">in the</span>
+              <span class="team1 w-12">in the</span>
               <input v-model="userInfo.team" type="text"
-                    class="text-center w-8/12 text-2xl h-11 team2 md:w-96 outline-[0px] bg-transparent md:h-24 border-b-[rgba(255,255,255,0.12)] border-b-2 px-0 text-white placeholder-[rgba(255,255,255,0.06)]"
+                    class="text-center w-7/12 text-2xl h-11 team2 md:w-96 outline-[0px] bg-transparent md:h-24 border-b-[rgba(255,255,255,0.12)] border-b-2 px-0 text-white placeholder-[rgba(255,255,255,0.08)]"
                     placeholder="Meow" />
-              <span class="team1 mx-8">team.</span>
+              <span class="team1 w-min">team.</span>
             </div>
 
 

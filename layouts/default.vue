@@ -1,5 +1,5 @@
  <template>
-  <div class="dark:bg-black">
+  <div class="dark:bg-black mybody">
     <Navbar />
     <slot />
   </div>
