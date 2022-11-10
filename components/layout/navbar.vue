@@ -51,6 +51,18 @@ const signUp = async () => {
   } 
 }
 
+const mobileSignUp = async () => {
+  credentials.value = await createUser(email.value, password.value)
+  toggleSignIn()
+  console.log('Navbar SignUp : Credentials:', credentials)
+  console.log(`Navbar SignUp: passed ${email.value}, ${password.value} to createUser`)
+  const router = useRouter()
+  console.log(`Navbar SignUp : recieved credentials.value.user.uid = ${JSON.stringify(credentials.value.user.uid, null, 4)}`)
+  if (credentials.value) {
+    await router.push({ path: "/setup" });
+  } 
+}
+
 const signIn = async () => {
   credentials.value = await signInUser(email.value, password.value)
   toggleSignIn()
@@ -183,24 +195,24 @@ onMounted(async () => {
           </button>
         </div>
         <div class="bg-transparent h-full w-screen flex flex-col">
-          <div class="md:pt-32 h-full w-full flex justify-center items-center pb-32">
-            <div class="h-[45vh] md:h-full w-full px-11 md:w-2/4 flex justify-end bg-transparent flex-col text-5xl md:text-7x text-white">
+          <div class="md:pt-32 h-full w-full flex justify-center items-center pb-48">
+            <div class="h-[45vh] md:h-full w-full px-11 md:w-2/4 flex justify-end bg-transparent flex-col text-4xl md:text-7x text-white">
 
               <input v-model="email" type="email"
-                class="outline-[0px] bg-transparent h-28 md:h-36 border-b-white border-b-2 px-0 placeholder-white"
+                class="outline-[0px] bg-transparent h-20 md:h-36 border-b-white border-b-2 px-0 placeholder-white"
                 placeholder="Email">
               <input v-model="password" type="password"
-                class="outline-[0px] mt-7 md:mt-8 h-28 md:h-36 border-b-white border-b-2 bg-transparent px-0 placeholder-white"
+                class="outline-[0px] mt-7 md:mt-8 h-20 md:h-36 border-b-white border-b-2 bg-transparent px-0 placeholder-white"
                 placeholder="Password">
 
-              <div class="mt-14 w-full flex items-center text-3xl justify-between">
+              <div class="mt-16 w-full flex items-center text-2xl justify-center">
 
                 <button @click="signIn"
-                  class="w-36 md:w-48 md:text-4xl whitespace-nowrap inline-flex items-center justify-center px-3 md:px-4 pt-5 md:pt-6 pb-6 md:pb-7 border-2 border-white rounded-full shadow-sm font-small text-white hover:text-gray-500 dark:bg-transparent bg-transparent hover:bg-grey-500">
+                  class="md:w-48 md:text-4xl whitespace-nowrap inline-flex items-center justify-center md:px-4 pt-4 px-3 md:pt-6 pb-5 md:pb-7 border-2 border-white rounded-full shadow-sm font-small text-white hover:text-gray-500 dark:bg-transparent bg-transparent hover:bg-grey-500">
                   Sign In
                 </button>
-                <button v-if="!firebaseUser" @click="signUp"
-                  class="w-36 md:hidden whitespace-nowrap inline-flex items-center justify-center px-3 md:px-4 pt-5 md:pt-6 pb-6 md:pb-7 rounded-full shadow-sm font-small text-[rgba(255,255,255,0.8)] hover:text-gray-500 backdrop-blur bg-[rgba(255,255,255,0.06)] hover:bg-grey-500">
+                <button v-if="!firebaseUser" @click="mobileSignUp"
+                  class="ml-8 md:hidden whitespace-nowrap inline-flex items-center justify-center px-3 md:px-4 pt-4 md:pt-6 pb-5 md:pb-7 rounded-full shadow-sm font-small text-[rgba(255,255,255,0.8)] hover:text-gray-500 backdrop-blur bg-[rgba(255,255,255,0.06)] hover:bg-grey-500">
                     Sign up
                 </button>
 
