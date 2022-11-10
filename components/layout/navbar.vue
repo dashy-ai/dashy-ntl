@@ -184,7 +184,7 @@ onMounted(async () => {
         </div>
         <div class="bg-transparent h-full w-screen flex flex-col">
           <div class="md:pt-32 h-full w-full flex justify-center items-center pb-32">
-            <div class="h-[45vh] md:h-full w-[65%] md:w-2/4 flex justify-end bg-transparent flex-col text-5xl md:text-7x text-white">
+            <div class="h-[45vh] md:h-full w-full px-11 md:w-2/4 flex justify-end bg-transparent flex-col text-5xl md:text-7x text-white">
 
               <input v-model="email" type="email"
                 class="outline-[0px] bg-transparent h-28 md:h-36 border-b-white border-b-2 px-0 placeholder-white"
