@@ -197,7 +197,7 @@ const mydata = [
             
 
 
-            <div class="z-10 section pl-[40px] pb-20 h-screen md:px-20 md:py-20 flex flex-row md:flex-row justify-start items-end">
+            <div class="z-10 section pl-[40px] pb-40 h-screen md:px-20 md:py-20 flex flex-row md:flex-row justify-start items-end">
                   <div v-if="pending"> Loading ... </div>
                     <CardOne v-else v-for="card in pdata.value.result" :key="card.id"
                       :title="card.title"
