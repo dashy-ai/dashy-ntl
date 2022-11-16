@@ -6,14 +6,24 @@
       <button class="text-slate-100 signup-button bg-neutral-800 rounded-full px-3 py-2 mx-4 h-12">Login</button>
     </div>
     <div class="flex self-center flex-col h-20 justify-around">
-      <p><span class="mt-8 text-slate-100"> </span></p>
-      <p><span class="mt-8 text-slate-100"> </span></p>
+      <span class="mt-8 text-slate-100"> 
+        <pre>
+        {{ firebaseUser}}
+        </pre>
+      </span>
     </div>
   </div>
 
 </template>
 
 <script setup>
+// Route gard middleware
+
+definePageMeta({
+  middleware: ['auth']
+})
+
+const firebaseUser = useFirebaseUser()
 
 </script>
 

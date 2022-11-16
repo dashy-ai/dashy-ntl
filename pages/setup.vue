@@ -150,9 +150,16 @@
 
 <script setup>
 
+definePageMeta({
+  middleware: ['auth']
+})
+
 // const name = ref('')
 // const company = ref('')
 // const team = ref('')
+
+// testuser = getCurrentUser()
+// console.log (testuser)
 
 const step1 = ref(true)
 const step2 = ref()
@@ -175,26 +182,34 @@ const userInfo = reactive({
     tenantId: "",
   });
 
-const projectInfo = ref({
+const projectInfo = reactive({
   name: "",
   company: userInfo.company,
   team: userInfo.team,
 });
 
- 
+// TODO : Fix an update function, and such
+// const updateFirestoreUser = async (userInfo) => {
+//   const result = await updateFirestoreDocument("users", userInfo);
+//   // Parses UID from user object passed and calls api where updateDoc is called
+//   console.log(`setup.vue -- updateFirestoreUser() updateFirestoreDocument("users", uInfo) -- result is :${JSON.stringify(result, null, 4)}`)
+//   // document.getElementById("form").reset();
+
+//   // const response = await getFirestoreData("users");
+// };
 
 const submitStep1 = async (uInfo) => {
   const result = await addFirestoreUser("users", uInfo);
-  console.log(`submitStep1: result is :${JSON.stringify(result, null, 4)}`)
+  console.log(`setup.vue -- submitStep1() addFirestoreUser("users", uInfo) -- result is :${JSON.stringify(result, null, 4)}`)
   // document.getElementById("form").reset();
-  console.log(`submitStep1: uInfo is :${JSON.stringify(uInfo, null, 4)}`)
+  console.log(`setup.vue -- submitStep1() addFirestoreUser("users", uInfo) -- object is ::${JSON.stringify(uInfo, null, 4)}`)
   // const response = await getFirestoreData("users");
   // console.log(`response is :${JSON.stringify(response, null, 4)}`)
 };
 
 const goToStep2 = () => {
-  console.log(`goToStep2 clicked :submitStep1() fired`)
-  submitStep1(userInfo)
+  console.log(`setup.vue -- goToStep2 clicked :submitStep1(userInfo) fired`)
+  submitStep1(userInfo);
   step1.value = false
   step2.value = true
   step3.value = false
@@ -212,8 +227,40 @@ const goToStep1 = () => {
   step3.value = false
 }
 
+
+const catAvatars = {
+  cat01: '/img/users/cat-01.png',
+  cat02: '/img/users/cat-02.png',
+  cat03 : '/img/users/cat-03.png',
+  cat04 : '/img/users/cat-04.png',
+  cat05 : '/img/users/cat-05.png',
+  cat06 : '/img/users/cat-06.png',
+  cat07 : '/img/users/cat-07.png',
+  cat08 : '/img/users/cat-08.png',
+  cat09 : '/img/users/cat-09.png',
+  cat10 : '/img/users/cat-10.png',
+  cat11 : '/img/users/cat-11.png',
+  cat12 : '/img/users/cat-12.png',
+  cat13 : '/img/users/cat-13.png',
+  cat14 : '/img/users/cat-14.png',
+  cat15 : '/img/users/cat-15.png',
+  cat16 : '/img/users/cat-16.png',
+}
+
+const randomizeUserImage = function (obj) {
+    var keys = Object.keys(obj);
+    return obj[keys[ keys.length * Math.random() << 0]];
+};
+
+const randomUserImage = randomizeUserImage(catAvatars)
+
+
+
+
+
 onMounted(async () => {
-  const firebaseUser = await useFirebaseUser();
+
+  const firebaseUser = useFirebaseUser();
   const uid = firebaseUser.value.uid
   const email = firebaseUser.value.email
   const displayName = firebaseUser.value.displayName
@@ -226,34 +273,49 @@ onMounted(async () => {
   const providerId = firebaseUser.value.providerId
   const tenantId = firebaseUser.value.tenantId
 
+  // console.log(`setup.vue - uid = ${uid}`)
+  // console.log(`setup.vue - email = ${email}`)
+  // console.log(`setup.vue - displayName = ${displayName}`)
+  // console.log(`setup.vue - emailVerified = ${emailVerified}`)
+  // console.log(`setup.vue - isAnonymous = ${isAnonymous}`)
+  // console.log(`setup.vue - createdAt = ${createdAt}`)
+  // console.log(`setup.vue - phoneNumber = ${phoneNumber}`)
+  // console.log(`setup.vue - photoURL = ${photoURL}`)
+  // console.log(`setup.vue - providerId = ${providerId}`)
+  // console.log(`setup.vue - tenantId = ${tenantId}`)
 
+  console.log(`---> setup.vue pageload : userInfo.user_id is ${JSON.stringify(userInfo.user_id)}, hence userInfo.user_id == "" is the boolean: ${userInfo.user_id == ""}`)
 
-  console.log(`setup.vue - uid = ${uid}`)
-  console.log(`setup.vue - email = ${email}`)
-  console.log(`setup.vue - displayName = ${displayName}`)
-  console.log(`setup.vue - emailVerified = ${emailVerified}`)
-  console.log(`setup.vue - isAnonymous = ${isAnonymous}`)
-  console.log(`setup.vue - createdAt = ${createdAt}`)
-  console.log(`setup.vue - phoneNumber = ${phoneNumber}`)
-  console.log(`setup.vue - photoURL = ${photoURL}`)
-  console.log(`setup.vue - providerId = ${providerId}`)
-  console.log(`setup.vue - tenantId = ${tenantId}`)
+  userInfo.user_id = (userInfo.user_id == "") ? uid : userInfo.user_id 
+  userInfo.email = (userInfo.email == "") ? email : userInfo.email
+  userInfo.displayName = (userInfo.displayName == "") ? displayName : userInfo.displayName
+  userInfo.emailVerified = (userInfo.emailVerified == "") ? emailVerified : userInfo.emailVerified
+  userInfo.isAnonymous = (userInfo.isAnonymous == "") ? isAnonymous : userInfo.isAnonymous
+  userInfo.createdAt = (userInfo.createdAt == "") ? createdAt : userInfo.createdAt
+  userInfo.lastLoginAt = (userInfo.lastLoginAt == "") ? lastLoginAt : userInfo.lastLoginAt
+  userInfo.phoneNumber = (userInfo.phoneNumber == "") ? phoneNumber : userInfo.phoneNumber
+  userInfo.photoURL = (userInfo.photoURL == "") ? randomUserImage : userInfo.photoURL
+  userInfo.providerId = (userInfo.providerId == "") ? providerId : userInfo.providerId
+  userInfo.tenantId = (userInfo.tenantId == "") ? tenantId : userInfo.tenantId
 
+  console.log(`---> setup.vue pageload added from useFirebaseUser : userInfo is ${JSON.stringify(userInfo, null, 2)}`)
 
-  userInfo.user_id = uid
-  userInfo.email = email
-  userInfo.displayName = displayName
-  userInfo.emailVerified = emailVerified
-  userInfo.isAnonymous = isAnonymous
-  userInfo.createdAt = createdAt
-  userInfo.lastLoginAt = lastLoginAt
-  userInfo.phoneNumber = phoneNumber
-  userInfo.photoURL = photoURL
-  userInfo.providerId = providerId
-  userInfo.tenantId = tenantId
+  // TODO Add condition so that addFirestore user only triggers automatically on page load when user has not been updated already
 
+  const submitUserToFireStore = async (uInfo) => {
+      const result = await addFirestoreUser("users", uInfo);
+      console.log(`setup.vue -- submitUserToFireStore() addFirestoreUser("users", uInfo) -- result is :${JSON.stringify(result, null, 4)}`)
+      // const response = await getFirestoreData("users");
+      return result.data
+  };
 
-  console.log(firebaseUser.value)
+  submitUserToFireStore(userInfo);
+
+  // const testdoc = {
+  //   user_id: userInfo.user_id,
+  //   displayName: "HAHAHAHA"
+  // }
+  // updateFirestoreDocument("users", testdoc)
 
 })
 

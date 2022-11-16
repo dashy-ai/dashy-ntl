@@ -8,11 +8,15 @@ import {
   query,
   where,
   setDoc,
+  updateDoc,
   collectionGroup,
   Timestamp,
 } from "firebase/firestore";
 
 import { firestoreDb } from "./firebase";
+
+
+// Query all documents in a collection
 
 export const queryByCollection = async (col: string) => {
   // @ts-ignore
@@ -27,13 +31,21 @@ export const queryByCollection = async (col: string) => {
       id: doc.id,
     };
   });
-  console.log(`------ docs : ${JSON.stringify(docs, null, 4)}`)
+  // console.log(`------ docs : ${JSON.stringify(docs, null, 4)}`)
   return docs;
 };
+
+
+// Add data to a document? Adds a new document if the document doesn's exist.
+// Don't know if there's an ID that can be used as reference?
 
 export const set = async (col: string, document: Object) => {
   await setDoc(doc(collection(firestoreDb, col)), document, { merge: true });
 };
+
+
+
+// Add a new document, justs send in an object. It will get an new random id.
 
 export const add = async (col: string, document: Object) => {
   // @ts-ignore
@@ -44,6 +56,10 @@ export const add = async (col: string, document: Object) => {
   return docRef;
 };
 
+
+
+// Add a new user, use collection, object, document ID = userID.
+
 export const addUser = async (col, document, id) => {
   // @ts-ignore
   const colDocRef = doc(firestoreDb, col, id);
@@ -52,6 +68,24 @@ export const addUser = async (col, document, id) => {
 
   return docRef;
 };
+
+
+// Update a document, use collection, object, document ID (if it's a user, that's the userID)
+// Document doesn't have to be complete, can include just the fields that should be updatet for example
+// {
+//     "age": 13,
+//     "favorite color": "Red"
+// }
+
+export const update = async (col, document, id) => {
+  // @ts-ignore
+  const colDocRef = doc(firestoreDb, col, id);
+  const docRef = await updateDoc(colDocRef, document);
+  return docRef;
+};
+
+
+// Delete a document, takes the collection and the document ID.
 
 export const del = async (col, id) => {
   const docRef = doc(firestoreDb, col, id);

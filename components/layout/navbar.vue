@@ -9,7 +9,6 @@ const setColorTheme = (newTheme: Theme) => {
 console.log('------ APP ------')
 const firebaseUser = useFirebaseUser();
 
-
 const credentials = ref()
 const signInForm = ref()
 const signUpForm = ref()
@@ -110,7 +109,11 @@ onMounted(async () => {
     <div class="bg-transparent w-screen xl:px-20 md:px-16">
       <div class="flex justify-between items-center py-5 md:py-6 px-6 md:justify-start md:space-x-10">
         <div class="logo-container z-10 w-52">
-          <nuxt-link to="/" tag="div">
+          <nuxt-link v-if="!firebaseUser" to="/" tag="div">
+            <img v-if="$colorMode.value == 'dark'" class="w-[170px] md:w-[128px]" src="/img/dashy-white.png" />
+            <img v-if="$colorMode.value == 'light'" class="w-[170px] md:w-[128px]" src="/img/dashy-black.png" />
+          </nuxt-link>
+          <nuxt-link v-if="firebaseUser" to="/" tag="div">
             <img v-if="$colorMode.value == 'dark'" class="hidden w-[170px] md:w-[128px]" src="/img/dashy-white.png" />
             <img v-if="$colorMode.value == 'light'" class="hidden md:logo" src="/img/dashy-black.png" />
             <img v-if="$colorMode.value == 'dark'" class="object-cover w-20 h-20 md:hidden" src="/img/dashy-white-logo.png" />
@@ -131,7 +134,7 @@ onMounted(async () => {
           </button>
 
           <button v-if="!firebaseUser" @click="toggleSignIn()"
-            class="hidden font-['Grand-Slang'] md:font-['Ampersand'] pr-5 italic text-[25px] translate-x-[4px] md:translate-x-[0px] h-14 hover:bg-neutral-500 whitespace-nowrap md:inline-flex items-center justify-center md:px-4 py-2 border border-transparent rounded-full md:font-medium text-neutral-700 hover:text-gray-500 hover:bg-opacity-10">
+            class="hidden h-14 ml-6 whitespace-nowrap md:inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-full shadow-sm font-small text-gray-300 hover:text-gray-500 dark:bg-neutral-900 bg-black hover:bg-grey-500">
             Sign in
           </button>
 
@@ -141,9 +144,17 @@ onMounted(async () => {
           </button>
  
           <button v-if="firebaseUser" @click="signOut"
-              class="hidden z-20 test2 h-14 ml-8 whitespace-nowrap md:inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-full shadow-sm font-small text-gray-300 hover:text-gray-500 dark:bg-neutral-900 bg-black hover:bg-grey-500">
+              class="z-20 test2 h-14 ml-8 whitespace-nowrap md:inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-full shadow-sm font-small text-gray-300 hover:text-gray-500 dark:bg-neutral-900 bg-black hover:bg-grey-500">
               Sign Out
           </button>
+          <NuxtLink to="setup"
+              class="z-20 test2 h-14 ml-8 whitespace-nowrap md:inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-full shadow-sm font-small text-gray-300 hover:text-gray-500 dark:bg-neutral-900 bg-black hover:bg-grey-500">
+              Secret page
+          </NuxtLink>
+          <NuxtLink to="/"
+              class="z-20 test2 h-14 ml-8 whitespace-nowrap md:inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-full shadow-sm font-small text-gray-300 hover:text-gray-500 dark:bg-neutral-900 bg-black hover:bg-grey-500">
+              Home
+          </NuxtLink>
           <button v-if="firebaseUser"
             class="hidden z-10 h-14 ml-6 whitespace-nowrap md:inline-flex items-center justify-end px-4 py-2 border border-transparent rounded-full shadow-sm font-small text-gray-300 hover:text-gray-500 dark:bg-neutral-900 bg-black hover:bg-grey-500">
              {{ firebaseUser.email }} 

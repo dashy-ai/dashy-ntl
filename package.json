@@ -17,6 +17,7 @@
     "nuxt": "3.0.0-rc.10"
   },
   "dependencies": {
+    "@pinia/nuxt": "^0.4.3",
     "firebase": "^9.10.0"
   }
 }

@@ -34,7 +34,7 @@ export const addFirestoreUser = async (col: string, doc: {}) => {
 
     const object = doc
     console.log(`addFirestoreUser recieves col : ${col}, and doc ${JSON.stringify(doc, null, 4)}`)
-
+    // @ts-ignore
     const user_id = doc.user_id
     console.log(`addFirestoreUser : const user_id : ${JSON.stringify(user_id, null, 4)}`)
 
@@ -52,8 +52,31 @@ export const addFirestoreUser = async (col: string, doc: {}) => {
   }
 };
 
+export const updateFirestoreDocument = async (col: string, doc: {}) => {
+  try {
+
+    console.log(`updateFirestoreDocument recieves col : ${col}, and doc ${JSON.stringify(doc, null, 4)}`)
+    // @ts-ignore
+    const user_id = doc.user_id
+    console.log(`updateFirestoreDocument : const user_id : ${JSON.stringify(user_id, null, 4)}`)
+    // @ts-ignore
+    const result = await $fetch(endpoints.firestore.update(col, user_id), {
+      method: "POST",
+      body: doc,
+    });
+
+    console.log(`addFirestoreUser() fetch addUser endpoint with: col ${col}, and user_id ${user_id}`)
+
+    return result;
+
+  } catch (error) {
+    console.log(error.message);
+  }
+};
+
 export const deleteFirestoreData = async (col: string, id: string) => {
   try {
+    // @ts-ignore
     const { result } = await $fetch(endpoints.firestore.delete(col, id));
 
     return result;

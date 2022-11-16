@@ -1,6 +1,5 @@
 <script lang="ts" setup>
 
-console.log("from index.vue");
 const firebaseUser = useFirebaseUser();
 
 // const pdata = ref()
@@ -13,7 +12,7 @@ const { data, pending, error } = await useLazyAsyncData("projects", () =>
   $fetch('/api/firestore/query?col=projects')
 );
 pdata.value = data
-console.log(`index.vue - data: ${JSON.stringify(data.value, null, 3)}`)
+// console.log(`index.vue - data: ${JSON.stringify(data.value, null, 3)}`)
 
 
 onMounted( () => {

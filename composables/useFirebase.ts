@@ -59,8 +59,10 @@ export const signInUser = async (email, password) => {
 export const initUser = async () => {
   const auth = getAuth();
   const firebaseUser = useFirebaseUser();
+  // @ts-ignore
   firebaseUser.value = auth.currentUser;
   console.log('useFirebase.ts (initUser) const firebaseUser = useFirebaseUser() has :', firebaseUser)
+
 
   onAuthStateChanged(auth, (user) => {
     if (user) {
@@ -68,11 +70,11 @@ export const initUser = async () => {
       // https://firebase.google.com/docs/reference/js/firebase.User
       const uid = user.uid;
       console.log(`useFirebase.ts (initUser - onAuthStateChanged) Auth changed: User is signed in. uid = ${user.uid}`)
-
     } else {
       // If signed out
       console.log(`useFirebase.ts (initUser - onAuthStateChanged) Auth changed: User is signed out. uid = ${user}`)
     }
+    // @ts-ignore
     firebaseUser.value = user;
     console.log(`useFirebase.ts (initUser - onAuthStateChanged) Auth changed: User is either signed out or in. sets firebaseUser.value user, and is now : ${firebaseUser.value}`)
   });
@@ -84,3 +86,4 @@ export const signOutUser = async () => {
   console.log('Signed Out:', result)
   return result;
 };
+

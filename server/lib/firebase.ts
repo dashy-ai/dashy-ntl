@@ -16,6 +16,3 @@ const firebaseConfig = {
 export const firebaseApp = initializeApp(firebaseConfig);
 
 export const firestoreDb = getFirestore(firebaseApp);
-
-
-console.log(`firebaseApp from serverside : ${JSON.stringify(firebaseApp.options.projectId)}`)
