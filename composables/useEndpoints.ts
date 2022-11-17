@@ -7,4 +7,7 @@ export const endpoints = {
     update: (col: string, id: string) => `/api/firestore/update?col=${col}&id=${id}`,
     getDoc: (col: string, id: string) => `/api/firestore/getDoc?col=${col}&id=${id}`,
   },
+  cookie: {
+    me: (name?: string, value?: string) => `/api/cookie/me?name=${name}&value=${value}`,
+  },
 };
