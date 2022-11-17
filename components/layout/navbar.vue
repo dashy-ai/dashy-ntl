@@ -25,23 +25,23 @@ function convertUserInitials() {
 }
 function toggleSignIn() {
   signInForm.value = !signInForm.value;
-  console.log(signInForm.value);
+  console.log(`navbar.vue -- signInForm.value = ${signInForm.value}`);
 };
 
 function toggleSignUp() {
   signUpForm.value = !signUpForm.value;
-  console.log(signUpForm.value);
+  console.log(`navbar.vue -- signUpForm.valuee = ${signUpForm.value}`);
 };
 
 function toggleUserMenu() {
   userMenu.value = !userMenu.value;
-  console.log(userMenu.value);
+  console.log(`navbar.vue -- userMenu.value = ${userMenu.value}`);
 };
 
 const signUp = async () => {
   credentials.value = await createUser(email.value, password.value)
   toggleSignUp()
-  console.log('Navbar SignUp : Credentials:', credentials)
+  console.log(`Navbar SignUp : Credentials: ${credentials.value}`)
   console.log(`Navbar SignUp: passed ${email.value}, ${password.value} to createUser`)
   const router = useRouter()
   console.log(`Navbar SignUp : recieved credentials.value.user.uid = ${JSON.stringify(credentials.value.user.uid, null, 4)}`)
