@@ -205,7 +205,7 @@ const submitStep1 = async (uInfo) => {
   const fUser = fuserdata.result
   console.log(`////////////////// firestoreUser is ${JSON.stringify(fUser, null, 3)}`)
   const fUserUpToDate = (fUser.name !== "") ? "true" : "false"
-  console.log(`////////////////// fsUserUserUpToDate is : ${fsUserUpToDate}`)
+  console.log(`////////////////// fsUserUserUpToDate is : ${fUserUpToDate}`)
 
 
   const result = await addFirestoreUser("users", uInfo);
