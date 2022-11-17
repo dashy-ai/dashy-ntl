@@ -36,6 +36,21 @@ export const queryByCollection = async (col: string) => {
 };
 
 
+export const getDocument = async (col: string, id: string) => {
+  const docRef = doc(firestoreDb, col, id);
+  const docSnap = await getDoc(docRef);
+
+  if (docSnap.exists()) {
+    console.log("// firestore.ts - getDocument() -- docSnap.data():", docSnap.data());
+    return docSnap.data();
+  } else {
+    // doc.data() will be undefined in this case
+    console.log("// firestore.ts - getDocument() -- No such document!");
+  }
+}
+
+
+
 // Add data to a document? Adds a new document if the document doesn's exist.
 // Don't know if there's an ID that can be used as reference?
 

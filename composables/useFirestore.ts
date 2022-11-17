@@ -13,6 +13,19 @@ export const getFirestoreData = async (col: string) => {
   }
 };
 
+export const getFirestoreDoc = async (col: string, id: string) => {
+  try {
+
+    console.log(`//////// takes ${col} and ${id}`)
+    const result = await $fetch(endpoints.firestore.getDoc(col, id));
+    return result;
+
+  } catch (error) {
+    console.log(error.message);
+    return [];
+  }
+};
+
 export const addFirestoreData = async (col: string, doc: {}) => {
   try {
 

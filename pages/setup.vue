@@ -154,6 +154,8 @@ definePageMeta({
   middleware: ['auth']
 })
 
+ 
+
 // const name = ref('')
 // const company = ref('')
 // const team = ref('')
@@ -189,26 +191,33 @@ const projectInfo = reactive({
 });
 
 // TODO : Fix an update function, and such
-// const updateFirestoreUser = async (userInfo) => {
+//   const updateFirestoreUser = async (userInfo) => {
 //   const result = await updateFirestoreDocument("users", userInfo);
-//   // Parses UID from user object passed and calls api where updateDoc is called
+//   Parses UID from user object passed and calls api where updateDoc is called
 //   console.log(`setup.vue -- updateFirestoreUser() updateFirestoreDocument("users", uInfo) -- result is :${JSON.stringify(result, null, 4)}`)
-//   // document.getElementById("form").reset();
-
-//   // const response = await getFirestoreData("users");
+//   document.getElementById("form").reset();
+//   const response = await getFirestoreData("users");
 // };
 
 const submitStep1 = async (uInfo) => {
+
+  const fuserdata = await getFirestoreDoc("users", uInfo.user_id)
+  const fUser = fuserdata.result
+  console.log(`////////////////// firestoreUser is ${JSON.stringify(fUser, null, 3)}`)
+  const fUserUpToDate = (fUser.name !== "") ? "true" : "false"
+  console.log(`////////////////// fsUserUserUpToDate is : ${fsUserUpToDate}`)
+
+
   const result = await addFirestoreUser("users", uInfo);
-  console.log(`setup.vue -- submitStep1() addFirestoreUser("users", uInfo) -- result is :${JSON.stringify(result, null, 4)}`)
+  // console.log(`setup.vue -- submitStep1() addFirestoreUser("users", uInfo) -- result is :${JSON.stringify(result, null, 4)}`)
   // document.getElementById("form").reset();
-  console.log(`setup.vue -- submitStep1() addFirestoreUser("users", uInfo) -- object is ::${JSON.stringify(uInfo, null, 4)}`)
-  // const response = await getFirestoreData("users");
+  // console.log(`setup.vue -- submitStep1() addFirestoreUser("users", uInfo) -- object is ::${JSON.stringify(uInfo, null, 4)}`)
+  
   // console.log(`response is :${JSON.stringify(response, null, 4)}`)
 };
 
 const goToStep2 = () => {
-  console.log(`setup.vue -- goToStep2 clicked :submitStep1(userInfo) fired`)
+  // console.log(`setup.vue -- goToStep2 clicked :submitStep1(userInfo) fired`)
   submitStep1(userInfo);
   step1.value = false
   step2.value = true
@@ -284,7 +293,9 @@ onMounted(async () => {
   // console.log(`setup.vue - providerId = ${providerId}`)
   // console.log(`setup.vue - tenantId = ${tenantId}`)
 
-  console.log(`---> setup.vue pageload : userInfo.user_id is ${JSON.stringify(userInfo.user_id)}, hence userInfo.user_id == "" is the boolean: ${userInfo.user_id == ""}`)
+
+
+  // console.log(`---> setup.vue pageload : userInfo.user_id is ${JSON.stringify(userInfo.user_id)}, hence userInfo.user_id == "" is the boolean: ${userInfo.user_id == ""}`)
 
   userInfo.user_id = (userInfo.user_id == "") ? uid : userInfo.user_id 
   userInfo.email = (userInfo.email == "") ? email : userInfo.email
@@ -298,25 +309,36 @@ onMounted(async () => {
   userInfo.providerId = (userInfo.providerId == "") ? providerId : userInfo.providerId
   userInfo.tenantId = (userInfo.tenantId == "") ? tenantId : userInfo.tenantId
 
-  console.log(`---> setup.vue pageload added from useFirebaseUser : userInfo is ${JSON.stringify(userInfo, null, 2)}`)
+  // console.log(`---> setup.vue pageload added from useFirebaseUser : userInfo is ${JSON.stringify(userInfo, null, 2)}`)
 
   // TODO Add condition so that addFirestore user only triggers automatically on page load when user has not been updated already
 
   const submitUserToFireStore = async (uInfo) => {
       const result = await addFirestoreUser("users", uInfo);
-      console.log(`setup.vue -- submitUserToFireStore() addFirestoreUser("users", uInfo) -- result is :${JSON.stringify(result, null, 4)}`)
+      // console.log(`setup.vue -- submitUserToFireStore() addFirestoreUser("users", uInfo) -- result.data is :${JSON.stringify(result.data, null, 4)}`)
       // const response = await getFirestoreData("users");
       return result.data
   };
 
   submitUserToFireStore(userInfo);
 
+  const currentUserState = useState("userObject");
+  currentUserState.value = userInfo;
+
+  const fsuserdata = await getFirestoreDoc("users", uid)
+ const fsUser = fsuserdata.result
+ console.log(`////////////////// firestoreUser is ${JSON.stringify(fsUser, null, 3)}`)
+ const fsUserUserUpToDate = (fsUser.name !== "") ? "true" : "false"
+ console.log(`////////////////// fsUserUserUpToDate is : ${fsUserUserUpToDate}`)
+
+  // console.log(`____ setup.vue - currentUserState ${JSON.stringify(currentUserState, null, 2)}`)
   // const testdoc = {
   //   user_id: userInfo.user_id,
   //   displayName: "HAHAHAHA"
   // }
   // updateFirestoreDocument("users", testdoc)
 
+ 
 })
 
 </script>
