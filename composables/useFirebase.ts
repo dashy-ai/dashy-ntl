@@ -63,20 +63,28 @@ export const initUser = async () => {
   firebaseUser.value = auth.currentUser;
   console.log('useFirebase.ts (initUser) const firebaseUser = useFirebaseUser() has :', firebaseUser)
 
+  // Cookie
+
+  const userCookie = useCookie('userCookie');
+
+
 
   onAuthStateChanged(auth, (user) => {
     if (user) {
       // User is signed in, see docs for a list of available properties
       // https://firebase.google.com/docs/reference/js/firebase.User
       const uid = user.uid;
-      console.log(`useFirebase.ts (initUser - onAuthStateChanged) Auth changed: User is signed in. uid = ${user.uid}`)
+      console.log(`useFirebase.ts -- Auth changed: User is signed in. uid = ${JSON.stringify(user, null, 2)}`)
     } else {
       // If signed out
-      console.log(`useFirebase.ts (initUser - onAuthStateChanged) Auth changed: User is signed out. uid = ${user}`)
+      console.log(`useFirebase.ts -- Auth changed: User is signed out. uid = ${user.uid}`)
     }
     // @ts-ignore
     firebaseUser.value = user;
-    console.log(`useFirebase.ts (initUser - onAuthStateChanged) Auth changed: User is either signed out or in. sets firebaseUser.value user, and is now : ${firebaseUser.value}`)
+    console.log(`useFirebase.ts -- Auth changed: User is either signed out or in. sets firebaseUser.value user, and is now : ${firebaseUser.value}`)
+    // @ts-ignore
+    userCookie.value = user;
+    console.log(`useFirebase.ts -- Auth changed: User is either signed out or in. userCookie.value is user : ${JSON.stringify(userCookie.value, null, 2)} `)
   });
 };
 
