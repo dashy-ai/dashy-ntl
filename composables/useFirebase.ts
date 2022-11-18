@@ -62,12 +62,8 @@ export const initUser = async () => {
   // @ts-ignore
   firebaseUser.value = auth.currentUser;
   console.log('useFirebase.ts -- initUser')
-
   // Cookie
-
   const userCookie = useCookie('userCookie');
-
-
 
   onAuthStateChanged(auth, (user) => {
     if (user) {
@@ -84,6 +80,12 @@ export const initUser = async () => {
     // @ts-ignore
     userCookie.value = user;
     console.log(`useFirebase.ts -- User is either signed out or in. userCookie.value : ${JSON.stringify(userCookie.value, null, 2)} `)
+
+    $fetch('/api/auth/auth', {
+      method: 'POST',
+      body: { user }
+    });
+
   });
 };
 
