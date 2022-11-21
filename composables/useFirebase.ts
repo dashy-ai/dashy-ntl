@@ -70,16 +70,16 @@ export const initUser = async () => {
       // User is signed in, see docs for a list of available properties
       // https://firebase.google.com/docs/reference/js/firebase.User
       console.log(`useFirebase.ts -- User is signed in`)
+      userCookie.value = user.uid;
     } else {
       // If signed out
       console.log(`useFirebase.ts -- User is signed out`)
+      userCookie.value = null;
     }
     // @ts-ignore
     firebaseUser.value = user;
     console.log(`useFirebase.ts -- User is either signed out or in`)
     // @ts-ignore
-    userCookie.value = user;
-    console.log(`useFirebase.ts -- User is either signed out or in. userCookie.value : ${JSON.stringify(userCookie.value, null, 2)} `)
 
     $fetch('/api/auth/auth', {
       method: 'POST',

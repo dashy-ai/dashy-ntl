@@ -4,7 +4,7 @@ export default defineEventHandler(async (event) => {
   try {
     const body = await readBody(event.req)
     const uid = body.user.uid
-    console.log(`from auth api: request body = ${JSON.stringify(uid, null, 2)}`)
+    console.log(`from auth api: body.user.uid = ${JSON.stringify(uid, null, 2)}`)
     return { result: uid };
   } catch (error) {
     return { error: error.message }

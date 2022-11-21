@@ -12,7 +12,7 @@
           Account Setup: Step 1/3
         </div>
         <div class="md:mt-64 md:ml-24 md:absolute text-white0 text-3xl">
-          Let's get to know you!
+          Let's get to know you! <br />
         </div>
       </div>
 
@@ -150,18 +150,13 @@
 
 <script setup>
 
+
 definePageMeta({
   middleware: ['auth']
 })
 
- 
+const userIdFromCookie = useCookie('userCookie');
 
-// const name = ref('')
-// const company = ref('')
-// const team = ref('')
-
-// testuser = getCurrentUser()
-// console.log (testuser)
 
 const step1 = ref(true)
 const step2 = ref()
@@ -190,34 +185,18 @@ const projectInfo = reactive({
   team: userInfo.team,
 });
 
-// TODO : Fix an update function, and such
-//   const updateFirestoreUser = async (userInfo) => {
-//   const result = await updateFirestoreDocument("users", userInfo);
-//   Parses UID from user object passed and calls api where updateDoc is called
-//   console.log(`setup.vue -- updateFirestoreUser() updateFirestoreDocument("users", uInfo) -- result is :${JSON.stringify(result, null, 4)}`)
-//   document.getElementById("form").reset();
-//   const response = await getFirestoreData("users");
-// };
 
 const submitStep1 = async (uInfo) => {
 
   const fuserdata = await getFirestoreDoc("users", uInfo.user_id)
   const fUser = fuserdata.result
-  console.log(`////////////////// firestoreUser is ${JSON.stringify(fUser, null, 3)}`)
   const fUserUpToDate = (fUser.name !== "") ? "true" : "false"
-  console.log(`////////////////// fsUserUserUpToDate is : ${fUserUpToDate}`)
-
-
   const result = await addFirestoreUser("users", uInfo);
-  // console.log(`setup.vue -- submitStep1() addFirestoreUser("users", uInfo) -- result is :${JSON.stringify(result, null, 4)}`)
-  // document.getElementById("form").reset();
-  // console.log(`setup.vue -- submitStep1() addFirestoreUser("users", uInfo) -- object is ::${JSON.stringify(uInfo, null, 4)}`)
-  
-  // console.log(`response is :${JSON.stringify(response, null, 4)}`)
+
 };
 
 const goToStep2 = () => {
-  // console.log(`setup.vue -- goToStep2 clicked :submitStep1(userInfo) fired`)
+
   submitStep1(userInfo);
   step1.value = false
   step2.value = true
@@ -237,106 +216,48 @@ const goToStep1 = () => {
 }
 
 
-const catAvatars = {
-  cat01: '/img/users/cat-01.png',
-  cat02: '/img/users/cat-02.png',
-  cat03 : '/img/users/cat-03.png',
-  cat04 : '/img/users/cat-04.png',
-  cat05 : '/img/users/cat-05.png',
-  cat06 : '/img/users/cat-06.png',
-  cat07 : '/img/users/cat-07.png',
-  cat08 : '/img/users/cat-08.png',
-  cat09 : '/img/users/cat-09.png',
-  cat10 : '/img/users/cat-10.png',
-  cat11 : '/img/users/cat-11.png',
-  cat12 : '/img/users/cat-12.png',
-  cat13 : '/img/users/cat-13.png',
-  cat14 : '/img/users/cat-14.png',
-  cat15 : '/img/users/cat-15.png',
-  cat16 : '/img/users/cat-16.png',
-}
-
-const randomizeUserImage = function (obj) {
-    var keys = Object.keys(obj);
-    return obj[keys[ keys.length * Math.random() << 0]];
-};
-
-const randomUserImage = randomizeUserImage(catAvatars)
-
-
-
-
 
 onMounted(async () => {
 
-  const firebaseUser = useFirebaseUser();
-  const uid = firebaseUser.value.uid
-  const email = firebaseUser.value.email
-  const displayName = firebaseUser.value.displayName
-  const emailVerified = firebaseUser.value.emailVerified
-  const isAnonymous = firebaseUser.value.isAnonymous
-  const createdAt = firebaseUser.value.metadata.createdAt
-  const lastLoginAt = firebaseUser.value.metadata.lastLoginAt
-  const phoneNumber = firebaseUser.value.phoneNumber
-  const photoURL = firebaseUser.value.photoURL
-  const providerId = firebaseUser.value.providerId
-  const tenantId = firebaseUser.value.tenantId
+  const userIdFromCookie = useCookie('userCookie');
+  const uidstring = userIdFromCookie.value.toString()
 
-  // console.log(`setup.vue - uid = ${uid}`)
-  // console.log(`setup.vue - email = ${email}`)
-  // console.log(`setup.vue - displayName = ${displayName}`)
-  // console.log(`setup.vue - emailVerified = ${emailVerified}`)
-  // console.log(`setup.vue - isAnonymous = ${isAnonymous}`)
-  // console.log(`setup.vue - createdAt = ${createdAt}`)
-  // console.log(`setup.vue - phoneNumber = ${phoneNumber}`)
-  // console.log(`setup.vue - photoURL = ${photoURL}`)
-  // console.log(`setup.vue - providerId = ${providerId}`)
-  // console.log(`setup.vue - tenantId = ${tenantId}`)
+  const { $auth } = useNuxtApp()
+  const userId = $auth?.currentUser?.uid
 
 
+  const { result } = await getFirestoreDoc("users", uidstring)
+  const firebaseUser = result
 
-  // console.log(`---> setup.vue pageload : userInfo.user_id is ${JSON.stringify(userInfo.user_id)}, hence userInfo.user_id == "" is the boolean: ${userInfo.user_id == ""}`)
+  const uid = firebaseUser.user_id
+  const email = firebaseUser.email
+  const displayName = firebaseUser.displayName
+  const emailVerified = firebaseUser.emailVerified
+  const isAnonymous = firebaseUser.isAnonymous
+  const createdAt = firebaseUser.createdAt
+  const lastLoginAt = firebaseUser.lastLoginAt
+  const phoneNumber = firebaseUser.phoneNumber
+  const photoURL = firebaseUser.photoURL
+  const providerId = firebaseUser.providerId
+  const tenantId = firebaseUser.tenantId
+  const name = firebaseUser.name
+  const team = firebaseUser.team
+  const company = firebaseUser.company
 
   userInfo.user_id = (userInfo.user_id == "") ? uid : userInfo.user_id 
   userInfo.email = (userInfo.email == "") ? email : userInfo.email
+  userInfo.name = (userInfo.name == "") ? name : userInfo.name
+  userInfo.company = (userInfo.company == "") ? company : userInfo.company
+  userInfo.team = (userInfo.team == "") ? team : userInfo.team
   userInfo.displayName = (userInfo.displayName == "") ? displayName : userInfo.displayName
   userInfo.emailVerified = (userInfo.emailVerified == "") ? emailVerified : userInfo.emailVerified
   userInfo.isAnonymous = (userInfo.isAnonymous == "") ? isAnonymous : userInfo.isAnonymous
   userInfo.createdAt = (userInfo.createdAt == "") ? createdAt : userInfo.createdAt
   userInfo.lastLoginAt = (userInfo.lastLoginAt == "") ? lastLoginAt : userInfo.lastLoginAt
   userInfo.phoneNumber = (userInfo.phoneNumber == "") ? phoneNumber : userInfo.phoneNumber
-  userInfo.photoURL = (userInfo.photoURL == "") ? randomUserImage : userInfo.photoURL
+  userInfo.photoURL = (userInfo.photoURL == "") ? photoURL : userInfo.photoURL
   userInfo.providerId = (userInfo.providerId == "") ? providerId : userInfo.providerId
   userInfo.tenantId = (userInfo.tenantId == "") ? tenantId : userInfo.tenantId
-
-  // console.log(`---> setup.vue pageload added from useFirebaseUser : userInfo is ${JSON.stringify(userInfo, null, 2)}`)
-
-  // TODO Add condition so that addFirestore user only triggers automatically on page load when user has not been updated already
-
-  const submitUserToFireStore = async (uInfo) => {
-      const result = await addFirestoreUser("users", uInfo);
-      // console.log(`setup.vue -- submitUserToFireStore() addFirestoreUser("users", uInfo) -- result.data is :${JSON.stringify(result.data, null, 4)}`)
-      // const response = await getFirestoreData("users");
-      return result.data
-  };
-
-  submitUserToFireStore(userInfo);
-
-  const currentUserState = useState("userObject");
-  currentUserState.value = userInfo;
-
-  const fsuserdata = await getFirestoreDoc("users", uid)
- const fsUser = fsuserdata.result
- console.log(`////////////////// firestoreUser is ${JSON.stringify(fsUser, null, 3)}`)
- const fsUserUserUpToDate = (fsUser.name !== "") ? "true" : "false"
- console.log(`////////////////// fsUserUserUpToDate is : ${fsUserUserUpToDate}`)
-
-  // console.log(`____ setup.vue - currentUserState ${JSON.stringify(currentUserState, null, 2)}`)
-  // const testdoc = {
-  //   user_id: userInfo.user_id,
-  //   displayName: "HAHAHAHA"
-  // }
-  // updateFirestoreDocument("users", testdoc)
 
  
 })

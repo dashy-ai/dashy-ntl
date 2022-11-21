@@ -9,42 +9,42 @@ const setColorTheme = (newTheme: Theme) => {
 console.log('------ APP ------')
 const firebaseUser = useFirebaseUser();
 
+// refs
 const credentials = ref()
 const signInForm = ref()
 const signUpForm = ref()
 const userMenu = ref()
 const email = ref('')
 const password = ref('')
-const userInitials = ref()
+const randomUserImage = ref()
+// const userInitials = ref()
 
-function convertUserInitials() {
-  const emailadress = firebaseUser.email
-  const converted = emailadress.substring(0, 1)
-  return converted
+const userIdFromCookie = useCookie('userCookie');
+const uidstring = userIdFromCookie.value.toString()
 
-}
+
+// const { $auth } = useNuxtApp()
+// const userId = $auth?.currentUser?.uid
+
 function toggleSignIn() {
   signInForm.value = !signInForm.value;
-  console.log(`navbar.vue -- signInForm.value = ${signInForm.value}`);
 };
 
 function toggleSignUp() {
   signUpForm.value = !signUpForm.value;
-  console.log(`navbar.vue -- signUpForm.valuee = ${signUpForm.value}`);
 };
 
 function toggleUserMenu() {
   userMenu.value = !userMenu.value;
-  console.log(`navbar.vue -- userMenu.value = ${userMenu.value}`);
 };
 
 const signUp = async () => {
   credentials.value = await createUser(email.value, password.value)
   toggleSignUp()
-  console.log(`Navbar SignUp : Credentials: ${credentials.value}`)
-  console.log(`Navbar SignUp: passed ${email.value}, ${password.value} to createUser`)
+  // TODO this creates user In Firestore without name, Then create user in firestore from setup will fire also once until name is added in setup step2. 
+  submitUserToFireStore(credentials.value.user);
   const router = useRouter()
-  console.log(`Navbar SignUp : recieved credentials.value.user.uid = ${JSON.stringify(credentials.value.user.uid, null, 4)}`)
+  const newUser = true
   if (credentials.value) {
     await router.push({ path: "/setup" });
   } 
@@ -53,22 +53,25 @@ const signUp = async () => {
 const mobileSignUp = async () => {
   credentials.value = await createUser(email.value, password.value)
   toggleSignIn()
-  console.log('Navbar SignUp : Credentials:', credentials)
-  console.log(`Navbar SignUp: passed ${email.value}, ${password.value} to createUser`)
+    // TODO this creates user In Firestore without name, Then create user in firestore from setup will fire also once until name is added in setup step2. 
+  submitUserToFireStore(credentials.value.user);
   const router = useRouter()
-  console.log(`Navbar SignUp : recieved credentials.value.user.uid = ${JSON.stringify(credentials.value.user.uid, null, 4)}`)
+  const newUser = true
   if (credentials.value) {
     await router.push({ path: "/setup" });
   } 
 }
 
 const signIn = async () => {
+
   credentials.value = await signInUser(email.value, password.value)
   toggleSignIn()
-  console.log('SignIn : Credentials:', credentials)
-  console.log(`SignIn: passed ${email.value},${password.value}  `)
   const router = useRouter()
-  console.log(`credentials.value is = ${credentials.value}`)
+  const newUser = false
+  const { result } = await getFirestoreDoc("users", credentials.value.user.uid)
+  const fs_user = result
+  const fs_userPhotoUrl = fs_user.photoURL
+  randomUserImage.value = (fs_user.photoURL !== undefined) ? fs_user.photoURL : randomAvatar 
   if (credentials.value) {
     await router.push({ path: "/setup" });
   } 
@@ -76,28 +79,87 @@ const signIn = async () => {
 
 const signOut = async () => {
   credentials.value = await signOutUser()
+  toggleUserMenu()
   const router = useRouter()
   if (!credentials.value) {
     await router.push({ path: "/" });
   } 
 }
 
+const catAvatars = {
+  cat01: '/img/users/cat-01.png',
+  cat02: '/img/users/cat-02.png',
+  cat03 : '/img/users/cat-03.png',
+  cat04 : '/img/users/cat-04.png',
+  cat05 : '/img/users/cat-05.png',
+  cat06 : '/img/users/cat-06.png',
+  cat07 : '/img/users/cat-07.png',
+  cat08 : '/img/users/cat-08.png',
+  cat09 : '/img/users/cat-09.png',
+  cat10 : '/img/users/cat-10.png',
+  cat11 : '/img/users/cat-11.png',
+  cat12 : '/img/users/cat-12.png',
+  cat13 : '/img/users/cat-13.png',
+  cat14 : '/img/users/cat-14.png',
+  cat15 : '/img/users/cat-15.png',
+  cat16 : '/img/users/cat-16.png',
+}
+
+const randomizeUserImage = function (obj) {
+    var keys = Object.keys(obj);
+    return obj[keys[ keys.length * Math.random() << 0]];
+};
+
+
+const randomAvatar = randomizeUserImage(catAvatars)
+
+
 
 onMounted(async () => {
-  // Register
 
-  // const email = 'dberlin@bannerflow.com'
-  // const password = '12345678'
-  // const credentials = await createUser(email, password)
-  // console.log('Credentials:', credentials)
-
-  // Sign In
+const userIdFromCookie = useCookie('userCookie');
+const uidstring = userIdFromCookie.value.toString()
 
 
+const getReloadUser = async () => {
+  const { result } = await getFirestoreDoc("users", uidstring)
+  const fs_user = result
+  randomUserImage.value = fs_user.photoURL
+  return fs_user
+}
 
-  // Sign Out
+if ( firebaseUser !== null ) {
+  getReloadUser() 
+}
+
+  const getUser = async () => {
+
+    const { result } = await getFirestoreDoc("users", userId)
+    const fs_user = result
+    if (fs_user == undefined) {
+      const fs_user = getReloadUser()
+
+    }
+    
+    randomUserImage.value = (fs_user.photoURL == undefined) ? randomAvatar : fs_user.photoURL
+    const randomCat = randomAvatar
+
+    const photoDoc = {
+          user_id: fs_user.user_id,
+          photoURL: randomUserImage.value
+     }
+
+    if (fs_user.photoURL == undefined) {
+        const result = await updateFirestoreDocument("users", photoDoc);
+    }
+    
+  } 
 
 
+  if (firebaseUser == !null) {
+    getUser()
+  }
+ 
 
 });
 
@@ -143,21 +205,23 @@ onMounted(async () => {
             Sign up
           </button>
  
-          <button v-if="firebaseUser" @click="signOut"
-              class="z-20 test2 h-14 ml-8 whitespace-nowrap md:inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-full shadow-sm font-small text-gray-300 hover:text-gray-500 dark:bg-neutral-900 bg-black hover:bg-grey-500">
-              Sign Out
-          </button>
+          
           <NuxtLink to="setup"
               class="z-20 test2 h-14 ml-8 whitespace-nowrap md:inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-full shadow-sm font-small text-gray-300 hover:text-gray-500 dark:bg-neutral-900 bg-black hover:bg-grey-500">
-              Secret page
+              <span class="bg-red-400">S page</span>
           </NuxtLink>
-          <NuxtLink to="/"
+          <!-- <NuxtLink to="/"
               class="z-20 test2 h-14 ml-8 whitespace-nowrap md:inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-full shadow-sm font-small text-gray-300 hover:text-gray-500 dark:bg-neutral-900 bg-black hover:bg-grey-500">
               Home
-          </NuxtLink>
-          <button v-if="firebaseUser"
+          </NuxtLink> -->
+          <!-- <button v-if="firebaseUser"
             class="hidden z-10 h-14 ml-6 whitespace-nowrap md:inline-flex items-center justify-end px-4 py-2 border border-transparent rounded-full shadow-sm font-small text-gray-300 hover:text-gray-500 dark:bg-neutral-900 bg-black hover:bg-grey-500">
-             {{ firebaseUser.email }} 
+             {{ randomUserImage }} 
+          </button> -->
+          <button v-if="firebaseUser" @click="toggleUserMenu()" class="z-30">
+            <img :src="randomUserImage"
+            class="z-30 rounded-full w-[54px] h-[54px]" 
+            />
           </button>
           <!-- @click="toggleUserMenu() -->
           <button v-if="firebaseUser" @click="toggleUserMenu()"
@@ -273,25 +337,21 @@ onMounted(async () => {
       </div>
 
       <div v-if="userMenu"
-        class="pt-20 z-0 absolute top-0 left-0 w-screen h-screen backdrop-blur-xl">
+        class="pt-20 z-20 absolute top-0 left-0 w-screen h-screen backdrop-blur-xl">
         <div class="w-screen h-screen flex justify-end">
-          <div class="p-20 grid grid-cols-3 grid-rows-4 gap-4 h-screen w-screen">
-
-            <div class="bg-transparent border-b-2 border-white ">test</div>
-            <div class="bg-white">test</div>
-            <div class="bg-white">test</div>
-
-            <div class="bg-white">test</div>
-            <div class="bg-white">test</div>
-            <div class="bg-white">test</div>
-
-            <div class="bg-white">test</div>
-            <div class="bg-white">test</div>
-            <div class="bg-white">test</div>
+          <div class="px-20 pt-10 grid grid-rows-4 gap-4 h-screen w-screen">
+            <div class="bg-transparent border-b-2 border-white flex justify-end">
+               <button v-if="firebaseUser" @click="signOut"
+               class="z-20 test2 h-14 ml-8 whitespace-nowrap md:inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-full shadow-sm font-small text-gray-300 hover:text-gray-500 dark:bg-neutral-900 bg-black hover:bg-grey-500">
+               Sign Out
+              </button>
+            </div>
+            <div class="bg-transparent border-b-2 border-white flex justify-end">test</div>
+            <div class="bg-transparent border-b-2 border-white flex justify-end"></div>
           </div>
         </div>
-          User Menu
       </div>
+
     </div>
   </div>
 </template>
