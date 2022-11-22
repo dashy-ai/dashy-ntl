@@ -62,27 +62,29 @@ const getReloadUser = async () => {
 
 function toggleSignIn() {
   signInForm.value = !signInForm.value;
+  console.log(`navbar.vue --> signInform is : ${signInForm.value}`)
 };
 
 function toggleSignUp() {
   signUpForm.value = !signUpForm.value;
+  console.log(`navbar.vue --> signUpform is : ${signUpForm.value}`)
 };
 
 function toggleUserMenu() {
   userMenu.value = !userMenu.value;
+  console.log(`navbar.vue --> userMenu is : ${userMenu.value}`)
 };
 
 const signUp = async () => {
   credentials.value = await createUser(email.value, password.value)
-  toggleSignUp()
-  // console.log(`navbar.vue --> SIGNUP --> createUser() --> credentials.value.user ${JSON.stringify(credentials.value.user, null, 2)}`)
-  // TODO this creates user In Firestore without name, Then create user in firestore from setup will fire also once until name is added in setup step2.
-  // console.log(`navbar.vue --> SIGNUP --> credentials.value.user.createdAt ${credentials.value.user.metadata.createdAt}`)
-  // console.log(`navbar.vue --> SIGNUP --> credentials.value.user.createdAt ${credentials.value.user.metadata.lastLoginAt}`)
-  const randomAvatar = randomizeUserImage(catAvatars)
+  // toggleSignUp()
+  signInForm.value = false
+  signUpForm.value = false
+  console.log(`navbar.vue --> signUpform is : ${signInForm.value}`)
+  console.log(`navbar.vue --> signUpform is : ${signUpForm.value}`)
 
+  const randomAvatar = randomizeUserImage(catAvatars)
   randomUserImage.value = randomAvatar
-  // TODO = Adding random avatar here too so hydration catches randomUserImage
 
   const firebaseUserDoc = {
     "user_id" : credentials.value.user.uid,
@@ -100,59 +102,6 @@ const signUp = async () => {
     "providerId" : credentials.value.user.providerId,
     "tenantId" : credentials.value.user.auth.tenantId,
   };
-
-  // console.log(`navbar.vue --> SIGNUP --> credentials.value.user.auth Object keys ${Object.keys(credentials.value.user.auth)}`)
-  // console.log(`navbar.vue --> SIGNUP --> credentials.value.user.metadata Object keys ${Object.keys(credentials.value.user.metadata)}`)
-  
-  //  ---- credentials.value.user Object ----
-
-  // providerId
-  // proactiveRefresh
-  // reloadUserInfo
-  // reloadListener
-  // uid
-  // auth
-        // app
-        // heartbeatServiceProvider
-        // config
-        // currentUser
-        // emulatorConfig
-        // operations
-        // authStateSubscription
-        // idTokenSubscription
-        // beforeStateQueue
-        // redirectUser
-        // isProactiveRefreshEnabled
-        // _canInitEmulator
-        // _isInitialized
-        // _deleted
-        // _initializationPromise
-        // _popupRedirectResolver
-        // _errorFactory
-        // lastNotifiedUid
-        // languageCode
-        // tenantId
-        // settings
-        // frameworks
-        // name
-        // clientVersion
-        // persistenceManager
-    // stsTokenManager
-    // accessToken
-    // displayName
-    // email
-    // emailVerified
-    // phoneNumber
-    // photoURL
-    // isAnonymous
-    // tenantId
-    // providerData
-    // metadata
-        // createdAt
-        // lastLoginAt
-        // lastSignInTime
-        // creationTime
-
 
     userDoc.user_id = credentials.value.user.uid
     userDoc.email = credentials.value.user.email
@@ -291,8 +240,8 @@ onMounted(async () => {
 <template>
   <!-- <div class="dark:transparent z-10 absolute top-0 w-screen"> -->
   <div class="z-20 absolute w-screen"> <!-- TODO: remved class nav-cont, since it's missing -->
-    <div class="bg-transparent w-screen">
-      <div class="flex justify-between items-center py-5 pl-7 pr-10">
+    <div class="bg-transparent w-screen md:pl-4">
+      <div class="flex justify-between items-center pt-3 md:py-5 pl-5 pr-9">
         <div class="logo-container z-10 w-52">
           <nuxt-link v-if="!firebaseUser" to="/" tag="div">
             <img v-if="$colorMode.value == 'dark'" class="w-[170px] md:w-[128px]" src="/img/dashy-white.png" />
@@ -301,17 +250,17 @@ onMounted(async () => {
           <nuxt-link v-if="firebaseUser" to="/" tag="div">
             <img v-if="$colorMode.value == 'dark'" class="hidden md:inline-block w-[140px]" src="/img/dashy-white.png" />
             <img v-if="$colorMode.value == 'light'" class="hidden md:inline-block w-[140px]" src="/img/dashy-black.png" />
-            <img v-if="$colorMode.value == 'dark'" class="object-cover w-20 h-20 md:hidden" src="/img/dashy-white-logo.png" />
-            <img v-if="$colorMode.value == 'light'" class="object-cover w-20 h-20 md:hidden" src="/img/dashy-black-logo.png" />
+            <img v-if="$colorMode.value == 'dark'" class="object-cover w-24 h-24 translate-y-[2px] md:hidden" src="/img/dashy-white-logo.png" />
+            <img v-if="$colorMode.value == 'light'" class="object-cover w-24 h-24 translate-y-[2px] md:hidden" src="/img/dashy-black-logo.png" />
           </nuxt-link>
         </div>
 
         <!-- Signin buttins : Larger screens -->
 
-        <div class="flex flex-1 pt-2 items-center justify-end lg:w-0">
+        <div class="flex flex-1 items-center justify-end pt-2">
 
           <button v-if="!firebaseUser" @click="toggleSignIn()"
-            class="pr-4 md:hidden">
+            class="md:hidden">
             <svg width="30" height="41" viewBox="0 0 39 41" fill="none" xmlns="http://www.w3.org/2000/svg">
                <path fill="#222" d="M20.9453 0.331116C22.4578 0.331116 23.8272 1.17112 24.5835 2.41112C24.9514 3.01112 25.1967 3.75112 25.1353 4.53112C25.0945 5.13112 25.2784 5.73112 25.6054 6.29112C26.6478 7.99112 28.9575 8.63112 30.7561 7.67112C32.7796 6.51112 35.3345 7.21112 36.4995 9.19112L37.8689 11.5511C39.0544 13.5311 38.4003 16.0711 36.3564 17.2111C34.6191 18.2311 34.0059 20.4911 35.0483 22.2111C35.3754 22.7511 35.7433 23.2111 36.3156 23.4911C37.0309 23.8711 37.5828 24.4711 37.9711 25.0711C38.7274 26.3111 38.6661 27.8311 37.9302 29.1711L36.4995 31.5711C35.7433 32.8511 34.333 33.6511 32.8818 33.6511C32.1664 33.6511 31.3693 33.4511 30.7152 33.0511C30.1838 32.7111 29.5706 32.5911 28.9166 32.5911C26.8931 32.5911 25.1967 34.2511 25.1353 36.2311C25.1353 38.5311 23.2549 40.3311 20.9044 40.3311H18.1247C15.7538 40.3311 13.8734 38.5311 13.8734 36.2311C13.8325 34.2511 12.136 32.5911 10.1126 32.5911C9.43808 32.5911 8.8249 32.7111 8.31392 33.0511C7.65987 33.4511 6.8423 33.6511 6.14737 33.6511C4.67575 33.6511 3.26545 32.8511 2.50921 31.5711L1.0989 29.1711C0.342655 27.8711 0.301777 26.3111 1.05803 25.0711C1.38505 24.4711 1.99823 23.8711 2.69316 23.4911C3.26545 23.2111 3.63336 22.7511 3.98082 22.2111C5.00278 20.4911 4.38961 18.2311 2.65228 17.2111C0.628803 16.0711 -0.0252492 13.5311 1.13978 11.5511L2.50921 9.19112C3.69468 7.21112 6.22913 6.51112 8.27304 7.67112C10.0513 8.63112 12.3609 7.99112 13.4033 6.29112C13.7303 5.73112 13.9142 5.13112 13.8734 4.53112C13.8325 3.75112 14.0573 3.01112 14.4457 2.41112C15.2019 1.17112 16.5713 0.371116 18.0634 0.331116H20.9453ZM19.535 14.6911C16.3261 14.6911 13.7303 17.2111 13.7303 20.3511C13.7303 23.4911 16.3261 25.9911 19.535 25.9911C22.744 25.9911 25.2784 23.4911 25.2784 20.3511C25.2784 17.2111 22.744 14.6911 19.535 14.6911Z" />
             </svg>
@@ -330,12 +279,12 @@ onMounted(async () => {
 
           <button v-if="firebaseUser" @click="toggleUserMenu()" class="z-30">
             <img :src="randomUserImage"
-            class="z-30 rounded-full w-[54px] h-[54px]" 
+            class="z-30 rounded-full w-[42px] h-[42px] md:w-[46px] md:h-[46px] " 
             />
           </button>
           <!-- @click="toggleUserMenu() -->
           <button v-if="firebaseUser" @click="toggleUserMenu()"
-            class="pr-4 md:hidden">
+            class="pr-4 hidden">
             <svg width="30" height="41" viewBox="0 0 39 41" fill="none" xmlns="http://www.w3.org/2000/svg">
                <path fill="#222" d="M20.9453 0.331116C22.4578 0.331116 23.8272 1.17112 24.5835 2.41112C24.9514 3.01112 25.1967 3.75112 25.1353 4.53112C25.0945 5.13112 25.2784 5.73112 25.6054 6.29112C26.6478 7.99112 28.9575 8.63112 30.7561 7.67112C32.7796 6.51112 35.3345 7.21112 36.4995 9.19112L37.8689 11.5511C39.0544 13.5311 38.4003 16.0711 36.3564 17.2111C34.6191 18.2311 34.0059 20.4911 35.0483 22.2111C35.3754 22.7511 35.7433 23.2111 36.3156 23.4911C37.0309 23.8711 37.5828 24.4711 37.9711 25.0711C38.7274 26.3111 38.6661 27.8311 37.9302 29.1711L36.4995 31.5711C35.7433 32.8511 34.333 33.6511 32.8818 33.6511C32.1664 33.6511 31.3693 33.4511 30.7152 33.0511C30.1838 32.7111 29.5706 32.5911 28.9166 32.5911C26.8931 32.5911 25.1967 34.2511 25.1353 36.2311C25.1353 38.5311 23.2549 40.3311 20.9044 40.3311H18.1247C15.7538 40.3311 13.8734 38.5311 13.8734 36.2311C13.8325 34.2511 12.136 32.5911 10.1126 32.5911C9.43808 32.5911 8.8249 32.7111 8.31392 33.0511C7.65987 33.4511 6.8423 33.6511 6.14737 33.6511C4.67575 33.6511 3.26545 32.8511 2.50921 31.5711L1.0989 29.1711C0.342655 27.8711 0.301777 26.3111 1.05803 25.0711C1.38505 24.4711 1.99823 23.8711 2.69316 23.4911C3.26545 23.2111 3.63336 22.7511 3.98082 22.2111C5.00278 20.4911 4.38961 18.2311 2.65228 17.2111C0.628803 16.0711 -0.0252492 13.5311 1.13978 11.5511L2.50921 9.19112C3.69468 7.21112 6.22913 6.51112 8.27304 7.67112C10.0513 8.63112 12.3609 7.99112 13.4033 6.29112C13.7303 5.73112 13.9142 5.13112 13.8734 4.53112C13.8325 3.75112 14.0573 3.01112 14.4457 2.41112C15.2019 1.17112 16.5713 0.371116 18.0634 0.331116H20.9453ZM19.535 14.6911C16.3261 14.6911 13.7303 17.2111 13.7303 20.3511C13.7303 23.4911 16.3261 25.9911 19.535 25.9911C22.744 25.9911 25.2784 23.4911 25.2784 20.3511C25.2784 17.2111 22.744 14.6911 19.535 14.6911Z" />
             </svg>
@@ -387,7 +336,7 @@ onMounted(async () => {
                   class="md:w-48 md:text-4xl whitespace-nowrap inline-flex items-center justify-center md:px-4 pt-4 px-3 md:pt-6 pb-5 md:pb-7 border-2 border-white rounded-full shadow-sm font-small text-white hover:text-gray-500 dark:bg-transparent bg-transparent hover:bg-grey-500">
                   Sign In
                 </button>
-                <button v-if="!firebaseUser" @click="mobileSignUp"
+                <button v-if="!firebaseUser" @click="signUp"
                   class="ml-8 md:hidden whitespace-nowrap inline-flex items-center justify-center px-3 md:px-4 pt-4 md:pt-6 pb-5 md:pb-7 rounded-full shadow-sm font-small text-[rgba(255,255,255,0.8)] hover:text-gray-500 backdrop-blur bg-[rgba(255,255,255,0.06)] hover:bg-grey-500">
                     Sign up
                 </button>
