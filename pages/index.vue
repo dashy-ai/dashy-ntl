@@ -162,11 +162,27 @@ const mydata = [
 
         <!-- PAGE 1 -->  
 
-          <div class="z-10 snap-start pb-20 h-screen w-screen md:h-screen sm:px-8 sm:py-8 md:px-20 md:py-20 flex items-end md:flex-row">
+          <div class="z-10 snap-start pb-20 lg:pb-10 h-screen w-screen md:h-screen md:py-12 flex items-end md:flex-row">
 
-            <div class="lg:w-6/12 flex items-end w-screen">
-              <div class="text-black h-[37vh] dark:text-neutral-200 align-text-bottom pl-8 md:-mb-8 text-[19vw] leading-[19vw] font-['Trap-Medium'] xl:text-[13em] xl:leading-[12rem] md:h-min">
-                Plan. Build. Visualize.
+            <div class="w-10/12 md:w-8/12 lg:w-6/12 flex items-end">
+              <div class="
+                  flex
+                  items-end
+                  text-black 
+                  h-[37vh] 
+                  dark:text-neutral-200 
+                  align-text-bottom 
+                  pl-8 
+                  text-[15vw] 
+                  leading-[15vw] 
+                  font-['Trap-Medium'] 
+                  md:text-[18vh] 
+                  md:leading-[18vh] 
+                  lg:text-[20vh] 
+                  lg:leading-[20vh] 
+                  md:h-min
+                ">
+                <span>Plan. Build. Visualize.</span>
               </div>
             </div>
 
