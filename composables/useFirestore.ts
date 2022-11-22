@@ -45,7 +45,6 @@ export const addFirestoreData = async (col: string, doc: {}) => {
 export const addFirestoreUser = async (col: string, doc: {}) => {
   try {
 
-    const object = doc
     console.log(`addFirestoreUser recieves col : ${col}, and doc ${JSON.stringify(doc, null, 4)}`)
     // @ts-ignore
     const user_id = doc.user_id

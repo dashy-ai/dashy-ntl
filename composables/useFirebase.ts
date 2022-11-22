@@ -79,6 +79,8 @@ export const initUser = async () => {
       // If signed out
       console.log(`useFirebase.ts -- User is signed out`)
       userCookie.value = null;
+      const myId = useUid();
+      myId.value.uid = null;
     }
     // @ts-ignore
     firebaseUser.value = user;

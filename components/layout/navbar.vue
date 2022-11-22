@@ -21,9 +21,41 @@ const password = ref('')
 const randomUserImage = ref()
 // const userInitials = ref()
 
+const userDoc = reactive({
+    user_id: "",
+    name: "",
+    company: "",
+    team: "",
+    email: "",
+    displayName: "",
+    emailVerified: "",
+    isAnonymous: "",
+    createdAt: "",
+    lastLoginAt: "",
+    phoneNumber: "",
+    photoURL: "",
+    providerId: "",
+    tenantId: "",
+  });
+
 const userIdFromCookie = useCookie('userCookie');
 const uidstring = userIdFromCookie.value
 
+// TODO - Lifting upp getReloaduser for non-flicker navigation hydration
+const getReloadUser = async () => {
+    const { result } = await getFirestoreDoc("users", uidstring)
+    console.log(`navbar.vue --> ALL PAGEVIEWS --> getFirestoreDoc("users", uidstring) --> uidstring : ${uidstring}`)
+    console.log(`navbar.vue --> ALL PAGEVIEWS --> getFirestoreDoc("users", uidstring) --> result : ${result}`)
+    console.log(`navbar.vue --> ALL PAGEVIEWS --> getFirestoreDoc("users", uidstring) --> randomUserImage.value before : ${randomUserImage.value}`)
+    const fs_user = result
+    randomUserImage.value = fs_user.photoURL
+    console.log(`navbar.vue --> getReloadUser Triggered ... if (uidstring) ... --> sets randomUserImage.value to ${randomUserImage.value}`)
+    return
+  }
+
+  if (uidstring) {
+    getReloadUser() 
+  }
 
 // const { $auth } = useNuxtApp()
 // const userId = $auth?.currentUser?.uid
@@ -43,8 +75,107 @@ function toggleUserMenu() {
 const signUp = async () => {
   credentials.value = await createUser(email.value, password.value)
   toggleSignUp()
-  // TODO this creates user In Firestore without name, Then create user in firestore from setup will fire also once until name is added in setup step2. 
-  submitUserToFireStore(credentials.value.user);
+  // console.log(`navbar.vue --> SIGNUP --> createUser() --> credentials.value.user ${JSON.stringify(credentials.value.user, null, 2)}`)
+  // TODO this creates user In Firestore without name, Then create user in firestore from setup will fire also once until name is added in setup step2.
+  // console.log(`navbar.vue --> SIGNUP --> credentials.value.user.createdAt ${credentials.value.user.metadata.createdAt}`)
+  // console.log(`navbar.vue --> SIGNUP --> credentials.value.user.createdAt ${credentials.value.user.metadata.lastLoginAt}`)
+  const randomAvatar = randomizeUserImage(catAvatars)
+
+  randomUserImage.value = randomAvatar
+  // TODO = Adding random avatar here too so hydration catches randomUserImage
+
+  const firebaseUserDoc = {
+    "user_id" : credentials.value.user.uid,
+    "email" : credentials.value.user.email,
+    "emailVerified" : credentials.value.user.emailVerified,
+    "isAnonymous" : credentials.value.user.isAnonymous,
+    "createdAt" : credentials.value.user.metadata.createdAt,
+    "lastLoginAt" : credentials.value.user.metadata.lastLoginAt,
+    "photoURL" : randomAvatar,
+    "name" : "",
+    "company" : "",
+    "team" : "",
+    "displayName" : credentials.value.user.displayName,
+    "phoneNumber" : credentials.value.user.phoneNumber,
+    "providerId" : credentials.value.user.providerId,
+    "tenantId" : credentials.value.user.auth.tenantId,
+  };
+
+  // console.log(`navbar.vue --> SIGNUP --> credentials.value.user.auth Object keys ${Object.keys(credentials.value.user.auth)}`)
+  // console.log(`navbar.vue --> SIGNUP --> credentials.value.user.metadata Object keys ${Object.keys(credentials.value.user.metadata)}`)
+  
+  //  ---- credentials.value.user Object ----
+
+  // providerId
+  // proactiveRefresh
+  // reloadUserInfo
+  // reloadListener
+  // uid
+  // auth
+        // app
+        // heartbeatServiceProvider
+        // config
+        // currentUser
+        // emulatorConfig
+        // operations
+        // authStateSubscription
+        // idTokenSubscription
+        // beforeStateQueue
+        // redirectUser
+        // isProactiveRefreshEnabled
+        // _canInitEmulator
+        // _isInitialized
+        // _deleted
+        // _initializationPromise
+        // _popupRedirectResolver
+        // _errorFactory
+        // lastNotifiedUid
+        // languageCode
+        // tenantId
+        // settings
+        // frameworks
+        // name
+        // clientVersion
+        // persistenceManager
+    // stsTokenManager
+    // accessToken
+    // displayName
+    // email
+    // emailVerified
+    // phoneNumber
+    // photoURL
+    // isAnonymous
+    // tenantId
+    // providerData
+    // metadata
+        // createdAt
+        // lastLoginAt
+        // lastSignInTime
+        // creationTime
+
+
+    userDoc.user_id = credentials.value.user.uid
+    userDoc.email = credentials.value.user.email
+    userDoc.emailVerified = credentials.value.user.emailVerified
+    userDoc.isAnonymous = credentials.value.user.isAnonymous
+    userDoc.createdAt = credentials.value.user.metadata.createdAt
+    userDoc.lastLoginAt = credentials.value.user.metadata.lastLoginAt
+    userDoc.photoURL = randomAvatar
+    userDoc.name = ""
+    userDoc.company = ""
+    userDoc.team = ""
+    userDoc.displayName = credentials.value.user.displayName
+    userDoc.phoneNumber = credentials.value.user.phoneNumber
+    userDoc.providerId = credentials.value.user.providerId
+    userDoc.tenantId = credentials.value.user.auth.tenantId
+
+
+  const { result } = addFirestoreUser('users', firebaseUserDoc);
+  console.log(`navbar.vue --> SIGNUP --> userDoc is : ${JSON.stringify(userDoc, null, 4)}`)
+  // console.log(`navbar.vue --> SIGNUP --> addFirestoreUser('users', firebaseUserDoc) result is:  ${JSON.stringify(result, null, 4)}`)
+
+
+ 
   const router = useRouter()
   const newUser = true
   if (credentials.value) {
@@ -56,7 +187,7 @@ const mobileSignUp = async () => {
   credentials.value = await createUser(email.value, password.value)
   toggleSignIn()
     // TODO this creates user In Firestore without name, Then create user in firestore from setup will fire also once until name is added in setup step2. 
-  submitUserToFireStore(credentials.value.user);
+  addFirestoreUser(credentials.value.user);
   const router = useRouter()
   const newUser = true
   if (credentials.value) {
@@ -119,22 +250,6 @@ const randomAvatar = randomizeUserImage(catAvatars)
 
 onMounted(async () => {
 
-// const userIdFromCookie = useCookie('userCookie');
-// console.log(`navbar.vue --> userIdFromCookie : ${userIdFromCookie} `)
-
-
-
-
-const getReloadUser = async () => {
-  const { result } = await getFirestoreDoc("users", uidstring)
-  const fs_user = result
-  randomUserImage.value = fs_user.photoURL
-  return fs_user
-}
-
-if ( firebaseUser.value) {
-  getReloadUser() 
-}
 
   const getUser = async () => {
 
@@ -144,9 +259,13 @@ if ( firebaseUser.value) {
       const fs_user = getReloadUser()
 
     }
+
+    
     
     randomUserImage.value = (fs_user.photoURL == undefined) ? randomAvatar : fs_user.photoURL
     const randomCat = randomAvatar
+
+    console.log(`navbar.vue --> getUser Triggered ... if (firebaseUser == !null) ... --> sets randomUserImage.value to ${randomUserImage.value}`)
 
     const photoDoc = {
           user_id: fs_user.user_id,
@@ -171,17 +290,17 @@ if ( firebaseUser.value) {
     
 <template>
   <!-- <div class="dark:transparent z-10 absolute top-0 w-screen"> -->
-  <div class="z-20 absolute w-screen" :class="firebaseUser ? 'nav-cont' : 'nav-cont'"> <!-- TODO: 'h-full' : 'nav-cont' -->
-    <div class="bg-transparent w-screen xl:px-20 md:px-16">
-      <div class="flex justify-between items-center py-5 md:py-6 px-6 md:justify-start md:space-x-10">
+  <div class="z-20 absolute w-screen"> <!-- TODO: remved class nav-cont, since it's missing -->
+    <div class="bg-transparent w-screen">
+      <div class="flex justify-between items-center py-5 pl-7 pr-10">
         <div class="logo-container z-10 w-52">
           <nuxt-link v-if="!firebaseUser" to="/" tag="div">
             <img v-if="$colorMode.value == 'dark'" class="w-[170px] md:w-[128px]" src="/img/dashy-white.png" />
             <img v-if="$colorMode.value == 'light'" class="w-[170px] md:w-[128px]" src="/img/dashy-black.png" />
           </nuxt-link>
           <nuxt-link v-if="firebaseUser" to="/" tag="div">
-            <img v-if="$colorMode.value == 'dark'" class="hidden w-[170px] md:w-[128px]" src="/img/dashy-white.png" />
-            <img v-if="$colorMode.value == 'light'" class="hidden md:logo" src="/img/dashy-black.png" />
+            <img v-if="$colorMode.value == 'dark'" class="hidden md:inline-block w-[140px]" src="/img/dashy-white.png" />
+            <img v-if="$colorMode.value == 'light'" class="hidden md:inline-block w-[140px]" src="/img/dashy-black.png" />
             <img v-if="$colorMode.value == 'dark'" class="object-cover w-20 h-20 md:hidden" src="/img/dashy-white-logo.png" />
             <img v-if="$colorMode.value == 'light'" class="object-cover w-20 h-20 md:hidden" src="/img/dashy-black-logo.png" />
           </nuxt-link>
@@ -192,7 +311,7 @@ if ( firebaseUser.value) {
         <div class="flex flex-1 pt-2 items-center justify-end lg:w-0">
 
           <button v-if="!firebaseUser" @click="toggleSignIn()"
-            class="pr-4">
+            class="pr-4 md:hidden">
             <svg width="30" height="41" viewBox="0 0 39 41" fill="none" xmlns="http://www.w3.org/2000/svg">
                <path fill="#222" d="M20.9453 0.331116C22.4578 0.331116 23.8272 1.17112 24.5835 2.41112C24.9514 3.01112 25.1967 3.75112 25.1353 4.53112C25.0945 5.13112 25.2784 5.73112 25.6054 6.29112C26.6478 7.99112 28.9575 8.63112 30.7561 7.67112C32.7796 6.51112 35.3345 7.21112 36.4995 9.19112L37.8689 11.5511C39.0544 13.5311 38.4003 16.0711 36.3564 17.2111C34.6191 18.2311 34.0059 20.4911 35.0483 22.2111C35.3754 22.7511 35.7433 23.2111 36.3156 23.4911C37.0309 23.8711 37.5828 24.4711 37.9711 25.0711C38.7274 26.3111 38.6661 27.8311 37.9302 29.1711L36.4995 31.5711C35.7433 32.8511 34.333 33.6511 32.8818 33.6511C32.1664 33.6511 31.3693 33.4511 30.7152 33.0511C30.1838 32.7111 29.5706 32.5911 28.9166 32.5911C26.8931 32.5911 25.1967 34.2511 25.1353 36.2311C25.1353 38.5311 23.2549 40.3311 20.9044 40.3311H18.1247C15.7538 40.3311 13.8734 38.5311 13.8734 36.2311C13.8325 34.2511 12.136 32.5911 10.1126 32.5911C9.43808 32.5911 8.8249 32.7111 8.31392 33.0511C7.65987 33.4511 6.8423 33.6511 6.14737 33.6511C4.67575 33.6511 3.26545 32.8511 2.50921 31.5711L1.0989 29.1711C0.342655 27.8711 0.301777 26.3111 1.05803 25.0711C1.38505 24.4711 1.99823 23.8711 2.69316 23.4911C3.26545 23.2111 3.63336 22.7511 3.98082 22.2111C5.00278 20.4911 4.38961 18.2311 2.65228 17.2111C0.628803 16.0711 -0.0252492 13.5311 1.13978 11.5511L2.50921 9.19112C3.69468 7.21112 6.22913 6.51112 8.27304 7.67112C10.0513 8.63112 12.3609 7.99112 13.4033 6.29112C13.7303 5.73112 13.9142 5.13112 13.8734 4.53112C13.8325 3.75112 14.0573 3.01112 14.4457 2.41112C15.2019 1.17112 16.5713 0.371116 18.0634 0.331116H20.9453ZM19.535 14.6911C16.3261 14.6911 13.7303 17.2111 13.7303 20.3511C13.7303 23.4911 16.3261 25.9911 19.535 25.9911C22.744 25.9911 25.2784 23.4911 25.2784 20.3511C25.2784 17.2111 22.744 14.6911 19.535 14.6911Z" />
             </svg>
@@ -203,25 +322,12 @@ if ( firebaseUser.value) {
             class="hidden h-14 ml-6 whitespace-nowrap md:inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-full shadow-sm font-small text-gray-300 hover:text-gray-500 dark:bg-neutral-900 bg-black hover:bg-grey-500">
             Sign in
           </button>
-          <div class="text-blue-400"> {{ uidState.uid }}</div>
+
           <button v-if="!firebaseUser" @click="toggleSignUp()"
             class="hidden h-14 ml-6 whitespace-nowrap md:inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-full shadow-sm font-small text-gray-300 hover:text-gray-500 dark:bg-neutral-900 bg-black hover:bg-grey-500">
             Sign up
           </button>
- 
-          
-          <NuxtLink to="setup"
-              class="z-20 test2 h-14 ml-8 whitespace-nowrap md:inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-full shadow-sm font-small text-gray-300 hover:text-gray-500 dark:bg-neutral-900 bg-black hover:bg-grey-500">
-              <span class="bg-red-400">S page</span>
-          </NuxtLink>
-          <!-- <NuxtLink to="/"
-              class="z-20 test2 h-14 ml-8 whitespace-nowrap md:inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-full shadow-sm font-small text-gray-300 hover:text-gray-500 dark:bg-neutral-900 bg-black hover:bg-grey-500">
-              Home
-          </NuxtLink> -->
-          <!-- <button v-if="firebaseUser"
-            class="hidden z-10 h-14 ml-6 whitespace-nowrap md:inline-flex items-center justify-end px-4 py-2 border border-transparent rounded-full shadow-sm font-small text-gray-300 hover:text-gray-500 dark:bg-neutral-900 bg-black hover:bg-grey-500">
-             {{ randomUserImage }} 
-          </button> -->
+
           <button v-if="firebaseUser" @click="toggleUserMenu()" class="z-30">
             <img :src="randomUserImage"
             class="z-30 rounded-full w-[54px] h-[54px]" 
@@ -236,34 +342,16 @@ if ( firebaseUser.value) {
             <!-- <img src="/img/menu.svg" class="w-[75px] opacity-50" /> -->
           </button>
 
-          
         </div>
 
-          <!-- Mobile Menu icon -->
-        <!-- <div class="flex h-max items-center justify-end">
-          <div class="absolute right-[24px] border-t border-r border-gray-700 w-[27px] h-[27px]"></div>
-          <div class="absolute top-[65px] right-[20px] border-gray-700 w-[35px] h-[1px] border-t -rotate-45"></div>
-        </div> -->
 
-        <!-- <svg width="35" height="35" viewBox="0 0 82 82" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M40.9379 25C40.9379 25 40.9379 67 50.8972 81.25C40.9379 79 40.9379 79 30.9786 81.25C40.9379 67 40.9379 25 40.9379 25Z" fill="rgba(25,25,255,0.7)"/> 1
-          <path d="M40.9379 56.25C40.9379 56.25 40.9379 14.25 30.9786 -1.74134e-06C40.9379 2.25 40.9379 2.25 50.8972 0C40.9379 14.25 40.9379 56.25 40.9379 56.25Z" fill="rgba(25,25,255,0.43)"/> 5
-          <path d="M56.563 40.625C56.563 40.625 14.563 40.625 0.312987 50.5843C2.56299 40.625 2.56299 40.625 0.312988 30.6657C14.563 40.625 56.563 40.625 56.563 40.625Z" fill="rgba(25,25,255,0.57)"/> 3
-          <path d="M25.313 40.625C25.313 40.625 67.313 40.625 81.563 30.6657C79.313 40.625 79.313 40.625 81.563 50.5843C67.313 40.625 25.313 40.625 25.313 40.625Z" fill="rgba(25,25,255,0.34)"/> 7
-          <path d="M51.9866 51.6736C51.9866 51.6736 22.2882 21.9751 5.16961 18.9411C13.8029 13.4898 13.8029 13.4898 19.2542 4.85653C22.2882 21.9751 51.9866 51.6736 51.9866 51.6736Z" fill="rgba(25,25,255,0.5)"/> 4
-          <path d="M29.8895 29.5765C29.8895 29.5765 59.5879 59.275 76.7065 62.309C68.0732 67.7603 68.0732 67.7603 62.6219 76.3935C59.5879 59.275 29.8895 29.5765 29.8895 29.5765Z" fill="rgba(25,25,255,0.29)"/> 8
-          <path d="M29.8895 51.6736C29.8895 51.6736 59.588 21.9751 62.6219 4.85656C68.0732 13.4898 68.0732 13.4898 76.7065 18.9411C59.588 21.9751 29.8895 51.6736 29.8895 51.6736Z" fill="rgba(25,25,255,0.38)"/> 6
-          <path d="M51.9866 29.5765C51.9866 29.5765 22.2881 59.275 19.2541 76.3936C13.8029 67.7603 13.8029 67.7603 5.16958 62.309C22.2881 59.275 51.9866 29.5765 51.9866 29.5765Z" fill="rgba(25,25,255,0.63)"/> 2
-        </svg> -->
-
-
-        <button v-if="!firebaseUser" class="hidden md:block" @click="setColorTheme($colorMode.preference == 'dark' ? 'light' : 'dark')">
+        <button v-if="!firebaseUser" class="hidden md:block ml-6" @click="setColorTheme($colorMode.preference == 'dark' ? 'light' : 'dark')">
           <svg v-if="$colorMode.value == 'light'" xmlns="http://www.w3.org/2000/svg"
-            class="light-icon h-7 w-7 text-gray-50" viewBox="0 0 20 20">
+            class="light-icon h-7 w-7 mt-2 text-gray-50" viewBox="0 0 20 20">
             <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" />
           </svg>
           <svg v-else xmlns="http://www.w3.org/2000/svg" 
-            class="dark-icon h-7 w-7" viewBox="0 0 20 20">
+            class="dark-icon h-7 w-7 mt-2" viewBox="0 0 20 20">
             <path fill-rule="evenodd"
               d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z"
               clip-rule="evenodd" />
@@ -343,7 +431,7 @@ if ( firebaseUser.value) {
       <div v-if="userMenu"
         class="pt-20 z-20 absolute top-0 left-0 w-screen h-screen backdrop-blur-xl">
         <div class="w-screen h-screen flex justify-end">
-          <div class="px-20 pt-10 grid grid-rows-4 gap-4 h-screen w-screen">
+          <div class="px-10 pt-10 grid grid-rows-4 gap-4 h-screen w-screen">
             <div class="bg-transparent border-b-2 border-white flex justify-end">
                <button v-if="firebaseUser" @click="signOut"
                class="z-20 test2 h-14 ml-8 whitespace-nowrap md:inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-full shadow-sm font-small text-gray-300 hover:text-gray-500 dark:bg-neutral-900 bg-black hover:bg-grey-500">
