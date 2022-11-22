@@ -1,59 +1,57 @@
 <template>
-  <div class="bg-black text-white w-screen h-screen flex justify-center">
+  <div class="bg-black text-white w-screen h-screen flex justify-center lg:justify-start">
 
     <!-- STEP 1 -->
 
-    <div v-if="step1" class="sm:h-80 w-[80%] h-screen z-10 step1 flex flex-col justify-start">
+    <div v-if="step1" class="w-[80%] lg:ml-[10%] lg:w-[50%] h-screen z-10 step1 flex flex-col justify-start">
 
       <!-- left -->
 
       <div class="h-[30vh] w-full flex flex-col items-start justify-end">
-        <div class="md:mt-56 md:ml-24 md:absolute text-slate-600 text-lg">
+        <div class="text-slate-600 text-lg">
           Account Setup: Step 1/3
         </div>
-        <div class="md:mt-64 md:ml-24 md:absolute text-white0 text-3xl">
+        <div class="text-white text-3xl">
           Let's get to know you! <br />
         </div>
       </div>
-
-      <button class="z-20 relative h-[10vh] w-full pr-2 top-[40vh] md:top-[202px] md:left-[680px] md:w-44 flex justify-end items-center" @click="goToStep2">
-          <svg class="-rotate-90 w-10 h-14 md:w-20 md:h-28" viewBox="0 0 92 159" fill="none"
-            xmlns="http://www.w3.org/2000/svg">
-            <path
-              d="M40.7216 0L43.7377 140.969C43.7377 140.969 37.2022 108.732 2.81487e-05 108.732C5.42783e-05 112.557 -4.19512e-05 114.742 4.39703e-05 118.627C46.2514 118.627 44.7431 159 44.7431 159H46.2514C46.2514 159 46.2514 118.567 92 118.567C92 114.742 92 112.557 92 108.732C55.3006 108.732 47.7595 140.969 47.7595 140.969L50.2735 0H40.7216Z"
-              fill="white" />
-          </svg>
-      </button>
       
-      <div class="h-[60vh] md:h-full z-10 flex justify-center">
-        <div class="text-1xl w-full md:mt-32 md:ml-24 md:text-6xl items-center flex flex-col justify-start">
+      <div class="h-[60vh] z-10 flex flex-col justify-center text-2xl">
+        <div class="w-full items-center flex flex-col justify-start">
 
             <div class="flex w-full justify-between items-center mb-[3vh]">
               <span class="flex-shrink-0 mr-6">My name is</span>
               <input v-model="userInfo.name" type="text"
-                    class="text-center text-2xl w-[80%] h-11 md:w-96 flex-shrink outline-[0px] bg-transparent md:h-24 border-b-[rgba(255,255,255,0.12)] border-b-2 px-0 text-white placeholder-[rgba(255,255,255,0.08)]"
+                    class="text-center text-2xl w-full h-14 flex-shrink outline-[0px] bg-transparent border-b-[rgba(255,255,255,0.12)] border-b-2 px-0 text-white placeholder-[rgba(255,255,255,0.08)]"
                     placeholder="Cat McKitty" />
             </div>
 
             <div class="flex w-full justify-between items-center mb-[3vh]">
-              <span class="work1 flex-shrink-0 mr-6">I work at</span>
+              <span class="flex-shrink-0 mr-6">I work at</span>
             
               <input v-model="userInfo.company" type="text"
-                    class="text-center work2 text-2xl h-11 w-[80%] md:w-96 outline-[0px] bg-transparent md:h-24 border-b-[rgba(255,255,255,0.12)] border-b-2 px-0 text-white placeholder-[rgba(255,255,255,0.08)]"
+                    class="text-center work2 text-2xl h-14 w-full outline-[0px] bg-transparent border-b-[rgba(255,255,255,0.12)] border-b-2 px-0 text-white placeholder-[rgba(255,255,255,0.08)]"
                     placeholder="The Milk Bowl Inc." />
             </div> 
 
             <div class="flex w-full justify-between items-center">
-              <span class="team1 flex-shrink-0 mr-6">in the</span>
+              <span class="flex-shrink-0 mr-6">in the</span>
               <input v-model="userInfo.team" type="text"
-                    class="text-center w-[80%] text-2xl h-11 team2 md:w-96 outline-[0px] bg-transparent md:h-24 border-b-[rgba(255,255,255,0.12)] border-b-2 px-0 text-white placeholder-[rgba(255,255,255,0.08)]"
+                    class="text-center w-full text-2xl h-14 outline-[0px] bg-transparent border-b-[rgba(255,255,255,0.12)] border-b-2 px-0 text-white placeholder-[rgba(255,255,255,0.08)]"
                     placeholder="Meow" />
-              <span class="team1 w-20 ml-1 flex justify-end">team.</span>
+              <span class="w-20 ml-4 flex flex-shrink-0 justify-end">team.</span>
             </div>
-
-
         </div>
-
+        <div class="w-full items-center flex justify-end pr-2 mt-20">
+            <button class="" @click="goToStep2">
+              <svg class="-rotate-90 w-10 h-14" viewBox="0 0 92 159" fill="none"
+                xmlns="http://www.w3.org/2000/svg">
+                <path
+                  d="M40.7216 0L43.7377 140.969C43.7377 140.969 37.2022 108.732 2.81487e-05 108.732C5.42783e-05 112.557 -4.19512e-05 114.742 4.39703e-05 118.627C46.2514 118.627 44.7431 159 44.7431 159H46.2514C46.2514 159 46.2514 118.567 92 118.567C92 114.742 92 112.557 92 108.732C55.3006 108.732 47.7595 140.969 47.7595 140.969L50.2735 0H40.7216Z"
+                  fill="white" />
+              </svg>
+            </button>
+        </div>
       </div>
 
     </div>

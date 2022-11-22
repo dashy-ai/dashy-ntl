@@ -8,9 +8,7 @@
 import Navbar from "~/components/layout/navbar.vue";
 </script>
 <style>
-.test {
-  background-color: red;
-}
+
 
 /* 
 Added IOSHeight tailwind plugin from: https://github.com/RVxLab/tailwind-plugin-ios-full-height

@@ -240,9 +240,12 @@ onMounted(async () => {
 <template>
   <!-- <div class="dark:transparent z-10 absolute top-0 w-screen"> -->
   <div class="z-20 absolute w-screen"> <!-- TODO: remved class nav-cont, since it's missing -->
-    <div class="bg-transparent w-screen">
-      <div class="flex justify-between items-center pt-3 pl-7 pr-9">
-        <div class="logo-container z-10 w-52">
+    <div class="bg-transparent w-screen"
+        :class="firebaseUser ? 'flex justify-center' : 'flex'">
+      <div class="flex items-center justify-between"
+          :class="firebaseUser ? 'pt-0 pl-0 pr-0 w-[80%]' : 'pt-3 pl-7 pr-9 w-screen'"
+      >
+        <div class="logo-container z-10 w-52 md:py-3">
           <nuxt-link v-if="!firebaseUser" to="/" tag="div">
             <img v-if="$colorMode.value == 'dark'" class="w-[170px]" src="/img/dashy-white.png" />
             <img v-if="$colorMode.value == 'light'" class="w-[170px]" src="/img/dashy-black.png" />
@@ -250,8 +253,8 @@ onMounted(async () => {
           <nuxt-link v-if="firebaseUser" to="/" tag="div">
             <img v-if="$colorMode.value == 'dark'" class="hidden md:inline-block w-[140px]" src="/img/dashy-white.png" />
             <img v-if="$colorMode.value == 'light'" class="hidden md:inline-block w-[140px]" src="/img/dashy-black.png" />
-            <img v-if="$colorMode.value == 'dark'" class="object-cover w-24 h-24 translate-y-[2px] md:hidden" src="/img/dashy-white-logo.png" />
-            <img v-if="$colorMode.value == 'light'" class="object-cover w-24 h-24 translate-y-[2px] md:hidden" src="/img/dashy-black-logo.png" />
+            <img v-if="$colorMode.value == 'dark'" class="object-cover w-24 h-24 translate-y-[2px] -translate-x-[30px] md:hidden" src="/img/dashy-white-logo.png" />
+            <img v-if="$colorMode.value == 'light'" class="object-cover w-24 h-24 translate-y-[2px] -translate-x-[30px] md:hidden" src="/img/dashy-black-logo.png" />
           </nuxt-link>
         </div>
 
