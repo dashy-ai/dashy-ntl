@@ -49,4 +49,17 @@ useHead({
 /* html {
   height: -webkit-fill-available;
 } */
+
+textarea,
+input.text,
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="button"],
+input[type="submit"],
+.input-checkbox {
+-webkit-appearance: none;
+border-radius: 0;
+}
+
 </style>
