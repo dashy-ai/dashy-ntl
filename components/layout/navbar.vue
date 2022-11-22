@@ -9,6 +9,8 @@ const setColorTheme = (newTheme: Theme) => {
 console.log('------ APP ------')
 const firebaseUser = useFirebaseUser();
 
+const uidState = useUid();
+
 // refs
 const credentials = ref()
 const signInForm = ref()
@@ -20,7 +22,7 @@ const randomUserImage = ref()
 // const userInitials = ref()
 
 const userIdFromCookie = useCookie('userCookie');
-const uidstring = userIdFromCookie.value.toString()
+const uidstring = userIdFromCookie.value
 
 
 // const { $auth } = useNuxtApp()
@@ -117,8 +119,10 @@ const randomAvatar = randomizeUserImage(catAvatars)
 
 onMounted(async () => {
 
-const userIdFromCookie = useCookie('userCookie');
-const uidstring = userIdFromCookie.value.toString()
+// const userIdFromCookie = useCookie('userCookie');
+// console.log(`navbar.vue --> userIdFromCookie : ${userIdFromCookie} `)
+
+
 
 
 const getReloadUser = async () => {
@@ -128,7 +132,7 @@ const getReloadUser = async () => {
   return fs_user
 }
 
-if ( firebaseUser !== null ) {
+if ( firebaseUser.value) {
   getReloadUser() 
 }
 
@@ -199,7 +203,7 @@ if ( firebaseUser !== null ) {
             class="hidden h-14 ml-6 whitespace-nowrap md:inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-full shadow-sm font-small text-gray-300 hover:text-gray-500 dark:bg-neutral-900 bg-black hover:bg-grey-500">
             Sign in
           </button>
-
+          <div class="text-blue-400"> {{ uidState.uid }}</div>
           <button v-if="!firebaseUser" @click="toggleSignUp()"
             class="hidden h-14 ml-6 whitespace-nowrap md:inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-full shadow-sm font-small text-gray-300 hover:text-gray-500 dark:bg-neutral-900 bg-black hover:bg-grey-500">
             Sign up
