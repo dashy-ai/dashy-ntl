@@ -1,33 +1,29 @@
 <template>
-  <div class="myimg text-gray-500 h-[40vh] flex flex-col justify-between rounded-lg mr-[40px] w-[70%]" data-color="#000">
-        <div class="flex flex-col">
-          <span class="truncate text-[2.7vh]">
-            {{ title }}
-          </span>
-          <!-- <span class="h-[6vh] text-[1.8vh] line-clamp-2 [white-space:break-spaces]">Do veniam deserunt anim irure minim veniam officia velit proident cupidatat nulla.</span> -->
-          <span class="text-[1.8vh] truncate">{{ description }}<!-- Do veniam deserunt anim irure minim veniam officia velit proident cupidatat nulla. --></span>
-        </div>
+  <div class="myimg dark:text-gray-600 text-black flex flex-col justify-between rounded-sm w-[80vw] md:w-[70vw] lg:w-[50vw] xl:w-[30vw] mr-[30px] md:mr-[4vw]" data-color="#000">
         
-        <div class="relative z-0">
-          <img class="object-cover rounded-xl h-[25vh] w-[100%] shadow-xl"
+        <div class=" text-gray-400 relative z-0 h-[32vh] w-[80vw] md:w-[70vw] lg:w-[50vw] xl:w-[30vw] dark:border-gray-900 dark:border">
+          <img class="absolute object-cover rounded-t-sm h-full w-[100%] shadow-xl"
           :src="imgPath" />
-          <div class="bg-gradient-to-t from-black opacity-50 border border-gray-800 rounded-xl absolute inset-0 flex justify-center items-center z-1">
+          <div class="absolute px-[11px] bg-gradient-to-t from-black opacity-50 rounded-sm inset-0 flex justify-start items-end z-10">
+                <span class="z-20 absolute pl-1 pb-2 truncate text-[2.7vh] md:text-[4vh] font-['Inktrap-light']">
+                  {{ title }}
+                </span>
           </div>
         </div>
 
-        <div class="flex justify-between h-[4.6vh] overflow-hidden">
-          <div class="flex flex-row">
-            <div class="h-[4vh] w-[4vh] mr-4">
+        <div class="flex text-gray-600 justify-between h-[7vh] overflow-hidden pt-[2vh]">
+          <div class="pl-3 flex flex-row">
+            <div class="mr-4 h-[3.5vh] w-[3.5vh] flex justify-center items-center pb-1">
               <!-- <img src="https://logo.clearbit.com/segment.com?size=90"> -->
-              <img :src="logoPath" />
+              <img class="grayscale-[100%] mix-blend-multiply h-[3.5vh] w-[3.5vh]" :src="logoPath" />
             </div>
-            <div class="flex flex-col items-start text-[1.6vh]">
+            <div class="flex flex-col items-start text-[1.7vh] leading-[2vh] md:text-[2vh] md:leading-[2.4vh]">
               <span class="-translate-y-[0.3vh]">{{ username }}</span>
               <span class="-translate-y-[0.3vh]">{{ company }}</span>
             </div>
           </div>
-          <div class="flex flex-row flex-wrap justify-end w-[40vw]">
-            <div class="mr-2 mb-1 border border-gray-900 rounded-lg flex items-center justify-center px-1 h-[2vh] text-[1vh]" v-for="tag in tags"> {{ tag }} </div>
+          <div class="flex flex-row flex-wrap justify-end">
+            <div class="mr-4 mb-9 rounded-md border border-gray-500 dark:border-gray-900 dark:border flex items-center justify-center px-2 h-[4vh] text-[1.6vh]" v-for="tag in tags"> {{ tag }} </div>
           </div>
         </div>
         
@@ -52,4 +48,5 @@ const props = defineProps<{
   .myimg {
   transition: 0.3s;
 }
+
 </style>

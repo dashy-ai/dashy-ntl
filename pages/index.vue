@@ -158,11 +158,11 @@ const mydata = [
     <!-- PAGE CONTAINER -->  
   
   
-    <div class="z-10 absolute snap snap-y snap-mandatory h-screen w-screen overflow-scroll">
+    <div class="z-10 absolute snap snap-y snap-mandatory h-screen w-screen overflow-x-scroll">
 
         <!-- PAGE 1 -->  
 
-          <div class="z-10 snap-start pb-20 lg:pb-10 h-screen w-screen md:h-screen md:py-12 flex items-end md:flex-row">
+          <div class="z-10 snap-start pb-32 lg:pb-10 h-screen w-screen md:h-screen md:py-12 flex items-end md:flex-row">
 
             <div class="w-10/12 md:w-8/12 lg:w-6/12 flex items-end">
               <div class="
@@ -172,7 +172,7 @@ const mydata = [
                   h-[37vh] 
                   dark:text-neutral-200 
                   align-text-bottom 
-                  pl-8 
+                  pl-[25px]
                   text-[15vw] 
                   leading-[15vw] 
                   font-['Trap-Medium'] 
@@ -201,29 +201,31 @@ const mydata = [
 
         <!-- PAGE 2 -->
 
-          <div class="relative z-30 page snap-start text-white h-screen flex w-screen">
-            
-            <div class="absolute top-[22vh] h-[11vh] pl-10 z-20 font-['Inktrap-light'] text-[5vh] leading-[5.5vh]">
-              <div class="bg-transparent h-full translate-y-[1vh]">Community<br>templates</div>
-            </div>
+          <div class="relative z-30 page snap-start dark:text-white text-black h-screen flex w-screen">
 
+            <div class="h-full overflow-scroll w-full">
 
+              <div class="z-0 absolute mt-[20vh] w-[307px] h-[12vh] pl-[26px] md:pl-[44px] font-['Inktrap-light'] text-[5vh] leading-[5.5vh] flex items-start">
+                <div class="bg-transparent h-full flex flex-col items-start justify-end">
+                  <span>Community</span>
+                  <span>templates</span>
+                </div>
+              </div>
 
-            
+              <div class="z-20 pb-20 h-[100vh] section pl-[30px] md:pl-[47px] pt-[40vh] flex justify-start items-end">
+                    <div v-if="pending"> Loading ... </div>
+                      <CardOne v-else v-for="card in pdata.value.result" :key="card.id"
+                        :title="card.title"
+                        :description="card.description"
+                        :imgPath="card.imgPath"
+                        :logoPath="card.logoPath"
+                        :username="card.username"
+                        :company="card.company"
+                        :tags="card.tags"
+                    ></CardOne>
+                    
+              </div>
 
-
-            <div class="z-10 section pl-[40px] pb-40 h-screen md:px-20 md:py-20 flex flex-row md:flex-row justify-start items-end">
-                  <div v-if="pending"> Loading ... </div>
-                    <CardOne v-else v-for="card in pdata.value.result" :key="card.id"
-                      :title="card.title"
-                      :description="card.description"
-                      :imgPath="card.imgPath"
-                      :logoPath="card.logoPath"
-                      :username="card.username"
-                      :company="card.company"
-                      :tags="card.tags"
-                  ></CardOne>
-                  
             </div>
           </div> 
     </div>
