@@ -11,6 +11,9 @@ const firebaseUser = useFirebaseUser();
 
 const uidState = useUid();
 
+// Activate inputs on keypress
+const myInput = ref()
+
 // refs
 const credentials = ref()
 const signInForm = ref()
@@ -19,6 +22,7 @@ const userMenu = ref()
 const email = ref('')
 const password = ref('')
 const randomUserImage = ref()
+const signInError = ref()
 // const userInitials = ref()
 
 const userDoc = reactive({
@@ -62,7 +66,23 @@ const getReloadUser = async () => {
 
 function toggleSignIn() {
   signInForm.value = !signInForm.value;
-  console.log(`navbar.vue --> signInform is : ${signInForm.value}`)
+  signInError.value !== "" ? signInError.value = "" : signInError.value !== ""
+  
+  // TODO : This works but is super glitchy
+  // setTimeout(function(){
+  //   email.value = null
+  //   password.value = null
+  // }, 1500)
+ 
+  // TODO: Just saving some watcher code for reference.
+  // watch(email, (email, prevEmail) => {
+  // console.log(`navbar.vue --> WATCHED --> (email == '') is ${email == ''}`)
+  // console.log(`navbar.vue --> WATCHED --> (email == undefined) is ${email == undefined}`)
+  // console.log(`navbar.vue --> WATCHED --> email is ${email}, prevEmail is ${prevEmail}, email.value is ${email.value} `)
+  // console.log(`navbar.vue --> WATCHED --> (email.value == '') ${email.value == ''}, email.value is ${email.value}`)
+  // console.log(`navbar.vue --> WATCHED --> (myInput.value == '') is ${myInput.value == ''}, myInput = ${myInput}, myInput.value = ${myInput.value}, myInput.value.value = ${myInput.value.value} `)
+  // })
+
 };
 
 function toggleSignUp() {
@@ -147,16 +167,24 @@ const mobileSignUp = async () => {
 const signIn = async () => {
 
   credentials.value = await signInUser(email.value, password.value)
-  toggleSignIn()
   const router = useRouter()
   const newUser = false
-  const { result } = await getFirestoreDoc("users", credentials.value.user.uid)
-  const fs_user = result
-  const fs_userPhotoUrl = fs_user.photoURL
-  randomUserImage.value = (fs_user.photoURL !== undefined) ? fs_user.photoURL : randomAvatar 
-  if (credentials.value) {
-    await router.push({ path: "/setup" });
-  } 
+  const message = credentials.value
+  console.log(`navbar.vue --> credentials.value = message : ${message}`)
+  // if (credentials.value.includes('Error', 1)) {
+  if (message !== "blocked" ) {
+     toggleSignIn()
+      const { result } = await getFirestoreDoc("users", credentials.value.user.uid)
+      const fs_user = result
+      console.log(`navbar.vue --> signIn() --> fs_user is : ${fs_user}`)
+      const fs_userPhotoUrl = fs_user.photoURL
+      randomUserImage.value = (fs_user.photoURL !== undefined) ? fs_user.photoURL : randomAvatar 
+      await router.push({ path: "/setup" });
+  } else {
+      console.log("navbar.vue --> signIn --> no such user")
+      signInError.value = "Oops! No account with this email"
+  }
+
 }
 
 const signOut = async () => {
@@ -231,6 +259,11 @@ onMounted(async () => {
   if (firebaseUser == !null) {
     getUser()
   }
+
+  // Activate input on keypress
+  onStartTyping(() => {
+      myInput.value.focus()
+  })
  
 
 });
@@ -325,13 +358,27 @@ onMounted(async () => {
         <div class="bg-transparent h-full w-screen flex flex-col">
           <div class="md:pt-32 h-full md:h-3/5 w-full flex justify-center items-center pb-48 md:pb-0">
             <div class="h-[45vh] md:h-full w-full md:w-[70vw] lg:w-[60vw] xl:w-[50vw] px-11 flex justify-end bg-transparent flex-col text-[8vw] md:text-5xl lg:text-6xl text-white">
-
-              <input v-model="email" type="email"
-                class="outline-[0px] bg-transparent h-20 md:h-36 border-b-white border-b-2 px-0 placeholder-white"
-                placeholder="Email">
-              <input v-model="password" type="password"
-                class="outline-[0px] mt-7 md:mt-8 h-20 md:h-36 border-b-white border-b-2 bg-transparent px-0 placeholder-white"
-                placeholder="Password">
+              <div 
+                  v-if="signInError"
+                  class="animate-reveal flex w-32 items-start text-sm text-gray-600 transform -translate-y-5"
+              >
+                  {{signInError}}
+              </div>
+              <input 
+                  v-model="email" 
+                  type="email"
+                  class="outline-[0px] bg-transparent h-20 md:h-36 border-b-white border-b-2 px-0 placeholder-white"
+                  placeholder="Email"
+                  ref="myInput"
+                  @keydown.enter="signIn"
+              >
+              <input 
+                  v-model="password" 
+                  type="password"
+                  class="outline-[0px] mt-7 md:mt-8 h-20 md:h-36 border-b-white border-b-2 bg-transparent px-0 placeholder-white"
+                  placeholder="Password"
+                  @keydown.enter="signIn"
+              >
 
               <div class="mt-16 w-full flex items-center text-2xl justify-center md:justify-start">
 
@@ -340,7 +387,7 @@ onMounted(async () => {
                   Sign In
                 </button>
                 <button v-if="!firebaseUser" @click="signUp"
-                  class="ml-8 md:hidden whitespace-nowrap inline-flex items-center justify-center px-3 md:px-4 pt-4 md:pt-6 pb-5 md:pb-7 rounded-full shadow-sm font-small text-[rgba(255,255,255,0.8)] hover:text-gray-500 backdrop-blur bg-[rgba(255,255,255,0.06)] hover:bg-grey-500">
+                  class="ml-8 md:hidden whitespace-nowrap inline-flex items-center justify-center px-3 md:px-4 pt-4 md:pt-6 pb-5 md:pb-7 rounded-full shadow-sm font-small text-[rgba(255,255,255,0.8)] hover:text-gray-500 backdrop-blur bg-[rgba(255,255,255,0.07)] hover:bg-grey-500">
                     Sign up
                 </button>
 
@@ -365,12 +412,21 @@ onMounted(async () => {
         <div class="bg-transparent h-full w-screen flex flex-col">
           <div class="pt-32 w-full h-3/5 flex items-start justify-center">
             <div class="h-full w-[70vw] lg:w-[60vw] xl:w-[50vw] px-11 flex justify-end bg-transparent flex-col text-5xl lg:text-6xl">
-              <input v-model="email" type="email"
-                class="outline-[0px] bg-transparent h-36 border-b-white border-b-2 text-white placeholder-white"
-                placeholder="Email">
-              <input v-model="password" type="password"
-                class="outline-[0px] mt-8 h-36 border-b-white border-b-2 bg-transparent text-white placeholder-white"
-                placeholder="Password">
+              <input 
+                  v-model="email" 
+                  type="email"
+                  class="outline-[0px] bg-transparent h-36 border-b-white border-b-2 text-white placeholder-white"
+                  placeholder="Email"
+                  ref="myInput" 
+              >
+              <input 
+                  v-model="password" 
+                  type="password"
+                  class="outline-[0px] mt-8 h-36 border-b-white border-b-2 bg-transparent text-white placeholder-white"
+                  placeholder="Password"
+                  @keydown.enter="signUp"
+                >
+                  
               <button @click="signUp"
                 class="mt-16 w-48 mt-ml-8 text-4xl whitespace-nowrap inline-flex items-center justify-center px-4 pt-6 pb-7 border-2 border-white rounded-full shadow-sm font-small text-white hover:text-gray-500 dark:bg-transparent bg-transparent hover:bg-grey-500">
                 Sign up
@@ -416,12 +472,21 @@ onMounted(async () => {
 .light-icon {
   fill: #131313;
 }
-input[type="email"]:-webkit-autofill{
-  background-color: transparent !important;
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+   -webkit-transition-delay: 9999s;
+   transition-delay: 9999s;
+   -webkit-text-size-adjust: 100%;
 }
-input[type="password"]:-webkit-autofill{
-  background-color: transparent !important;
+
+input:-webkit-autofill::first-line {
+      color: white;
+      -webkit-text-size-adjust: 100%;
 }
+
 
 /* .buttonmenu {
   width: 148px;

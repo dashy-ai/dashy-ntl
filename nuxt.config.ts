@@ -5,7 +5,7 @@ import plugin from 'tailwindcss/plugin'
 
 export default defineNuxtConfig({
 
-  modules: ['@nuxtjs/tailwindcss', '@nuxtjs/color-mode', '@pinia/nuxt'],
+  modules: ['@nuxtjs/tailwindcss', '@nuxtjs/color-mode', '@pinia/nuxt', '@vueuse/nuxt'],
   imports: {
     dirs: ['./stores']
   },

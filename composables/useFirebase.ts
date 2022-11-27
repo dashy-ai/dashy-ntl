@@ -33,6 +33,7 @@ export const signInUser = async (email, password) => {
   ).catch((error) => {
     const errorCode = error.code;
     const errorMessage = error.message;
+    return "blocked"
   });
   console.log(`useFirebase.ts (signInUser) : ${email} & ${password}`)
   return credentials;

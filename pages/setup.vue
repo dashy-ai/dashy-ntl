@@ -23,23 +23,34 @@
 
                       <div class="flex w-full justify-between items-center mb-[4vh]">
                         <span class="flex-shrink-0 mr-6">My name is</span>
-                        <input v-model="userInfo.name" type="text"
+                        <input 
+                              ref="myCoolDiv" 
+                              v-model="userInfo.name" 
+                              type="text"
                               class="text-center text-2xl w-full h-14 flex-shrink outline-[0px] bg-transparent border-b-[rgba(255,255,255,0.12)] text-slate-600 border-b-2 px-0 placeholder-[rgba(255,255,255,0.08)]"
-                              placeholder="Cat McKitty" />
+                              placeholder="Cat McKitty"
+                          />
                       </div>
 
                       <div class="flex w-full justify-between items-center mb-[4vh]">
                         <span class="flex-shrink-0 mr-6">I work at</span>
-                        <input v-model="userInfo.company" type="text"
+                        <input 
+                              v-model="userInfo.company" 
+                              type="text"
                               class="text-center work2 text-2xl h-14 w-full outline-[0px] bg-transparent border-b-[rgba(255,255,255,0.12)] text-slate-600 border-b-2 px-0 placeholder-[rgba(255,255,255,0.08)]"
-                              placeholder="The Milk Bowl Inc." />
+                              placeholder="The Milk Bowl Inc." 
+                          />
                       </div> 
 
                       <div class="flex w-full justify-between items-center">
                         <span class="flex-shrink-0 mr-6">in the</span>
-                        <input v-model="userInfo.team" type="text"
+                        <input 
+                              v-model="userInfo.team" 
+                              type="text"
                               class="text-center w-full text-2xl h-14 outline-[0px] bg-transparent border-b-[rgba(255,255,255,0.12)] text-slate-600 border-b-2 px-0  placeholder-[rgba(255,255,255,0.08)]"
-                              placeholder="Meow" />
+                              placeholder="Meow"
+                              @keydown.enter="goToStep2"
+                          />
                         <span class="w-20 ml-4 flex flex-shrink-0 justify-end">team.</span>
                       </div>
                   </div>
@@ -83,9 +94,14 @@
                   <div class="w-full items-center flex flex-col justify-start">
                       <div class="flex w-full justify-between items-center">
                         <span class="flex-shrink-0 mr-6">Project Name</span>
-                        <input v-model="projectInfo.name" type="text"
+                        <input 
+                              ref="myCoolDiv" 
+                              v-model="projectInfo.name" 
+                              type="text"
                               class="text-center text-2xl w-full h-14 flex-shrink outline-[0px] bg-transparent border-b-[rgba(255,255,255,0.12)] border-b-2 px-0 text-white placeholder-[rgba(255,255,255,0.08)]"
-                              placeholder="My first project" />
+                              placeholder="My first project"
+                              @keydown.enter="goToStep3"
+                        />
                       </div>
                   </div>
 
@@ -208,6 +224,8 @@
 
 <script setup>
 
+// Automatically focus input when pressing keyboard
+
 
 definePageMeta({
   middleware: ['auth']
@@ -215,6 +233,12 @@ definePageMeta({
 
 const userIdFromCookie = useCookie('userCookie');
 
+// Activate inputs on keypress
+const myCoolDiv = ref()
+
+// get mouse coordinates
+const mouse = reactive(useMouse())
+// const text = stringify(mouse)
 
 const step1 = ref(true)
 const step2 = ref()
@@ -317,8 +341,15 @@ onMounted(async () => {
   userInfo.providerId = (userInfo.providerId == "") ? providerId : userInfo.providerId
   userInfo.tenantId = (userInfo.tenantId == "") ? tenantId : userInfo.tenantId
 
- 
 })
+
+  onStartTyping(() => {
+    
+      myCoolDiv.value.focus()
+  })
+
+
+
 
 </script>
 
