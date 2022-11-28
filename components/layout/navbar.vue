@@ -170,19 +170,41 @@ const signIn = async () => {
   const router = useRouter()
   const newUser = false
   const message = credentials.value
-  console.log(`navbar.vue --> credentials.value = message : ${message}`)
-  // if (credentials.value.includes('Error', 1)) {
-  if (message !== "blocked" ) {
+
+  const messagesBooleans = [
+    message == 'Wrong email',
+    message == 'No user',
+    message == 'Wrong password',
+    message == 'Wrong email or password',
+  ]
+
+  if (!messagesBooleans.includes(false)) {
+
      toggleSignIn()
       const { result } = await getFirestoreDoc("users", credentials.value.user.uid)
       const fs_user = result
-      console.log(`navbar.vue --> signIn() --> fs_user is : ${fs_user}`)
+
       const fs_userPhotoUrl = fs_user.photoURL
       randomUserImage.value = (fs_user.photoURL !== undefined) ? fs_user.photoURL : randomAvatar 
       await router.push({ path: "/setup" });
+
   } else {
-      console.log("navbar.vue --> signIn --> no such user")
-      signInError.value = "Oops! No account with this email"
+
+    switch (message) {
+      case 'Wrong email':
+        signInError.value = "Oops! Not a valid email"
+        break
+      case 'No user':
+        signInError.value = 'Oops! No such account exists'
+        break
+      case 'Wrong password':
+        signInError.value = 'Oops! Wrong password'
+        break
+      default:
+        // errMsg.value = 'Email or password was incorrect'
+        signInError.value = 'Oops! Wrong email or password'
+        break
+    }
   }
 
 }
