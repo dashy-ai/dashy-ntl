@@ -166,38 +166,35 @@ const mobileSignUp = async () => {
 
 const signIn = async () => {
 
-  credentials.value = await signInUser(email.value, password.value)
+  const {error, uid} = await signInUser(email.value, password.value)
   const router = useRouter()
   const newUser = false
-  const message = credentials.value
 
-  const messagesBooleans = [
-    message == 'Wrong email',
-    message == 'No user',
-    message == 'Wrong password',
-    message == 'Wrong email or password',
-  ]
+  console.log(`navbar.vue --> error is ${error}`)
+  console.log(`navbar.vue --> uid is ${uid}`)
 
-  if (!messagesBooleans.includes(false)) {
+  if (!error) {
 
      toggleSignIn()
-      const { result } = await getFirestoreDoc("users", credentials.value.user.uid)
+      const { result } = await getFirestoreDoc("users", uid)
       const fs_user = result
-
+      console.log(`navbar.vue - no error`)
       const fs_userPhotoUrl = fs_user.photoURL
       randomUserImage.value = (fs_user.photoURL !== undefined) ? fs_user.photoURL : randomAvatar 
       await router.push({ path: "/setup" });
 
   } else {
 
-    switch (message) {
-      case 'Wrong email':
-        signInError.value = "Oops! Not a valid email"
+    console.log(`navbar.vue - error is ${JSON.stringify(error, null, 4)}`)
+
+    switch (error) {
+      case 'auth/user-not-found':
+        signInError.value = 'Oops! No account with this email'
         break
-      case 'No user':
-        signInError.value = 'Oops! No such account exists'
+      case 'auth/invalid-email':
+        signInError.value = 'Oops! Not a valid email'
         break
-      case 'Wrong password':
+      case 'auth/wrong-password':
         signInError.value = 'Oops! Wrong password'
         break
       default:

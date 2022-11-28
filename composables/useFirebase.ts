@@ -26,34 +26,37 @@ export const createUser = async (email, password) => {
 };
 
 export const signInUser = async (email, password) => {
+
   const auth = getAuth();
+  let errorCode = null
+
   const credentials = await signInWithEmailAndPassword(
     auth,
     email,
     password
   ).catch(error => {
-    switch (error.code) {
-      case 'auth/invalid-email':
-        // errMsg.value = 'Invalid email'
-        return 'Wrong email'
-        break
-      case 'auth/user-not-found':
-        // errMsg.value = 'No account with that email was found'
-        return 'No user'
-        break
-      case 'auth/wrong-password':
-        // errMsg.value = 'Incorrect password'
-        return 'Wrong password'
-        break
-      default:
-        // errMsg.value = 'Email or password was incorrect'
-        return 'Wrong email or password'
-        break
-    }
+    console.log(`useFirebase.ts --> error.code is ${error.code}`)
+    errorCode = error.code
   });
 
-  // console.log(`useFirebase.ts (signInUser) : ${email} & ${password}`)
-  return credentials;
+
+  let returnObj = null
+
+  if (errorCode !== null) {
+    returnObj = {
+      'error': errorCode,
+      'uid': credentials
+    }
+  } else {
+    returnObj = {
+      'error': null,
+      'uid': credentials.user.uid
+    }
+  }
+
+  console.log(`useFirebase.ts --> returnObj is ${JSON.stringify(returnObj, null, 3)}`)
+  console.log(`useFirebase.ts --> errorCode is ${errorCode}`)
+  return returnObj
 };
 
 // TODO: Invalid email
