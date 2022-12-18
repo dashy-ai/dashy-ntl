@@ -5,7 +5,7 @@ const config = useRuntimeConfig()
 
 const firebaseConfig = {
   apiKey: config.firebaseKey,
-  authDomain: "dashy-ntl-auth.firebaseapp.com",
+  authDomain: "dashy.ai",
   projectId: "dashy-ntl-auth",
   storageBucket: "dashy-ntl-auth.appspot.com",
   messagingSenderId: "661350024002",

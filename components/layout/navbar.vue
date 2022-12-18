@@ -97,6 +97,8 @@ function toggleUserMenu() {
 
 const signUp = async () => {
   credentials.value = await createUser(email.value, password.value)
+  console.log(`navbar.vue --> createUser is triggered, sends ${email.value} and ${password.value} `)
+  console.log(`navbar.vue --> createUser is returned, credentials.value is ${JSON.stringify(credentials.value, null, 3)}`)
   // toggleSignUp()
   signInForm.value = false
   signUpForm.value = false
@@ -152,6 +154,9 @@ const signUp = async () => {
   } 
 }
 
+// TODO: Fix mobile signup so it is like normal signup
+// or if this one is better fix the other one to this
+
 const mobileSignUp = async () => {
   credentials.value = await createUser(email.value, password.value)
   toggleSignIn()
@@ -179,9 +184,24 @@ const signIn = async () => {
       const { result } = await getFirestoreDoc("users", uid)
       const fs_user = result
       console.log(`navbar.vue - no error`)
+      
       const fs_userPhotoUrl = fs_user.photoURL
+      const fs_userName = fs_user.name
+      const fs_userCompany = fs_user.company
+      const fs_userTeam = fs_user.team
+
+      // TODO: Change to use variable for photoUrl, fs_userPhotoUrl
+      // Get user a random avatar if user doesn't have one since before
       randomUserImage.value = (fs_user.photoURL !== undefined) ? fs_user.photoURL : randomAvatar 
-      await router.push({ path: "/setup" });
+
+      // Send user to /home if they have a name, team and company.
+      // If not send user to setup
+
+      if ( fs_userName && fs_userCompany && fs_userTeam ) {
+          await router.push({ path: "/home" });
+      } else {
+          await router.push({ path: "/setup" });
+      }
 
   } else {
 
@@ -310,7 +330,7 @@ onMounted(async () => {
           </nuxt-link>
         </div>
 
-        <!-- Signin buttins : Larger screens -->
+        <!-- Signin buttons : Larger screens -->
 
         <div class="flex flex-1 items-center justify-end pt-2">
 

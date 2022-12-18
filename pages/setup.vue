@@ -274,6 +274,9 @@ const submitStep1 = async (uInfo) => {
   const fUser = fuserdata.result
   const fUserUpToDate = (fUser.name !== "") ? "true" : "false"
   const result = await addFirestoreUser("users", uInfo);
+  console.log(`setup.vue --> TRIGGER Create User in Firebase`)
+  sendVerifyEmail()
+  console.log(`setup.vue --> TRIGGER Send verify email`)
 
 };
 
@@ -303,14 +306,18 @@ onMounted(async () => {
 
   const userIdFromCookie = useCookie('userCookie');
   const uidstring = userIdFromCookie.value.toString()
+  console.log(`setup.vue --> ONMOUNTED --> The ID from the cookie is: ${uidstring}`)
 
   const { $auth } = useNuxtApp()
   const userId = $auth?.currentUser?.uid
+  console.log(`setup.vue --> ONMOUNTED --> The ID from useNuxtApp $auth and $auth?.currentUser?.uid is : ${userId}`)
 
 
   const { result } = await getFirestoreDoc("users", uidstring)
   const firebaseUser = result
-
+  console.log(`setup.vue --> ONMOUNTED --> getFirestoreDoc uses the UID from the cookie ( ${uidstring} ) and returns a firebaseUser : ${JSON.stringify(firebaseUser, null, 2)} `)
+  console.log(`setup.vue --> ONMOUNTED --> getFirestoreDoc firebaseUser.user_id is ${JSON.stringify(firebaseUser.user_id, null, 2)} `) 
+  
   const uid = firebaseUser.user_id
   const email = firebaseUser.email
   const displayName = firebaseUser.displayName

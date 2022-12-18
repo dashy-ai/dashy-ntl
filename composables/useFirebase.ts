@@ -5,11 +5,16 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   onAuthStateChanged,
+  sendEmailVerification,
 } from "firebase/auth";
 
 
 export const createUser = async (email, password) => {
+
+  console.log(`useFirebase.ts --> createUser recieved --> email : ${email}, password: ${password}`)
+
   const auth = getAuth();
+
   const credentials = await createUserWithEmailAndPassword(
     auth,
     email,
@@ -20,10 +25,23 @@ export const createUser = async (email, password) => {
       const errorMessage = error.message;
       // ..
     });
-  // console.log(`useFirebase.ts (createUser) createUserWithEmailAndPassword recieved "credentials" : ${credentials.user.uid}`)
+  console.log(`useFirebase.ts --> createUserWithEmailAndPassword returned --> credentials : ${JSON.stringify(credentials, null, 3)}`)
   return credentials;
 
 };
+
+export const sendVerifyEmail = async () => {
+
+  const auth = getAuth();
+
+  sendEmailVerification(auth.currentUser)
+    .then(() => {
+      console.log(`useFirebase.ts --> sendEmailVerification --> email verification sent!`)
+      console.log(`useFirebase.ts --> sendEmailVerification --> auth.CurrentUser was passed, and is : ${JSON.stringify(auth.currentUser, null, 3)}`)
+      // ...
+    });
+
+}
 
 export const signInUser = async (email, password) => {
 

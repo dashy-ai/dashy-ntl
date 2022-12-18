@@ -13,5 +13,6 @@ export default defineEventHandler((event) => {
   // console.log(JSON.stringify(event.context))
   const cookie = getCookie(event, 'userCookie')
   event.req.user = cookie
+  console.log(`>>>>> server middleware : attach this gookie to event.req.user : ${cookie}`)
 })
 
