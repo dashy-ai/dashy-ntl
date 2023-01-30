@@ -81,21 +81,21 @@
           </div>
 
           <div class="flex items-center">
-            <img src="img/users/cat-16.png"
+            <img :src="randomUserImage"
                 class="rounded-full  w-[30px] h-[30px] transform translate-y-[4px]" 
             />
             <span class="ml-2 py-1 px-5 truncate bg-[#111] rounded-t-full rounded-br-full">Can I get a graph for CVR for last 6 months?</span>
           </div>
 
           <div class="flex items-center pt-6">
-            <img src="img/users/cat-03.png"
+            <img :src="randomUserImage2"
                 class="rounded-full  w-[30px] h-[30px] transform translate-y-[4px]" 
             />
             <span class="ml-2 py-1 px-5 truncate bg-[#111] rounded-t-full rounded-br-full">There's something wrong in the data, I calculated this and it's not correct</span>
           </div>
 
           <div class="flex items-center pt-6">
-            <img src="img/users/cat-09.png"
+            <img :src="randomUserImage3"
                 class="rounded-full  w-[30px] h-[30px] transform translate-y-[4px]" 
             />
             <span class="ml-2 py-1 px-5 truncate bg-[#111] rounded-t-full rounded-br-full">Can you please change the graph to show how many drop out also?</span>
@@ -199,13 +199,13 @@
         <div class="text-[30px] tracking-normal leading-[40px] pr-5">Market analysis 2023</div>
         <div class="flex w-full">
           <img :src="avatar"
-                class="rounded-full w-[44px] h-[44px]" 
+                class="border-4 border-[#19011e] rounded-full w-[50px] h-[50px]" 
           />
-          <img src="img/users/cat-07.png"
-                class="rounded-full  w-[44px] h-[44px] transform -translate-x-3" 
+          <img :src="randomUserImage4"
+                class="border-4 border-[#19011e] rounded-full  w-[50px] h-[50px] transform -translate-x-3" 
           />
-          <img src="img/users/cat-12.png"
-                class="rounded-full  w-[44px] h-[44px] transform -translate-x-6" 
+          <img :src="randomUserImage5"
+                class="border-4 border-[#19011e] rounded-full  w-[50px] h-[50px] transform -translate-x-6" 
           />
         </div>
       </div>
@@ -289,6 +289,11 @@ const dateMonth = ref()
 const dateDay = ref()
 const dateDayNum = ref()
 const dateYear = ref()
+const randomUserImage = ref()
+const randomUserImage2 = ref()
+const randomUserImage3 = ref()
+const randomUserImage4 = ref()
+const randomUserImage5 = ref()
 const percentageComplete1 = ref()
 const percentageComplete2 = ref()
 const percentageComplete3 = ref()
@@ -381,6 +386,42 @@ const salesitems = [
     height: '230',
   }
 ]
+
+const catAvatars = {
+  cat01: '/img/users/cat-01.png',
+  cat02: '/img/users/cat-02.png',
+  cat03 : '/img/users/cat-03.png',
+  cat04 : '/img/users/cat-04.png',
+  cat05 : '/img/users/cat-05.png',
+  cat06 : '/img/users/cat-06.png',
+  cat07 : '/img/users/cat-07.png',
+  cat08 : '/img/users/cat-08.png',
+  cat09 : '/img/users/cat-09.png',
+  cat10 : '/img/users/cat-10.png',
+  cat11 : '/img/users/cat-11.png',
+  cat12 : '/img/users/cat-12.png',
+  cat13 : '/img/users/cat-13.png',
+  cat14 : '/img/users/cat-14.png',
+  cat15 : '/img/users/cat-15.png',
+  cat16 : '/img/users/cat-16.png',
+}
+
+const randomizeUserImage = function (obj) {
+    var keys = Object.keys(obj);
+    return obj[keys[ keys.length * Math.random() << 0]];
+};
+
+const randomAvatar = randomizeUserImage(catAvatars)
+const randomAvatar2 = randomizeUserImage(catAvatars)
+const randomAvatar3 = randomizeUserImage(catAvatars)
+const randomAvatar4 = randomizeUserImage(catAvatars)
+const randomAvatar5 = randomizeUserImage(catAvatars)
+
+randomUserImage.value = randomAvatar
+randomUserImage2.value = randomAvatar2
+randomUserImage3.value = randomAvatar3
+randomUserImage4.value = randomAvatar4
+randomUserImage5.value = randomAvatar5
 
 onMounted(async () => {
 
