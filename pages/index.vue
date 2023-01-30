@@ -418,4 +418,9 @@ const mydata = [
   font-family: Inktrap-regular;
   src: url('/fonts/WhyteInktrap-Regular.ttf');
 }
+
+@font-face {
+  font-family: Radikal;
+  src: url('/fonts/Radikal.ttf');
+}
 </style>

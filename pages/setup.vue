@@ -211,7 +211,23 @@
     <!-- BACKGROUND IMAGE -->
 
       <div class="bgright z-0">
-        <img src="/img/bg-right.svg" />
+        <svg width="1362" height="900" viewBox="0 0 1362 900" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <g opacity="0.8" filter="url(#filter0_f_1_7)">
+            <path opacity="0.8" d="M2190.4 -382.79C2952.44 -547.542 2860.34 84.7099 2965.97 262.884C3071.59 441.06 3592.64 947.352 2783.83 1068.33C1975 1189.3 -692.582 682.473 598.252 568.046C1889.09 453.618 1428.35 -218.037 2190.4 -382.79Z" fill="url(#paint0_linear_1_7)"/>
+          </g>
+          <defs>
+            <filter id="filter0_f_1_7" x="0.318298" y="-660.867" width="3479.11" height="1998.67" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+              <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+              <feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/>
+              <feGaussianBlur stdDeviation="125.476" result="effect1_foregroundBlur_1_7"/>
+            </filter>
+            <linearGradient id="paint0_linear_1_7" x1="3445.78" y1="-486.607" x2="1110.26" y2="386.128" gradientUnits="userSpaceOnUse">
+              <stop stop-color="#00305C"/>
+              <stop offset="1" stop-color="#40137A"/>
+            </linearGradient>
+          </defs>
+        </svg>
+        <!-- <img src="/img/bg-right.svg" /> -->
         <!-- {{ userInfo.name }} , {{ userInfo.company }} , {{ userInfo.team }}
         <p> {{ userInfo }}</p>
         {{ projectInfo.name }}

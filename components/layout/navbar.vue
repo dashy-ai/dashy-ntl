@@ -6,6 +6,10 @@ const setColorTheme = (newTheme: Theme) => {
   useColorMode().preference = newTheme
 }
 
+const route = useRoute()
+const router = useRouter()
+
+
 console.log('------ APP ------')
 const firebaseUser = useFirebaseUser();
 
@@ -15,6 +19,7 @@ const uidState = useUid();
 const myInput = ref()
 
 // refs
+const redirectToHome = ref()
 const credentials = ref()
 const signInForm = ref()
 const signUpForm = ref()
@@ -24,6 +29,10 @@ const password = ref('')
 const randomUserImage = ref()
 const signInError = ref()
 // const userInitials = ref()
+
+console.log(`navbar --> useRoute --> route.path is ${route.path})`)
+
+
 
 const userDoc = reactive({
     user_id: "",
@@ -44,6 +53,15 @@ const userDoc = reactive({
 
 const userIdFromCookie = useCookie('userCookie');
 const uidstring = userIdFromCookie.value
+
+if (route.path == "/" && firebaseUser && uidstring) {
+  console.log(`navbar --> route.path / is TRUE and firebaseUser TRUE, uid is ${uidstring}`)
+  redirectToHome.value = true
+} else {
+  console.log("navbar --> route.path / is FALSE and/or firebaseUser is FALSE, and/or uidstring is null/undefined")
+  redirectToHome.value = false
+}
+
 
 // TODO - Lifting upp getReloaduser for non-flicker navigation hydration
 const getReloadUser = async () => {
@@ -175,8 +193,8 @@ const signIn = async () => {
   const router = useRouter()
   const newUser = false
 
-  console.log(`navbar.vue --> error is ${error}`)
-  console.log(`navbar.vue --> uid is ${uid}`)
+  console.log(`navbar.vue --> signIn --> error is ${error}`)
+  console.log(`navbar.vue --> signIn --> uid is ${uid}`)
 
   if (!error) {
 
@@ -190,13 +208,19 @@ const signIn = async () => {
       const fs_userCompany = fs_user.company
       const fs_userTeam = fs_user.team
 
+      console.log(`navbar.vue - signIn --> getFirestoreDoc("users", ${uid}) = fs_user`)
+      console.log(`navbar.vue - signIn --> fs_user.photoURL = ${fs_user.photoURL})`)
+      console.log(`navbar.vue - signIn --> fs_user.name = ${fs_user.name})`)
+      console.log(`navbar.vue - signIn --> fs_user.company = ${fs_user.company})`)
+      console.log(`navbar.vue - signIn --> fs_user.team = ${fs_user.team})`)
+
       // TODO: Change to use variable for photoUrl, fs_userPhotoUrl
       // Get user a random avatar if user doesn't have one since before
       randomUserImage.value = (fs_user.photoURL !== undefined) ? fs_user.photoURL : randomAvatar 
-
+      console.log(`navbar.vue - signIn --> if user has a photoURL give user fs_user.photoURL (${fs_user.photoURL}), if not, give user randomAvatar (${randomAvatar})`)
       // Send user to /home if they have a name, team and company.
       // If not send user to setup
-
+      console.log(`navbar.vue - signIn --> id user has name, company and team, send to /home, else /setup`)
       if ( fs_userName && fs_userCompany && fs_userTeam ) {
           await router.push({ path: "/home" });
       } else {
@@ -303,7 +327,6 @@ onMounted(async () => {
   onStartTyping(() => {
       myInput.value.focus()
   })
- 
 
 });
 
@@ -342,6 +365,8 @@ onMounted(async () => {
             <!-- <img src="/img/menu.svg" class="w-[75px] opacity-50" /> -->
           </button>
 
+          <!-- Logged out ( route withouth gard "/" )-->
+
           <button v-if="!firebaseUser" @click="toggleSignIn()"
             class="hidden h-14 ml-6 whitespace-nowrap md:inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-full shadow-sm font-small text-gray-300 hover:text-gray-500 dark:bg-neutral-900 bg-black hover:bg-grey-500">
             Sign in
@@ -351,6 +376,15 @@ onMounted(async () => {
             class="hidden h-14 ml-6 whitespace-nowrap md:inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-full shadow-sm font-small text-gray-300 hover:text-gray-500 dark:bg-neutral-900 bg-black hover:bg-grey-500">
             Sign up
           </button>
+
+          <!-- Logged in ( if (route.path == "/" && firebaseUser && uidstring) redirectToHome.value set to true )-->
+          
+          <nuxt-link v-if="redirectToHome" to="/home"
+            class="hidden h-14 mx-6 whitespace-nowrap md:inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-full shadow-sm font-small text-gray-300 hover:text-gray-500 dark:bg-neutral-900 bg-black hover:bg-grey-500">
+            Home
+          </nuxt-link>
+
+          <!-- Logged in ( all routes ) -->
 
           <button v-if="firebaseUser" @click="toggleUserMenu()" class="z-30">
             <img :src="randomUserImage"

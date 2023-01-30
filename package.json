@@ -19,6 +19,7 @@
   },
   "dependencies": {
     "@pinia/nuxt": "^0.4.3",
+    "@yeger/vue-masonry-wall": "^3.4.2",
     "firebase": "^9.10.0"
   }
 }
