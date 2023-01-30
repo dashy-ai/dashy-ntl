@@ -81,7 +81,7 @@
           </div>
 
           <div class="flex items-center">
-            <img src="img/users/cat-02.png"
+            <img src="img/users/cat-16.png"
                 class="rounded-full  w-[30px] h-[30px] transform translate-y-[4px]" 
             />
             <span class="ml-2 py-1 px-5 truncate bg-[#111] rounded-t-full rounded-br-full">Can I get a graph for CVR for last 6 months?</span>
