@@ -423,4 +423,20 @@ const mydata = [
   font-family: Radikal;
   src: url('/fonts/Radikal.ttf');
 }
+
+@font-face {
+  font-family: CoreSans-Light;
+  src: url('/fonts/CoreSansC-35Light.ttf');
+}
+
+@font-face {
+  font-family: CoreSans-Medium;
+  src: url('/fonts/CoreSansC-55Medium.ttf');
+}
+
+@font-face {
+  font-family: CoreSans-Bold;
+  src: url('/fonts/CoreSansC-65Bold.ttf');
+}
+
 </style>

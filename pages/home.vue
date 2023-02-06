@@ -4,31 +4,57 @@
 <!-- bg-[url('/img/hero-pattern.svg')] -->
 <!-- bg-gradient-to-br from-[#222] to-[#111] -->
 <!-- bg-[url('https://source.unsplash.com/random/?hd+wallpapers,dark')] bg-cover bg-center -->
-<div class="text-white relative">
+<div class="text-white relative font-['CoreSans-Light']">
 
   <!-- menu -->
-  <div class="fixed top-10 right-20 h-[36px] flex justify-end items-center z-30">
-    
-    <button v-if="firebaseUser" @click="toggleUserMenu()" class="bg-[#252525] border-4 border-[#000] z-5 rounded-full w-[47px] h-[47px] translate-x-3 flex justify-center items-center">
-        <div class="absolute w-[2px] h-[12px] bg-[#666]"></div>
-        <div class="absolute w-[2px] h-[12px] bg-[#666] rotate-90"></div>
-    </button>
-    
-    <button v-if="firebaseUser" @click="toggleUserMenu()" class="z-1 rounded-full">
-        <img :src="avatar"
-        class="rounded-full w-[47px] h-[47px] border-4 border-[#000]" 
-        />
-    </button>
-    <!-- bg-[linear-gradient(to top, #c471f5 0%, #fa71cd 100%)] -->
-    
-  </div>
 
+  <transition name="switch" mode="out-in">
+    <div v-if="menuScrollHideTargetIsVisible" class="fixed w-full px-20 top-10 h-[58px] flex justify-between items-center z-20">
+      
+      <div class="bg-[#121212] h-[58px] text-[#b5b5b5] flex w-[180px] justify-between rounded-full items-center px-[17px]">
+        
+        <div class="text-[20px] transform translate-y-[3px]  text-[#252525]"> {{ menuScrollHideTargetIsVisible }}</div>
+        
+        <svg width="24" height="24" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path fill-rule="evenodd" clip-rule="evenodd" d="M3.60364 11.3965C1.45171 9.24458 1.45171 5.75562 3.60364 3.60369C5.75557 1.45176 9.24453 1.45176 11.3965 3.60369C13.5484 5.75562 13.5484 9.24458 11.3965 11.3965C9.24453 13.5484 5.75557 13.5484 3.60364 11.3965ZM2.89653 2.89658C0.354081 5.43903 0.354081 9.56116 2.89653 12.1036C5.32 14.5271 9.17874 14.6405 11.7365 12.4439L13.8642 14.5715C14.0595 14.7668 14.376 14.7668 14.5713 14.5715C14.7666 14.3763 14.7666 14.0597 14.5713 13.8644L12.4437 11.7368C14.6405 9.17898 14.5271 5.3201 12.1036 2.89658C9.56112 0.354128 5.43899 0.354128 2.89653 2.89658Z" fill="white" fill-opacity="0.22"/>
+        </svg>
+
+      </div>
+
+      <div class="flex items-center">
+        <button v-if="firebaseUser" @click="toggleUserMenu()" class="relative z-0 rounded-full transform translate-x-4">
+            <img :src="avatar"
+            class="rounded-full w-[60px] h-[60px] border-4 border-[#000]" 
+            />
+        </button>
+        <button v-if="firebaseUser" @click="toggleUserMenu()" class="relative bg-[#121212] z-5 border-4 border-[#000] rounded-full w-[65px] h-[65px] flex justify-center items-center">
+            <div class="absolute w-[2px] h-[16px] bg-[#444]"></div>
+            <div class="absolute w-[2px] h-[16px] bg-[#444] rotate-90"></div>
+        </button>
+        
+        
+        <!-- bg-[linear-gradient(to top, #c471f5 0%, #fa71cd 100%)] -->
+      </div>
+    </div>
+
+    <div v-else class="fixed w-full justify-self-center bottom-10 h-[85px] flex justify-center items-center z-20">
+      <div class="bg-[#ffffff07] backdrop-blur-xl w-[500px] h-full flex items-center justify-center rounded-full">
+        HOHO!
+      </div> 
+    </div>
+  </transition>
   <!-- userMenu -->
 
   <div v-if="userMenu"
-    class="pt-20 z-20 absolute top-0 left-0 w-screen h-screen backdrop-blur-xl"
+    class="pt-20 z-30 absolute top-0 left-0 w-screen h-screen backdrop-blur-xl"
     >
       <div class="w-screen h-screen flex justify-end">
+        <div class="fixed w-full px-20 top-10 h-[58px] flex justify-end items-center z-20">
+        <button v-if="firebaseUser" @click="toggleUserMenu()" class="relative bg-[#5656561b] z-5 transform -translate-x-[2px] rounded-full w-[60px] h-[60px] flex justify-center items-center">
+          <div class="absolute w-[2px] h-[30px] bg-[#444] -rotate-45"></div>
+          <div class="absolute w-[2px] h-[30px] bg-[#444] rotate-45"></div>
+        </button>
+        </div>
         <div class="px-10 pt-10 grid grid-rows-4 gap-4 h-screen w-screen">
           <div class="bg-transparent border-b-2 border-white flex justify-end">
               <button v-if="firebaseUser" @click="signOut"
@@ -44,17 +70,17 @@
 
   <!-- Time and Greeting Section -->
 
-  <div class="h-[90vh] text-gray-100 pb-32 pt-40 flex flex-col justify-between items-center text-2xl font-['Trap-Medium']">
+  <div class="h-[90vh] text-neutral-300 pb-32 pt-40 flex flex-col justify-between items-center text-2xl font-['Trap-Medium']">
     
    <div class="flex flex-col items-center"> 
-     <div class="font-['Poppins'] font-thin tracking-wide h-[80px] flex flex-row justify-center items-center text-[85px]">
+     <div ref="menuScrollHideTarget" class="font-['Poppins'] font-thin tracking-wide h-[80px] flex flex-row justify-center items-center text-[85px]">
         <div class="h-[80px] flex items-center">{{timeHrs}}</div>
         <div class="text-[65px] px-2 pb-1">:</div>
         <div class="h-[80px] flex items-center">{{timeMin}}</div>
       </div>
       <div class="text-[16px] pb-2 font-['Poppins'] font-extralight tracking-wide">{{dateDay}}, {{dateMonth}} {{dateDayNum}}</div>
       <p class="pt-4 text-[25px]">
-        <span class="font-['Poppins'] font-thin">{{ greeting }}</span><span>{{ name }}</span>
+        <span class="font-['Poppins'] font-thin">{{ greeting }}</span><span>{{ name }}</span><span> 👋</span>
       </p>
     </div>
 
@@ -74,32 +100,58 @@
       <!-- widget 1 -->
       <div class="w-[350px] text-[rgba(0,0,0,0.88)] pt-5 flex items-end rounded-xl font-['Poppins'] font-light tracking-wide mr-16">
 
-        <div class="w-[350px] pr-5 text-[12px] font-['Poppins'] text-[#b2b2b2] tracking-wide"> 
+        <div class="w-[350px] pr-5 text-[13px] font-['Poppins'] text-[#b5b5b5] tracking-wide"> 
 
-          <div class="w-full pb-6 text-[25px] font-['Inktrap-regular'] text-[#79797940] flex items-start">
+          <!-- <div class="w-full pb-6 text-[25px] font-['Inktrap-regular'] text-[#7b7b7b40] flex items-start">
                 <span>Inbox</span>
+          </div> -->
+
+          <div class="flex items-center pt-5">
+            <div>
+              <img :src="randomUserImage"
+                  class="rounded-full  w-[36px] h-[36px] transform translate-y-[8px]" 
+              />
+            </div>
+            <div class="flex flex-col min-w-0 max-w-[292px]">
+              <div class="ml-3 py-3 px-5 max-w-fit truncate bg-[#121212] rounded-t-full rounded-br-full">Maybe CVR for last 6 months?</div>
+              <div class="flex justify-start pr-[12px] text-[#7979798f] text-[12px]">
+                <div class="pl-7 flex justify-start">@andywhite</div>
+                <div class="pl-4 flex justify-start">6min ago</div>
+              </div>
+            </div>
           </div>
 
-          <div class="flex items-center">
-            <img :src="randomUserImage"
-                class="rounded-full  w-[30px] h-[30px] transform translate-y-[4px]" 
-            />
-            <span class="ml-2 py-1 px-5 truncate bg-[#111] rounded-t-full rounded-br-full">Can I get a graph for CVR for last 6 months?</span>
+          <div class="flex items-center pt-5">
+            <div>
+              <img :src="randomUserImage2"
+                  class="rounded-full  w-[36px] h-[36px] transform translate-y-[8px]" 
+              />
+            </div>
+            <div class="flex flex-col min-w-0 max-w-[292px]">
+              <div class="ml-3 py-3 px-5 max-w-fit truncate bg-[#121212] rounded-t-full rounded-br-full">Ok, thanks! 🙌🏼 💯</div>
+              <div class="flex justify-start pr-[12px] text-[#7979798f] text-[12px]">
+                <div class="pl-7 flex justify-start">@andywhite</div>
+                <div class="pl-4 flex justify-start">12:30</div>
+              </div>
+            </div>
           </div>
 
-          <div class="flex items-center pt-6">
-            <img :src="randomUserImage2"
-                class="rounded-full  w-[30px] h-[30px] transform translate-y-[4px]" 
-            />
-            <span class="ml-2 py-1 px-5 truncate bg-[#111] rounded-t-full rounded-br-full">There's something wrong in the data, I calculated this and it's not correct</span>
+
+          <div class="flex items-center pt-5">
+            <div>
+              <img :src="randomUserImage3"
+                  class="rounded-full  w-[36px] h-[36px] transform translate-y-[8px]" 
+              />
+            </div>
+            <div class="flex flex-col min-w-0 max-w-[292px]">
+              <div class="ml-3 py-3 px-5 max-w-fit truncate bg-[#121212] rounded-t-full rounded-br-full">Hi! There's something wired with the score now, if you look at the</div>
+              <div class="flex justify-start pr-[12px] text-[#7979798f] text-[12px]">
+                <div class="pl-7 flex justify-start">@andywhite</div>
+                <div class="pl-4 flex justify-start">tue 14:15</div>
+              </div>
+            </div>
           </div>
 
-          <div class="flex items-center pt-6">
-            <img :src="randomUserImage3"
-                class="rounded-full  w-[30px] h-[30px] transform translate-y-[4px]" 
-            />
-            <span class="ml-2 py-1 px-5 truncate bg-[#111] rounded-t-full rounded-br-full">Can you please change the graph to show how many drop out also?</span>
-          </div>
 
         </div>
       </div>
@@ -195,8 +247,8 @@
 
       <!-- widget 3 -->
       <div class="squircle w-[310px] bg-[#19011e] text-[#d488ce] text-[20px] pt-[40px] pb-[40px] pl-[40px] ml-[65px] flex flex-col justify-between">
-        <div class="text-[17px] text-[#863f80]">#brand_taskforce</div>
-        <div class="text-[30px] tracking-normal leading-[40px] pr-5">Market analysis 2023</div>
+        <div class="text-[17px] text-[#863f80]">#Insight</div>
+        <div class="text-[30px] tracking-normal leading-[40px] pr-5">Company OKRs 2023</div>
         <div class="flex w-full">
           <img :src="avatar"
                 class="border-4 border-[#19011e] rounded-full w-[50px] h-[50px]" 
@@ -254,6 +306,9 @@
     </masonry-wall>
 
     <div v-else class="w-full px-20 pb-10">
+      <div>
+        <h1>Hello world</h1>
+      </div>
       <button class="dashed text-gray-900 text-5xl font-['Trap-Medium'] bg-transparent rounded-xl p-10 h-[250px] lg:w-[30%] flex justify-center items-center">
         Add
       </button>
@@ -264,6 +319,8 @@
 </div>
 </template>
 <script setup>
+
+import { useIntersectionObserver } from '@vueuse/core'
 
 definePageMeta({
   middleware: ['auth'],
@@ -297,6 +354,22 @@ const randomUserImage5 = ref()
 const percentageComplete1 = ref()
 const percentageComplete2 = ref()
 const percentageComplete3 = ref()
+const menuScrollHideTarget = ref(null)
+const menuScrollHideTargetIsVisible = ref(false)
+const { stop } = useIntersectionObserver(
+      menuScrollHideTarget,
+      ([{ isIntersecting }], observerElement) => {
+
+      menuScrollHideTargetIsVisible.value = isIntersecting
+
+        // if (intersectionRatio === 1.0) {
+        // menuScrollHideTargetIsVisible.value = true
+        // } else {
+        //   menuScrollHideTargetIsVisible.value = false
+        // }
+        
+      },
+)
 const circle1_progress = reactive({
   strokeDashoffset: ''
 })
@@ -321,7 +394,9 @@ const signOut = async () => {
   } 
 }
 
+
 // Time of day for user greeting
+function updateTime() {
 let d = new Date()
 let hours = d.getHours()
 let minutes = (d.getMinutes()<10?'0':'') + d.getMinutes()
@@ -330,26 +405,30 @@ let daynum = d.getDate()
 let day = days[d.getDay()];
 let year = d.getFullYear().toString().substr(-2)
 
-timeHrs.value = hours
-timeMin.value = minutes
-dateMonth.value = month
-dateDayNum.value = daynum
-dateDay.value = day
-dateYear.value = year
-
-if (hours > 6 && hours < 12) {
-  console.log('Good morning')
-  greeting.value = 'Good morning '
-} else if (hours >= 12 && hours < 18) {
-  console.log('Good afternoon ')
-  greeting.value = 'Good afternoon '
-} else if (hours >= 18 && hours < 23) {
-  console.log('Good evening ')
-  greeting.value = 'Good evening '
-} else {
-  greeting.value = 'Good night '
+  timeHrs.value = hours
+  timeMin.value = minutes
+  dateMonth.value = month
+  dateDayNum.value = daynum
+  dateDay.value = day
+  dateYear.value = year
 }
 
+updateTime()
+
+  if (timeHrs.value > 6 && timeHrs.value < 12) {
+    console.log('Good morning')
+    greeting.value = 'Good morning '
+  } else if (timeHrs.value >= 12 && timeHrs.value < 18) {
+    console.log('Good afternoon ')
+    greeting.value = 'Good afternoon '
+  } else if (timeHrs.value >= 18 && timeHrs.value < 23) {
+    console.log('Good evening ')
+    greeting.value = 'Good evening '
+  } else {
+    greeting.value = 'Good night '
+  }
+
+let clock = setInterval(updateTime, 1000);
 
 const marketingitems = [
   {
@@ -527,6 +606,20 @@ svg {
   transition: stroke-dashoffset 0.4s ease-in-out;
 }
 
-
+/* switch transitions */
+.switch-enter-from,
+.switch-leave-to {
+  opacity: 0;
+  transform: translateY(-40px);
+}
+.switch-enter-to,
+.switch-leave-from {
+  opacity: 1;
+  transform: translateY(0px)
+}
+.switch-enter-active,
+.switch-leave-active {
+  transition: all 0.4s ease;
+}
   
 </style>
