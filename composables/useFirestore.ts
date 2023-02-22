@@ -26,6 +26,19 @@ export const getFirestoreDoc = async (col: string, id: string) => {
   }
 };
 
+export const getFirestoreDocByKeyVal = async (col: string, field: string, value: string) => {
+  try {
+
+    console.log(`//////// takes ${col}, ${field} and ${value}`)
+    const result = await $fetch(endpoints.firestore.getDocByKeyVal(col, field, value));
+    return result;
+
+  } catch (error) {
+    console.log(error.message);
+    return [];
+  }
+};
+
 export const addFirestoreData = async (col: string, doc: {}) => {
   try {
 
@@ -70,7 +83,7 @@ export const updateFirestoreDocument = async (col: string, doc: {}) => {
     console.log(`updateFirestoreDocument recieves col : ${col}, and doc ${JSON.stringify(doc, null, 4)}`)
     // @ts-ignore
     const user_id = doc.user_id
-    console.log(`updateFirestoreDocument : const user_id : ${JSON.stringify(user_id, null, 4)}`)
+    console.log(`updateFirestoreDocument : const doc_id (named user_id) : ${JSON.stringify(user_id, null, 4)}`)
     // @ts-ignore
     const result = await $fetch(endpoints.firestore.update(col, user_id), {
       method: "POST",

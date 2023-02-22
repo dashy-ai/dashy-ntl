@@ -11,6 +11,7 @@ import {
   updateDoc,
   collectionGroup,
   Timestamp,
+  serverTimestamp,
 } from "firebase/firestore";
 
 import { firestoreDb } from "./firebase";
@@ -49,6 +50,28 @@ export const getDocument = async (col: string, id: string) => {
   }
 }
 
+export const getDocumentByFieldValue = async (col: string, field: string, value: string) => {
+  const colRef = collection(firestoreDb, col);
+  // Create a query against the collection.
+  const q = query(colRef, where(field, "==", value));
+
+  const querySnapshot = await getDocs(q);
+
+  // querySnapshot.forEach((doc) => {
+  //   // doc.data() is never undefined for query doc snapshots
+  //   console.log(doc.id, " => ", doc.data());
+  // });
+
+  const docs = Array.from(querySnapshot.docs).map((doc) => {
+    return {
+      ...doc.data(),
+      id: doc.id,
+    };
+  });
+  // console.log(`------ docs : ${JSON.stringify(docs, null, 4)}`)
+  return docs;
+
+}
 
 
 // Add data to a document? Adds a new document if the document doesn's exist.
@@ -65,9 +88,10 @@ export const set = async (col: string, document: Object) => {
 export const add = async (col: string, document: Object) => {
   // @ts-ignore
   const colRef = collection(firestoreDb, col);
-
   const docRef = await addDoc(colRef, document);
-
+  const updateTimestamp = await updateDoc(docRef, {
+    created_at: serverTimestamp()
+  });
   return docRef;
 };
 
@@ -92,7 +116,7 @@ export const addUser = async (col, document, id) => {
 //     "favorite color": "Red"
 // }
 
-export const update = async (col, document, id) => {
+export const update = async (col: string, document: any, id: string) => {
   // @ts-ignore
   const colDocRef = doc(firestoreDb, col, id);
   const docRef = await updateDoc(colDocRef, document);
