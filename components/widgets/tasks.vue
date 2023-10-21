@@ -3,8 +3,6 @@
     <div
         class="mx-10 w-[300px] pt-5 text-sm flex items-end rounded-xl font-['Poppins'] font-light tracking-wide"
     >
-        Test userStore: {{ userObject }}
-
         <div class="text-[#b5b5b5] w-[300px]">
             <ul>
                 <li v-for="(task, index) in taskList" :key="index">

@@ -789,8 +789,6 @@
             taskInput.value.focus()
         })
 
-        getTasks()
-
         percentageComplete1.value = Math.random()
         let circle1_value = 100 - percentageComplete1.value * 100
         circle1_progress.strokeDashoffset = circle1_value

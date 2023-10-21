@@ -17,7 +17,8 @@
 
     const userStore = useUserStore()
     const { userObject } = storeToRefs(userStore)
-    const myUserId = userObject.value.user_id
+    // const myUserId = userObject.value.user_id
+    const myUserId = userObject
 
     console.log(`navbar.vue --> userStore userObject myUserId = ${myUserId}`)
 
