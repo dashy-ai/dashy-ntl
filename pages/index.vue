@@ -1,88 +1,80 @@
 <script lang="ts" setup>
+    const firebaseUser = useFirebaseUser()
 
-const firebaseUser = useFirebaseUser();
+    // const pdata = ref()
+    // const { data, pending, error } = useFetch('/api/firestore/query?col=projects')
+    // pdata.value = data
+    // console.log(`index.vue - data: ${JSON.stringify(data.value, null, 3)}`)
 
-// const pdata = ref()
-// const { data, pending, error } = useFetch('/api/firestore/query?col=projects')
-// pdata.value = data
-// console.log(`index.vue - data: ${JSON.stringify(data.value, null, 3)}`)
+    const pdata = ref()
+    const { data, pending, error } = await useLazyAsyncData('projects', () =>
+        $fetch('/api/firestore/query?col=projects')
+    )
+    pdata.value = data
+    // console.log(`index.vue - data: ${JSON.stringify(data.value, null, 3)}`)
 
-const pdata = ref()
-const { data, pending, error } = await useLazyAsyncData("projects", () =>
-  $fetch('/api/firestore/query?col=projects')
-);
-pdata.value = data
-// console.log(`index.vue - data: ${JSON.stringify(data.value, null, 3)}`)
+    onMounted(() => {})
 
+    // onMounted( async () => {
+    //   const cards = ref()
+    //   const collection = 'projects'
+    //   const { result } = await $fetch(`/api/firestore/query?col=${collection}`);
+    //   console.log(`cards is: ${JSON.stringify(cards.value, null, 3)}`)
+    // })
 
-onMounted( () => {
+    // onMounted(() => {
+    //     const section = document.querySelector(".section");
+    //     const images = document.querySelectorAll(".myimg");
 
-})
+    //     const observer = new IntersectionObserver(
+    //     entries => {
+    //       entries.forEach(entry => {
+    //         if (entry.isIntersecting) {
+    //           entry.target.style.opacity = 1;
+    //           entry.target.style.transform = "scale(1)";
+    //           section.style.backgroundColor = entry.target.getAttribute("data-color");
+    //         } else {
+    //           entry.target.style.opacity = 0;
+    //           entry.target.style.transform = "scale(.65)";
+    //         }
+    //       });
+    //     },
+    //     {
+    //       threshold: 0 });
 
-// onMounted( async () => {
-//   const cards = ref()
-//   const collection = 'projects'
-//   const { result } = await $fetch(`/api/firestore/query?col=${collection}`);
-//   console.log(`cards is: ${JSON.stringify(cards.value, null, 3)}`)
-// })
+    //     images.forEach((el, i) => {
+    //       observer.observe(el);
+    //     });
+    // })
 
-
-// onMounted(() => {
-//     const section = document.querySelector(".section");
-//     const images = document.querySelectorAll(".myimg");
-
-//     const observer = new IntersectionObserver(
-//     entries => {
-//       entries.forEach(entry => {
-//         if (entry.isIntersecting) {
-//           entry.target.style.opacity = 1;
-//           entry.target.style.transform = "scale(1)";
-//           section.style.backgroundColor = entry.target.getAttribute("data-color");
-//         } else {
-//           entry.target.style.opacity = 0;
-//           entry.target.style.transform = "scale(.65)";
-//         }
-//       });
-//     },
-//     {
-//       threshold: 0 });
-
-
-
-//     images.forEach((el, i) => {
-//       observer.observe(el);
-//     });
-// })
-
-const mydata = [
-    {
-    title: 'Sales opportunities funnel',
-    description: 'Do veniam deserunt anim irure minim veniam officia velit proident cupidatat nulla.',
-    imgPath: '/img/viz_funnel-dash.jpg',
-    logoPath: 'https://logo.clearbit.com/segment.com?size=90',
-    username: 'Eric Wright',
-    company: 'Segment',
-    },
-    {
-    title: 'A simple funnel graph',
-    description: 'This is Card Description that is a bit longer, maybe 2 lines.',
-    imgPath: 'https://images.unsplash.com/photo-1520013817300-1f4c1cb245ef?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2287&q=80',
-    logoPath: 'https://logo.clearbit.com/nike.com?size=90',
-    username: 'Garry',
-    company: 'nike',
-    },
-  ]
-
- 
-
+    const mydata = [
+        {
+            title: 'Sales opportunities funnel',
+            description:
+                'Do veniam deserunt anim irure minim veniam officia velit proident cupidatat nulla.',
+            imgPath: '/img/viz_funnel-dash.jpg',
+            logoPath: 'https://logo.clearbit.com/segment.com?size=90',
+            username: 'Eric Wright',
+            company: 'Segment',
+        },
+        {
+            title: 'A simple funnel graph',
+            description:
+                'This is Card Description that is a bit longer, maybe 2 lines.',
+            imgPath:
+                'https://images.unsplash.com/photo-1520013817300-1f4c1cb245ef?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2287&q=80',
+            logoPath: 'https://logo.clearbit.com/nike.com?size=90',
+            username: 'Garry',
+            company: 'nike',
+        },
+    ]
 </script>
 
-
 <template>
-<div class="h-screen w-screen">
-   <!-- Circle text -->
+    <div class="h-screen w-screen">
+        <!-- Circle text -->
 
-    <!-- <div class="z-0 fixed w-[400px] h-[400px] bottom-[25%] -right-[112px] md:circletext">
+        <!-- <div class="z-0 fixed w-[400px] h-[400px] bottom-[25%] -right-[112px] md:circletext">
         <svg class="absolute"  width="100%" height="100%" viewBox="0 0 190 190" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path :class="$colorMode.value == 'dark' ? 'circletext-dark' : 'circletext-light'"
             d="M168.995 44.2613L161.994 49.4727L160.173 47.0253C159.809 46.5377 159.594 46.0727 159.527 45.6304C159.458 45.1898 159.507 44.7869 159.674 44.4215C159.839 44.0579 160.092 43.7489 160.434 43.4944C160.735 43.2705 161.023 43.1391 161.299 43.1003C161.573 43.0593 161.831 43.0829 162.074 43.1713C162.315 43.2574 162.538 43.3803 162.742 43.5401L162.81 43.4892C162.664 43.2649 162.579 42.9935 162.555 42.6753C162.53 42.357 162.591 42.0299 162.738 41.6941C162.885 41.3582 163.143 41.0529 163.512 40.7781C163.863 40.5168 164.238 40.3616 164.637 40.3125C165.036 40.2633 165.445 40.3497 165.866 40.5717C166.286 40.7937 166.701 41.1804 167.112 41.7318L168.995 44.2613ZM167.612 43.9734L166.36 42.2917C165.948 41.7379 165.548 41.4245 165.161 41.3516C164.769 41.278 164.42 41.3558 164.112 41.5848C163.875 41.7612 163.702 41.9845 163.591 42.2545C163.478 42.5263 163.444 42.8188 163.49 43.132C163.533 43.4469 163.668 43.7571 163.896 44.0624L165.178 45.7852L167.612 43.9734ZM164.44 46.3348L163.269 44.7625C163.079 44.5073 162.858 44.3144 162.605 44.184C162.35 44.0512 162.087 43.9923 161.815 44.0073C161.541 44.0199 161.281 44.1179 161.035 44.3011C160.727 44.5301 160.546 44.8315 160.491 45.2051C160.434 45.5805 160.578 46.0006 160.925 46.4655L162.115 48.0652L164.44 46.3348Z" />
@@ -154,39 +146,25 @@ const mydata = [
         </div>
       </div> -->
 
-  
-    <!-- PAGE CONTAINER -->  
-  
-  
-    <div class="z-10 absolute snap snap-y snap-mandatory h-screen w-screen overflow-x-scroll">
+        <!-- PAGE CONTAINER -->
 
-        <!-- PAGE 1 -->  
+        <div
+            class="z-10 absolute snap snap-y snap-mandatory h-screen w-screen overflow-x-scroll"
+        >
+            <!-- PAGE 1 -->
 
-          <div class="z-10 snap-start pb-32 lg:pb-10 h-screen w-screen md:h-screen md:py-12 flex items-end md:flex-row">
+            <div
+                class="z-10 snap-start pb-32 lg:pb-10 h-screen w-screen md:h-screen md:py-12 flex items-end md:flex-row"
+            >
+                <div class="w-10/12 md:w-8/12 lg:w-6/12 flex items-end">
+                    <div
+                        class="flex items-end text-black h-[37vh] dark:text-neutral-200 align-text-bottom pl-[25px] text-[15vw] leading-[15vw] font-['Trap-Medium'] md:text-[18vh] md:leading-[18vh] lg:text-[20vh] lg:leading-[20vh] md:h-min"
+                    >
+                        <span>Plan. Build. Visualize.</span>
+                    </div>
+                </div>
 
-            <div class="w-10/12 md:w-8/12 lg:w-6/12 flex items-end">
-              <div class="
-                  flex
-                  items-end
-                  text-black 
-                  h-[37vh] 
-                  dark:text-neutral-200 
-                  align-text-bottom 
-                  pl-[25px]
-                  text-[15vw] 
-                  leading-[15vw] 
-                  font-['Trap-Medium'] 
-                  md:text-[18vh] 
-                  md:leading-[18vh] 
-                  lg:text-[20vh] 
-                  lg:leading-[20vh] 
-                  md:h-min
-                ">
-                <span>Plan. Build. Visualize.</span>
-              </div>
-            </div>
-
-            <!-- <div class="hidden md:flex h-full lg:w-6/12 items-start justify-end pt-44 lg:pt-20 xs:pt-44">
+                <!-- <div class="hidden md:flex h-full lg:w-6/12 items-start justify-end pt-44 lg:pt-20 xs:pt-44">
               <div class="text-black italic text-[40px] font-['Ampersand'] dark:text-neutral-300 lg:pt-20 pr-10 lg:absolute lg:subline">
                 Where<span :class="$colorMode.value == 'dark' ? 'button-word1-dark' : 'button-word1-light'"
                   class="pt-1 mx-3 pl-2 pr-3 italic">teams</span>
@@ -195,248 +173,248 @@ const mydata = [
                 <div :class="$colorMode.value == 'dark' ? 'waves-dark' : 'waves-light'" class="absolute"></div>
               </div>
             </div> -->
-
-          </div>
-
-
-        <!-- PAGE 2 -->
-
-          <div class="relative z-30 page snap-start dark:text-white text-black h-screen flex w-screen">
-
-            <div class="h-full overflow-scroll w-full">
-
-              <div class="z-0 absolute mt-[20vh] w-[307px] h-[12vh] pl-[26px] md:pl-[44px] font-['Inktrap-light'] text-[5vh] leading-[5.5vh] flex items-start">
-                <div class="bg-transparent h-full flex flex-col items-start justify-end">
-                  <span>Community</span>
-                  <span>templates</span>
-                </div>
-              </div>
-
-              <div class="z-20 pb-20 h-[100vh] section pl-[30px] md:pl-[47px] pt-[40vh] flex justify-start items-end">
-                    <div v-if="pending"> Loading ... </div>
-                      <CardOne v-else v-for="card in pdata.value.result" :key="card.id"
-                        :title="card.title"
-                        :description="card.description"
-                        :imgPath="card.imgPath"
-                        :logoPath="card.logoPath"
-                        :username="card.username"
-                        :company="card.company"
-                        :tags="card.tags"
-                    ></CardOne>
-                    
-              </div>
-
             </div>
-          </div> 
-    </div>
 
-</div>
+            <!-- PAGE 2 -->
+
+            <div
+                class="relative z-30 page snap-start dark:text-white text-black h-screen flex w-screen"
+            >
+                <div class="h-full overflow-scroll w-full">
+                    <div
+                        class="z-0 absolute mt-[20vh] w-[307px] h-[12vh] pl-[26px] md:pl-[44px] font-['Inktrap-light'] text-[5vh] leading-[5.5vh] flex items-start"
+                    >
+                        <div
+                            class="bg-transparent h-full flex flex-col items-start justify-end"
+                        >
+                            <span>Community</span>
+                            <span>templates</span>
+                        </div>
+                    </div>
+
+                    <div
+                        class="z-20 pb-20 h-[100vh] section pl-[30px] md:pl-[47px] pt-[40vh] flex justify-start items-end"
+                    >
+                        <div v-if="pending">Loading ...</div>
+                        <CardOne
+                            v-else
+                            v-for="card in pdata.value.result"
+                            :key="card.id"
+                            :title="card.title"
+                            :description="card.description"
+                            :imgPath="card.imgPath"
+                            :logoPath="card.logoPath"
+                            :username="card.username"
+                            :company="card.company"
+                            :tags="card.tags"
+                        ></CardOne>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </template>
 
-
 <style>
+    .h-screen {
+        height: 100vh !important;
+        min-height: 100vh !important;
+        /* mobile viewport bug fix */
+        min-height: -webkit-fill-available !important;
+    }
+    .arrow-dark {
+        fill: #0011ae;
+    }
 
-.h-screen {
-  height: 100vh !important;;
-  min-height: 100vh !important;
-  /* mobile viewport bug fix */
-  min-height: -webkit-fill-available !important;
-}
-.arrow-dark {
-  fill: #0011AE;
-}
+    .arrow-light {
+        fill: #faff00;
+    }
 
-.arrow-light {
-  fill: #FAFF00;
-}
+    .circletext {
+        left: 910px;
+        top: 485px;
+        scale: 1.5;
+    }
 
-.circletext {
-  left: 910px;
-  top: 485px;
-  scale: 1.5;
-}
+    .circletext-dark {
+        fill: #0011ae;
+    }
 
-.circletext-dark {
-  fill: #0011AE;
-}
+    .circletext-light {
+        fill: #faff00;
+    }
 
-.circletext-light {
-  fill: #FAFF00;
-}
+    .background {
+        background-color: black;
+    }
 
-.background {
-  background-color: black;
-}
+    .headline {
+        font-size: 13em;
+        font-family: Trap-Medium;
+        line-height: 12rem;
+    }
 
-.headline {
-  font-size: 13em;
-  font-family: Trap-Medium;
-  line-height: 12rem;
-}
+    .headline-small {
+        font-size: 19vw;
+        line-height: 20vw;
+        font-family: Trap-Medium;
+    }
 
-.headline-small {
-  font-size: 19vw;
-  line-height: 20vw;
-  font-family: Trap-Medium;
-}
+    .subline {
+        font-size: 4em;
+        font-family: Grand-Slang;
+        line-height: 4rem;
+    }
 
-.subline {
-  font-size: 4em;
-  font-family: Grand-Slang;
-  line-height: 4rem;
-}
+    .button-word1-dark {
+        border: 1px solid #0011ae;
+        border-radius: 50%;
+        font-size: 3.2rem;
+        font-family: Ampersand;
+        font-weight: bold;
+        line-height: 4rem;
+        color: #0011ae;
+    }
 
-.button-word1-dark {
-  border: 1px solid #0011AE;
-  border-radius: 50%;
-  font-size: 3.2rem;
-  font-family: Ampersand;
-  font-weight: bold;
-  line-height: 4rem;
-  color: #0011AE;
-}
+    .sm-button-word1-dark {
+        border: 1px solid #fff;
+        border-radius: 50%;
+        font-size: 3rem;
+        font-family: Ampersand;
+        font-weight: bold;
+        line-height: 2rem;
+        color: #0011ae;
+    }
 
-.sm-button-word1-dark {
-  border: 1px solid #fff;
-  border-radius: 50%;
-  font-size: 3rem;
-  font-family: Ampersand;
-  font-weight: bold;
-  line-height: 2rem;
-  color: #0011AE;
-}
+    .button-word1-light {
+        border: 1px solid #faff00;
+        border-radius: 50%;
+        font-size: 3.2rem;
+        font-family: Ampersand;
+        font-weight: bold;
+        line-height: 4rem;
+        color: #faff00;
+    }
 
-.button-word1-light {
-  border: 1px solid #FAFF00;
-  border-radius: 50%;
-  font-size: 3.2rem;
-  font-family: Ampersand;
-  font-weight: bold;
-  line-height: 4rem;
-  color: #FAFF00;
-}
+    .button-word2-light {
+        position: relative;
+        color: #ff008c;
+    }
 
-.button-word2-light {
-  position: relative;
-  color: #FF008C;
-}
+    .button-word2-dark {
+        position: relative;
+        color: #bfff00;
+    }
 
-.button-word2-dark {
-  position: relative;
-  color: #BFFF00;
-}
+    .waves-light {
+        width: 200px;
+        height: 100px;
+        scale: 0.9;
+        transform: rotate(9deg);
+        left: -20px;
+        bottom: -50px;
+        background-image: url(/img/waves-pink.svg);
+        background-repeat: no-repeat;
+    }
 
-.waves-light {
-  width: 200px;
-  height: 100px;
-  scale: 0.9;
-  transform: rotate(9deg);
-  left: -20px;
-  bottom: -50px;
-  background-image: url(/img/waves-pink.svg);
-  background-repeat: no-repeat;
-}
+    .waves-dark {
+        width: 200px;
+        height: 100px;
+        scale: 0.9;
+        transform: rotate(9deg);
+        left: -20px;
+        bottom: -50px;
+        background-image: url(img/waves-green.svg);
+        background-repeat: no-repeat;
+    }
 
-.waves-dark {
-  width: 200px;
-  height: 100px;
-  scale: 0.9;
-  transform: rotate(9deg);
-  left: -20px;
-  bottom: -50px;
-  background-image: url(img/waves-green.svg);
-  background-repeat: no-repeat;
-}
+    .page {
+        overscroll-behavior-x: none;
+        scroll-behavior: smooth;
+        overflow: hidden;
+    }
 
-.page {
-  overscroll-behavior-x: none;
-  scroll-behavior: smooth;
-  overflow: hidden;
-}
+    .section {
+        width: 100%;
+        box-sizing: border-box;
+        transition: 0.3s;
+        white-space: nowrap;
+        position: relative;
+        overflow: auto;
+    }
 
-.section {
-  width: 100%;
-  box-sizing: border-box;
-  transition: 0.3s;
-  white-space: nowrap;
-  position: relative;
-  overflow: auto;
-}
-
-/* .myimg:nth-child(2){
+    /* .myimg:nth-child(2){
   margin-left: 10px;
 } */
 
-@supports (-webkit-touch-callout: none) {
-	.h-screen {
-		height: -webkit-fill-available;
-	}
-}
+    @supports (-webkit-touch-callout: none) {
+        .h-screen {
+            height: -webkit-fill-available;
+        }
+    }
 
+    @font-face {
+        font-family: Trap-Medium;
+        src: url('/fonts/Trap-Medium.ttf');
+    }
 
-@font-face {
-  font-family: Trap-Medium;
-  src: url('/fonts/Trap-Medium.ttf');
-}
+    @font-face {
+        font-family: Casta-Thin;
+        src: url('/fonts/Casta-Thin.ttf');
+    }
 
-@font-face {
-  font-family: Casta-Thin;
-  src: url('/fonts/Casta-Thin.ttf');
-}
+    @font-face {
+        font-family: Grand-Slang;
+        src: url('/fonts/GrandSlang-Roman.ttf');
+    }
 
-@font-face {
-  font-family: Grand-Slang;
-  src: url('/fonts/GrandSlang-Roman.ttf');
-}
+    @font-face {
+        font-family: HalvarBreit;
+        src: url('/fonts/HalvarBreit-Th.ttf');
+    }
 
-@font-face {
-  font-family: HalvarBreit;
-  src: url('/fonts/HalvarBreit-Th.ttf');
-}
+    @font-face {
+        font-family: Scandia-Line;
+        src: url('/fonts/ScandiaLine-Light.ttf');
+    }
 
-@font-face {
-  font-family: Scandia-Line;
-  src: url('/fonts/ScandiaLine-Light.ttf');
-}
+    @font-face {
+        font-family: Ampersand;
+        src: url('/fonts/Ampersand.ttf');
+    }
 
-@font-face {
-  font-family: Ampersand;
-  src: url('/fonts/Ampersand.ttf');
-}
+    @font-face {
+        font-family: Inktrap-bold;
+        src: url('/fonts/WhyteInktrap-Bold.ttf');
+    }
 
-@font-face {
-  font-family: Inktrap-bold;
-  src: url('/fonts/WhyteInktrap-Bold.ttf');
-}
+    @font-face {
+        font-family: Inktrap-light;
+        src: url('/fonts/WhyteInktrap-Light.ttf');
+    }
 
-@font-face {
-  font-family: Inktrap-light;
-  src: url('/fonts/WhyteInktrap-Light.ttf');
-}
+    @font-face {
+        font-family: Inktrap-regular;
+        src: url('/fonts/WhyteInktrap-Regular.ttf');
+    }
 
-@font-face {
-  font-family: Inktrap-regular;
-  src: url('/fonts/WhyteInktrap-Regular.ttf');
-}
+    @font-face {
+        font-family: Radikal;
+        src: url('/fonts/Radikal.ttf');
+    }
 
-@font-face {
-  font-family: Radikal;
-  src: url('/fonts/Radikal.ttf');
-}
+    @font-face {
+        font-family: CoreSans-Light;
+        src: url('/fonts/CoreSansC-35Light.ttf');
+    }
 
-@font-face {
-  font-family: CoreSans-Light;
-  src: url('/fonts/CoreSansC-35Light.ttf');
-}
+    @font-face {
+        font-family: CoreSans-Medium;
+        src: url('/fonts/CoreSansC-55Medium.ttf');
+    }
 
-@font-face {
-  font-family: CoreSans-Medium;
-  src: url('/fonts/CoreSansC-55Medium.ttf');
-}
-
-@font-face {
-  font-family: CoreSans-Bold;
-  src: url('/fonts/CoreSansC-65Bold.ttf');
-}
-
+    @font-face {
+        font-family: CoreSans-Bold;
+        src: url('/fonts/CoreSansC-65Bold.ttf');
+    }
 </style>

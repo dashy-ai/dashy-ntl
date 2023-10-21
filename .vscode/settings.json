@@ -1,3 +1,6 @@
 {
-  "nuxt.isNuxtApp": false
+    "nuxt.isNuxtApp": false,
+    "vue.codeActions.enabled": false,
+    "workbench.editor.enablePreview": false,
+    "editor.autoClosingBrackets": "languageDefined"
 }
